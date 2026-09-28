@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serat Keong Mas | Pustaka Lontar</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Javanese:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'krem-lontar': '#FAF5EB',
+                        'coklat-keraton': '#140E0A',
+                        'coklat-teks': '#2B1C11',
+                        'emas-prada': '#C5A059',
+                        'emas-terang': '#F3E5AB',
+                        'merah-marun': '#7B1818',
+                    },
+                    fontFamily: {
+                        'royal': ['"Cinzel Decorative"', 'serif'],
+                        'serif-judul': ['"Playfair Display"', 'serif'],
+                        'serif-teks': ['"Lora"', 'serif'],
+                        'aksara': ['"Noto Sans Javanese"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #140E0A; }
+        ::-webkit-scrollbar-thumb { background: #C5A059; border-radius: 3px; }
+
+        .naskah-bg {
+            background-color: #FAF5EB;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(197, 160, 89, 0.05) 0%, transparent 40%),
+                url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C5A059' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M26 26c0-9.941-8.059-18-18-18S-10 16.059-10 26s8.059 18 18 18 18-8.059 18-18zm0 0c0 9.941 8.059 18 18 18s18-8.059 18-18-8.059-18-18-18-18 8.059-18 18z'/%3E%3Ccircle cx='26' cy='26' r='2'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        body.mode-malam { background-color: #120D09 !important; color: #E6DFD5 !important; }
+        body.mode-malam .naskah-box { background-color: #19120C !important; border-color: rgba(197,160,89,0.3) !important; }
+        body.mode-malam .prose-teks { color: #D6CEBE !important; }
+
+        .fade-transition { transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; }
+        .hidden-lang { opacity: 0; transform: translateY(12px); pointer-events: none; position: absolute; visibility: hidden; }
+        .active-lang { opacity: 1; transform: translateY(0); position: relative; visibility: visible; }
+
+        .krama-word {
+            position: relative; display: inline-block;
+            border-bottom: 2px dashed #C5A059; cursor: pointer; color: #7B1818; font-weight: 600;
+        }
+        .krama-word .tooltip-card {
+            visibility: hidden; opacity: 0; width: 210px; background: rgba(20, 14, 10, 0.95);
+            backdrop-filter: blur(10px); border: 1px solid #D4AF37;
+            color: #FAF5EB; border-radius: 12px; padding: 10px 14px; position: absolute; z-index: 50;
+            bottom: 135%; left: 50%; transform: translateX(-50%) translateY(8px);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(212,175,55,0.2);
+            pointer-events: none; text-align: center;
+        }
+        .krama-word:hover .tooltip-card { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        .dropcap::first-letter {
+            font-family: 'Cinzel Decorative', serif; font-size: 4.8rem; line-height: 0.85; float: left;
+            margin-right: 0.85rem; color: #7B1818; text-shadow: 2px 2px 0px rgba(197, 160, 89, 0.3);
+        }
+
+        .hud-border {
+            border: 1px solid rgba(197, 160, 89, 0.35);
+            box-shadow: 0 0 25px rgba(197, 160, 89, 0.08);
+        }
+    </style>
+</head>
+<body class="naskah-bg text-coklat-teks font-serif-teks antialiased overflow-x-hidden transition-colors duration-500 opacity-0" id="body-naskah">
+
+    <div class="fixed top-0 left-0 w-full h-[4px] bg-black/10 z-[100]">
+        <div id="read-progress" class="h-full w-0 bg-gradient-to-r from-merah-marun via-emas-prada to-emas-terang"></div>
+    </div>
+
+    <!-- NAVBAR BACAAN -->
+    <nav class="fixed top-0 left-0 w-full z-40 bg-krem-lontar/90 backdrop-blur-md border-b border-emas-prada/20 py-4">
+        <div class="max-w-5xl mx-auto px-6 flex justify-between items-center">
+            <button onclick="kembaliKePustaka()" class="flex items-center gap-2 text-coklat-teks hover:text-merah-marun transition group">
+                <span class="w-8 h-8 rounded-full border border-emas-prada/40 flex items-center justify-center group-hover:-translate-x-1 transition duration-300">←</span>
+                <span class="font-royal text-xs tracking-widest uppercase font-bold">Kembali ke Pustaka</span>
+            </button>
+
+            <div class="flex items-center gap-3">
+                <button onclick="ubahUkuranFont(-1)" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs font-bold">A-</button>
+                <button onclick="ubahUkuranFont(1)" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs font-bold">A+</button>
+                <button onclick="toggleModeMalam()" id="theme-btn" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HEADER & HERO BANNER (FOTO: jawatimur.jpg) -->
+    <header class="pt-28 pb-8 max-w-5xl mx-auto px-6">
+        <div id="hero-img-box" class="relative rounded-3xl overflow-hidden shadow-2xl h-[45vh] border border-emas-prada/40 hud-border">
+            <img id="hero-img" src="jawatimur.jpg" alt="Keong Mas" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-coklat-keraton via-coklat-keraton/50 to-transparent"></div>
+            
+            <div class="absolute bottom-8 left-8 right-8 text-white">
+                <h1 id="hero-title" class="text-4xl md:text-6xl font-serif-judul font-bold mt-2">Serat Keong Mas</h1>
+                <p id="hero-aksara" class="font-aksara text-emas-prada text-2xl mt-1">ꦏꦺꦪꦺꦴꦁꦩꦱ꧀ꦭꦤ꧀ꦥꦚ꧀ꦗꦶꦄꦱ꧀ꦩꦫꦧꦔꦸꦤ꧀</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- KONTEN CERITA MENDALAM -->
+    <main class="max-w-4xl mx-auto px-6 pb-28">
+        <div id="naskah-container" class="naskah-box bg-[#FBF8F1] rounded-2xl p-8 md:p-14 border border-emas-prada/30 shadow-2xl relative hud-border">
+            
+            <div class="text-center mb-10">
+                <span class="font-aksara text-emas-prada text-4xl block opacity-75">꧁ ꦕꦫꦶꦠ ꧂</span>
+                <p class="font-royal text-[11px] tracking-[0.3em] uppercase text-coklat-teks/50 mt-1">Kisah Lengkap Kesetiaan Candra Kirana, Kutukan Galuh Ajeng, dan Raden Panji Asmarabangun</p>
+            </div>
+
+            <!-- TOGGLE BAHASA -->
+            <div class="flex flex-col items-center mb-12">
+                <div class="p-1 rounded-full bg-black/5 border border-emas-prada/40 inline-flex relative shadow-inner">
+                    <div id="toggle-bg" class="absolute top-1 left-1 w-[calc(50%-4px)] h-[calc(100%-8px)] bg-coklat-keraton rounded-full transition-transform duration-500"></div>
+                    <button id="btn-indo" onclick="switchLanguage('indo')" class="relative z-10 px-7 py-2.5 text-xs font-royal font-bold tracking-widest uppercase text-emas-terang">Indonesia</button>
+                    <button id="btn-jawa" onclick="switchLanguage('jawa')" class="relative z-10 px-7 py-2.5 text-xs font-royal font-bold tracking-widest uppercase text-coklat-teks/60">ꦗꦮ Krama</button>
+                </div>
+            </div>
+
+            <!-- TEKS BAHASA INDONESIA -->
+            <article id="teks-indo" class="fade-transition active-lang prose-teks text-base md:text-lg leading-[2.3] text-justify space-y-7">
+                <p class="dropcap">
+                    Alkisah di tanah Jawa Timur tempo dulu, berdirilah Kerajaan Daha (Kediri) yang dipimpin oleh Prabu Kertamarta yang bijaksana. Baginda raja memiliki dua orang putri jelita: Dewi Galuh Candra Kirana yang berbudi luhur, dan adiknya Dewi Galuh Ajeng yang berhati iri dengki. Candra Kirana telah dipertunangkan dengan putra mahkota Kerajaan Jenggala yang termasyhur tampan dan gagah, Raden Panji Asmarabangun (Inu Kertapati).
+                </p>
+                <p>
+                    Melihat kebahagiaan kakaknya, Galuh Ajeng dilanda rasa dengki yang teramat sangat karena ia pun menaruh hati kepada Raden Panji. Diam-diam Galuh Ajeng menemui seorang penyihir jahat di pedalaman hutan untuk menyihir Candra Kirana. Sang penyihir menyusup ke keputren dan menyabda Candra Kirana menjadi seekor Keong Mas (siput bercangkang emas), lalu membuangnya ke aliran sungai yang deras. Penyihir itu berbisik pongah bahwa kutukan tersebut hanya dapat musnah jika Keong Mas bertemu kembali dengan tunangannya.
+                </p>
+                <p>
+                    Aliran sungai membawa Keong Mas terdampar di sebuah desa terpencil bernama Desa Dadapan. Di desa itu hiduplah seorang janda tua miskin nan baik hati bernama Mbok Rondo Dadapan. Suatu pagi tatkala menebarkan jalanya di sungai untuk mencari ikan, jala Mbok Rondo tersangkut cangkang keong yang berkilauan warna emas. Takjub akan keindahannya, Mbok Rondo membawanya pulang dan menaruhnya dengan aman di dalam sebuah gentong tempayan tanah liat di dapur gubuknya.
+                </p>
+                <p>
+                    Keesokan harinya, sepulang dari ladang mencari nafkah, Mbok Rondo terperanjat bukan kepalang. Gubuknya yang semula berantakan telah bersih berseri, dan di atas balai-balai telah tersaji aneka hidangan lezat nan sedap yang masih mengepul hangat. Kejadian ajaib ini berulang selama beberapa hari berikutnya.
+                </p>
+                <p>
+                    Didorong rasa penasaran, pada suatu pagi Mbok Rondo berpura-pura berangkat ke ladang, lalu diam-diam mengendap kembali dan mengintip melalui celah dinding bambu dapur. Alangkah takjubnya ia ketika melihat cangkang Keong Mas di dalam gentong perlahan merekah, dan dari dalamnya melangkah keluar seorang putri yang luar biasa cantik jelita, yang seketika memasak dan merapikan ruangan. Mbok Rondo bergegas masuk memeluk sang putri. Candra Kirana pun menceritakan jati dirinya dan muslihat jahat yang menimpanya.
+                </p>
+                <p>
+                    Sementara itu di Kerajaan Jenggala, Raden Panji Asmarabangun yang gelisah atas lenyapnya Candra Kirana memutuskan menyamar menjadi rakyat jelata dan mengembara mencarinya. Nenek sihir yang mengetahui pencarian sang pangeran berupaya menggagalkannya dengan menyamar menjadi burung gagak hitam untuk menyesatkannya ke jurang maut. Namun berkat ketajaman batin dan pertolongan seorang kakek sakti pertapa hutan, burung gagak itu berhasil dimusnahkan. Sang pertapa lantas menunjukkan petunjuk bahwa jodoh sejatinya berada di Desa Dadapan.
+                </p>
+                <p>
+                    Setelah menempuh perjalanan panjang berhari-hari, Raden Panji yang kelelahan dan kehausan singgah di gubuk sederhana Mbok Rondo untuk meminta seteguk air kendi. Ketika melangkah ke ambang pintu, pandangan matanya bertaut dengan Candra Kirana yang tengah menenun kain di sudut ruangan.
+                </p>
+                <p>
+                    Seketika ikatan cinta sejati memecahkan kutukan sihir jahat; cangkang keong emas lenyap menjadi cahaya keabadian. Raden Panji memboyong Candra Kirana dan Mbok Rondo kembali ke Keraton Daha. Kebusukan Dewi Galuh Ajeng terungkap terang benderang hingga ia melarikan diri ke rimba belantara karena malu. Pernikahan agung antara Raden Panji Asmarabangun dan Dewi Galuh Candra Kirana pun dilangsungkan dengan gegap gempita, menyatukan kembali kedaulatan tanah Daha dan Jenggala dalam damai dan kemakmuran abadi.
+                </p>
+            </article>
+
+            <!-- TEKS BASA JAWA KRAMA -->
+            <article id="teks-jawa" class="fade-transition hidden-lang prose-teks text-base md:text-lg leading-[2.3] text-justify space-y-7">
+                <p class="dropcap">
+                    Ing jaman <span class="krama-word">rumiyin<span class="tooltip-card"><strong>Rumiyin</strong><br>Dahulu kala</span></span> ing tlatah Jawi Wetan, wonten Keraton Daha (Kediri) ingkang dipun <span class="krama-word">lenggahi<span class="tooltip-card"><strong>Lenggahi</strong><br>Ditahtai / Dipimpin</span></span> dening Prabu Kertamarta. Sang narendra kagungan putri kalih ingkang sulistya ing warna: Dewi Galuh Candra Kirana ingkang luhur bebudenipun, sarta rayinipun Dewi Galuh Ajeng ingkang dremba lan meri. Dewi Candra Kirana sampun kapundhut jodho kaliyan putra mahkota Keraton Jenggala, inggih menika Raden Panji Asmarabangun (Inu Kertapati).
+                </p>
+                <p>
+                    Priksa kabingahan menika, manahipun Dewi Galuh Ajeng panas lan kepengin ngrebat Raden Panji. Panjenengane sowan dhumateng dhukun sihir jahat supados nyirep Candra Kirana dados Keong Mas, lajeng dipun uncalaken dhateng lepen ingkang wiyar. Dhukun sihir menika sesumbar bilih kutukan menika namung saged sirna menawi Keong Mas saged kepanggih malih kaliyan garwanipun.
+                </p>
+                <p>
+                    Ilining toya lepen mbekta Keong Mas kasebat dumugi Dhusun Dadapan. Ing dhusun kasebat wonten sawijining <span class="krama-word">wanodya<span class="tooltip-card"><strong>Wanodya</strong><br>Wanita / Ibu</span></span> sepuh ingkang asma Mbok Rondo Dadapan. Nalika mbebingah jala golek ulam ing lepen, jala kasebat nangkep keong ingkang mencorong awarna kencana. Awit saking endahing wujudipun, Keong Mas dipun bekta wangsul dipun lebetaken ing jero genthong siti ing pawon.
+                </p>
+                <p>
+                    Enjangipun, nalika Mbok Rondo wangsul saking sabin, panjenengane kaget sanget priksa griyanipun sampun resik lan ing meja sampun cumepak tedhan ingkang mirasa lan anget. Kahanan aneh menika lumampah ngantos pinten-pinten dinten.
+                </p>
+                <p>
+                    Awit saking penasaran, Mbok Rondo ethok-ethok tindak dhateng sabin lajeng ngintip saking slaning gedheg pawon. Sanalika panjenengane gumun priksa Keong Mas mijil saking genthong lajeng salin wujud dados dewi ingkang sanget sulistya ing warna. Mbok Rondo enggal mlebet ngrangkul sang putri. Dewi Candra Kirana lajeng nyariosaken sedaya lelampahan awon ingkang dipun lampahi dening Galuh Ajeng.
+                </p>
+                <p>
+                    Wondene Raden Panji Asmarabangun ingkang ngrumaosi kelangan, lajeng nyamar dados tiyang limrah ngulandara madosi sang dewi. Senadyan dipun godha dening manuk gagak ireng utusanipun dhukun, Raden Panji pikantuk pitedah saking pertapa wasis bilih sang putri wonten ing Dhusun Dadapan.
+                </p>
+                <p>
+                    Sasampunipun lumampah tebih, Raden Panji ingkang salit nyimpang ing gubugipun Mbok Rondo nyuwun toya ngunjuk. Nalika nglangkahi lawang, panjenengane tempuk netra kaliyan Dewi Candra Kirana ingkang saweg nenun.
+                </p>
+                <p>
+                    Sanalika kutukan sihir jahat sirna musna; raga Keong Mas ical dados cahya kamulyan. Raden Panji mbiyong Dewi Candra Kirana sarta Mbok Rondo kondur dhateng Keraton Daha. Sedaya pialanipun Galuh Ajeng kabikak lan panjenengane lumajar ajrih mlebet wana. Raden Panji Asmarabangun lan Dewi Candra Kirana lajeng dhaup palakrama, damel tentreming praja Daha lan Jenggala salaminipun.
+                </p>
+            </article>
+
+            <div class="mt-14 pt-8 border-t border-emas-prada/30 text-center">
+                <span class="font-aksara text-emas-prada text-3xl">꧋ꦠꦩꦠ꧀꧋</span>
+                <p class="font-royal text-xs uppercase tracking-widest text-coklat-teks/50 mt-1">Tamating Serat Keong Mas</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- JAVASCRIPT: ENTRANCE ANIMATION & SMART RETURN -->
+    <script>
+        const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
+        function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        window.addEventListener('scroll', () => {
+            const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById('read-progress').style.width = ((document.documentElement.scrollTop / h) * 100) + '%';
+        });
+
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            gsap.to("#body-naskah", { opacity: 1, duration: 0.5 });
+            
+            tl.from("#hero-img", { scale: 1.2, duration: 1.4, ease: "power3.out" })
+              .from("#hero-title", { y: 30, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.8")
+              .from("#hero-aksara", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.6")
+              .from("#naskah-container", { y: 60, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.4");
+        });
+
+        function kembaliKePustaka() {
+            gsap.to("#body-naskah", {
+                opacity: 0, duration: 0.3, onComplete: () => {
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    } else {
+                        window.location.href = 'pustaka-lontar-premium.html#koleksi';
+                    }
+                }
+            });
+        }
+
+        function switchLanguage(lang) {
+            const bg = document.getElementById('toggle-bg');
+            const btnIndo = document.getElementById('btn-indo');
+            const btnJawa = document.getElementById('btn-jawa');
+            const tIndo = document.getElementById('teks-indo');
+            const tJawa = document.getElementById('teks-jawa');
+
+            if (lang === 'jawa') {
+                bg.style.transform = 'translateX(100%)';
+                btnJawa.classList.add('text-emas-terang'); btnJawa.classList.remove('text-coklat-teks/60');
+                btnIndo.classList.remove('text-emas-terang'); btnIndo.classList.add('text-coklat-teks/60');
+                tIndo.classList.replace('active-lang', 'hidden-lang');
+                setTimeout(() => tJawa.classList.replace('hidden-lang', 'active-lang'), 150);
+            } else {
+                bg.style.transform = 'translateX(0)';
+                btnIndo.classList.add('text-emas-terang'); btnIndo.classList.remove('text-coklat-teks/60');
+                btnJawa.classList.remove('text-emas-terang'); btnJawa.classList.add('text-coklat-teks/60');
+                tJawa.classList.replace('active-lang', 'hidden-lang');
+                setTimeout(() => tIndo.classList.replace('hidden-lang', 'active-lang'), 150);
+            }
+        }
+
+        let fSize = 18;
+        function ubahUkuranFont(step) {
+            fSize = Math.max(15, Math.min(24, fSize + (step * 2)));
+            document.querySelectorAll('.prose-teks').forEach(el => el.style.fontSize = fSize + 'px');
+        }
+
+        let isDark = false;
+        function toggleModeMalam() {
+            isDark = !isDark;
+            document.body.classList.toggle('mode-malam');
+            document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+        }
+    </script>
+</body>
+</html>

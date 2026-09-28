@@ -70,8 +70,8 @@
         }
         .bingkai-emas::before { top: 0; left: 0; border-top: 2px solid #D4AF37; border-left: 2px solid #D4AF37; }
         .bingkai-emas::after { bottom: 0; right: 0; border-bottom: 2px solid #D4AF37; border-right: 2px solid #D4AF37; }
-        .bingkai-emas:hover::before { top: -6px; left: -6px; border-color: #F3E5AB; }
-        .bingkai-emas:hover::after { bottom: -6px; right: -6px; border-color: #F3E5AB; }
+        .bingkai-emas:hover::before { top: -6px; left: -6px; border-color: #F3E5AB; box-shadow: -2px -2px 10px rgba(212,175,55,0.4); }
+        .bingkai-emas:hover::after { bottom: -6px; right: -6px; border-color: #F3E5AB; box-shadow: 2px 2px 10px rgba(212,175,55,0.4); }
 
         .gold-text {
             background: linear-gradient(135deg, #FFF0BD 0%, #D4AF37 50%, #99772B 100%);
@@ -96,11 +96,10 @@
         </div>
     </div>
 
-    <!-- NAVBAR LUWES, LEGA & TIDAK MEPET -->
+    <!-- NAVBAR LUWES & ELEGAN -->
     <nav id="navbar" class="absolute top-0 left-0 w-full z-40 py-8 border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center">
             
-            <!-- Logo Kiri (Terkunci Rapi) -->
             <a href="#" class="flex items-center gap-3 group shrink-0">
                 <div class="w-11 h-11 rounded-full border border-emas-prada/60 flex items-center justify-center bg-coklat-keraton/80 backdrop-blur-md group-hover:border-emas-prada transition duration-300">
                     <span class="text-emas-prada font-aksara text-2xl group-hover:scale-110 transition duration-300">ꦕ</span>
@@ -111,7 +110,6 @@
                 </div>
             </a>
             
-            <!-- Menu Kanan Rapi & Luwes (Spasi Longgar) -->
             <div class="hidden md:flex items-center gap-8 lg:gap-14">
                 <a href="#koleksi" class="text-white/80 hover:text-emas-prada text-xs font-royal uppercase tracking-[0.25em] transition duration-300">Daftar Babad</a>
                 <a href="sinau-aksara.html" class="text-white/80 hover:text-emas-prada text-xs font-royal uppercase tracking-[0.25em] transition duration-300">Sinau Aksara</a>
@@ -119,7 +117,6 @@
                 <a href="#profil" class="text-white/80 hover:text-emas-prada text-xs font-royal uppercase tracking-[0.25em] transition duration-300">Profil Siswa</a>
             </div>
 
-            <!-- Hamburger Mobile -->
             <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 p-2">
                 <span class="w-7 h-[2px] bg-emas-prada"></span>
                 <span class="w-5 h-[2px] bg-emas-prada self-end"></span>
@@ -232,11 +229,11 @@
                 </div>
             </div>
 
-            <!-- GRID KARTU CERITA (GAMBAR KEONG MAS SUDAH DIPERBAIKI!) -->
-            <div id="grid-cerita" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <!-- GRID KARTU CERITA (4 KARTU AKTIF 100%) -->
+            <div id="grid-cerita" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 max-w-5xl mx-auto">
                 
                 <!-- CARD 1: RORO JONGGRANG (JAWA TENGAH) -->
-                <div class="cerita-card jateng gs-reveal group" data-title="roro jonggrang bandung bondowoso prambanan">
+                <div class="cerita-card jateng gs-reveal group" data-title="roro jonggrang bandung bondowoso prambanan jawa tengah">
                     <a href="roro-jonggrang.html" onclick="simpanPosisiScroll()" class="block bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 border border-emas-prada/25">
                         <div class="h-72 overflow-hidden relative">
                             <img src="https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&q=80&w=800" alt="Roro Jonggrang" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition duration-700">
@@ -266,10 +263,10 @@
                 </div>
 
                 <!-- CARD 2: TIMUN MAS (JAWA TENGAH) -->
-                <div class="cerita-card jateng gs-reveal group" data-title="timun mas mbok srini buto ijo">
+                <div class="cerita-card jateng gs-reveal group" data-title="timun mas mbok srini buto ijo jawa tengah">
                     <a href="timun-mas.html" onclick="simpanPosisiScroll()" class="block bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 border border-emas-prada/25">
                         <div class="h-72 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=800" alt="Timun Mas" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition duration-700">
+                            <img src="jawatengah.jpg" alt="Timun Mas" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition duration-700">
                             <div class="absolute inset-0 bg-gradient-to-t from-coklat-keraton via-coklat-keraton/30 to-transparent opacity-90"></div>
                             
                             <span class="absolute top-4 left-4 bg-coklat-keraton/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-royal uppercase text-emas-prada tracking-widest border border-emas-prada/30">
@@ -295,12 +292,11 @@
                     </a>
                 </div>
 
-                <!-- CARD 3: KEONG MAS (JAWA TIMUR) - FOTO SUNGAI TROPIS JAWA -->
-                <div class="cerita-card jatim gs-reveal group" data-title="keong mas candra kirana galuh ajeng panji asmarabangun daha kediri jenggala">
+                <!-- CARD 3: KEONG MAS (JAWA TIMUR) -->
+                <div class="cerita-card jatim gs-reveal group" data-title="keong mas candra kirana galuh ajeng panji asmarabangun daha kediri jenggala jawa timur">
                     <a href="keong-mas.html" onclick="simpanPosisiScroll()" class="block bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 border border-emas-prada/25">
                         <div class="h-72 overflow-hidden relative">
-                            <!-- Foto Asli Sungai Alami Berkabut Jawa -->
-                            <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=800" alt="Sungai Keong Mas" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition duration-700">
+                            <img src="jawatimur.jpg" alt="Keong Mas" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition duration-700">
                             <div class="absolute inset-0 bg-gradient-to-t from-coklat-keraton via-coklat-keraton/30 to-transparent opacity-90"></div>
                             
                             <span class="absolute top-4 left-4 bg-coklat-keraton/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-royal uppercase text-emas-prada tracking-widest border border-emas-prada/30">
@@ -326,27 +322,34 @@
                     </a>
                 </div>
 
-                <!-- CARD 4: SANGKURIANG (JAWA BARAT) -->
-                <div class="cerita-card jabar gs-reveal group" data-title="sangkuriang dayang sumbi tangkuban perahu">
-                    <div class="bingkai-emas bg-white/70 rounded-2xl overflow-hidden shadow-lg border border-emas-prada/20 opacity-80">
-                        <div class="h-72 bg-coklat-keraton/10 flex flex-col items-center justify-center p-6 relative">
-                            <span class="font-aksara text-coklat-keraton/10 text-8xl absolute pointer-events-none">ꦱꦁ</span>
-                            <span class="px-4 py-1 rounded-full bg-emas-prada/20 border border-emas-prada/40 font-royal text-[10px] text-coklat-keraton tracking-widest uppercase mb-2">
-                                Naskah Keempat
+                <!-- CARD 4: SANGKURIANG (JAWA BARAT) - KINI AKTIF LENGKAP -->
+                <div class="cerita-card jabar gs-reveal group" data-title="sangkuriang dayang sumbi tangkuban perahu sunda jawa barat">
+                    <a href="sangkuriang.html" onclick="simpanPosisiScroll()" class="block bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 border border-emas-prada/25">
+                        <div class="h-72 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=800" alt="Sangkuriang" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-coklat-keraton via-coklat-keraton/30 to-transparent opacity-90"></div>
+                            
+                            <span class="absolute top-4 left-4 bg-coklat-keraton/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-royal uppercase text-emas-prada tracking-widest border border-emas-prada/30">
+                                Jawa Barat
                             </span>
-                            <h3 class="font-serif-judul font-bold text-2xl text-coklat-keraton">Sangkuriang</h3>
-                            <p class="text-xs text-coklat-keraton/60 tracking-wider uppercase mt-1">Jawa Barat</p>
-                        </div>
-                        <div class="p-6">
-                            <p class="text-coklat-keraton/60 text-sm leading-relaxed mb-6 line-clamp-3">
-                                Legenda terbentuknya Gunung Tangkuban Perahu dari perahu raksasa yang ditendang oleh amarah pemuda Sangkuriang.
-                            </p>
-                            <div class="flex items-center justify-between pt-4 border-t border-emas-prada/10 text-xs">
-                                <span class="font-royal text-coklat-keraton/40 font-bold">Dalam Tahap Alih Bahasa</span>
-                                <span class="text-coklat-keraton/30 italic">Arsip RPL</span>
+
+                            <div class="absolute bottom-5 left-6 right-6">
+                                <span class="font-aksara text-emas-prada/70 text-xl block mb-1">ꦱꦁꦏꦸꦫꦶꦪꦁ</span>
+                                <h3 class="font-serif-judul font-bold text-2xl text-white group-hover:text-emas-prada transition">Sangkuriang</h3>
                             </div>
                         </div>
-                    </div>
+                        <div class="p-6">
+                            <p class="text-coklat-keraton/70 text-sm leading-relaxed mb-6 line-clamp-3">
+                                Kisah cinta terlarang Dayang Sumbi, kesaktian membendung Citarum, dan amarah perahu terbalik pembentuk Tangkuban Perahu.
+                            </p>
+                            <div class="flex items-center justify-between pt-4 border-t border-emas-prada/15 text-xs">
+                                <span class="font-royal text-merah-marun font-bold flex items-center gap-1 group-hover:translate-x-1 transition duration-300">
+                                    Baca Naskah Lengkap →
+                                </span>
+                                <span class="text-coklat-keraton/40 italic">Dwibahasa Krama</span>
+                            </div>
+                        </div>
+                    </a>
                 </div>
 
             </div>
@@ -435,6 +438,7 @@
                     <li><a href="roro-jonggrang.html" onclick="simpanPosisiScroll()" class="hover:text-emas-prada transition">Naskah Roro Jonggrang (Jateng)</a></li>
                     <li><a href="timun-mas.html" onclick="simpanPosisiScroll()" class="hover:text-emas-prada transition">Naskah Timun Mas (Jateng)</a></li>
                     <li><a href="keong-mas.html" onclick="simpanPosisiScroll()" class="hover:text-emas-prada transition">Naskah Keong Mas (Jatim)</a></li>
+                    <li><a href="sangkuriang.html" onclick="simpanPosisiScroll()" class="hover:text-emas-prada transition">Naskah Sangkuriang (Jabar)</a></li>
                     <li><a href="sinau-aksara.html" class="hover:text-emas-prada transition">Sinau Aksara & Basa</a></li>
                 </ul>
             </div>
@@ -504,7 +508,7 @@
             scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
         });
 
-        // ANIMASI SCROLL BOLAK-BALIK
+        // ANIMASI SCROLL BOLAK-BALIK BERKESINAMBUNGAN
         gsap.utils.toArray('.gs-reveal').forEach((elem) => {
             gsap.fromTo(elem,
                 { y: 45, opacity: 0, scale: 0.98 },
@@ -536,6 +540,7 @@
                     card.style.display = 'none';
                 }
             });
+            ScrollTrigger.refresh();
         }
 
         function filterPencarian() {
@@ -545,6 +550,7 @@
                 const title = card.getAttribute('data-title').toLowerCase();
                 card.style.display = title.includes(input) ? 'block' : 'none';
             });
+            ScrollTrigger.refresh();
         }
 
         const menuBtn = document.getElementById('menu-btn');
