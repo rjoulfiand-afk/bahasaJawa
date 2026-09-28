@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serat Roro Jonggrang | Pustaka Lontar</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Javanese:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'krem-lontar': '#FAF5EB',
+                        'coklat-keraton': '#140E0A',
+                        'coklat-teks': '#2B1C11',
+                        'emas-prada': '#C5A059',
+                        'emas-terang': '#F3E5AB',
+                        'merah-marun': '#7B1818',
+                    },
+                    fontFamily: {
+                        'royal': ['"Cinzel Decorative"', 'serif'],
+                        'serif-judul': ['"Playfair Display"', 'serif'],
+                        'serif-teks': ['"Lora"', 'serif'],
+                        'aksara': ['"Noto Sans Javanese"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #140E0A; }
+        ::-webkit-scrollbar-thumb { background: #C5A059; border-radius: 3px; }
+
+        .naskah-bg {
+            background-color: #FAF5EB;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(197, 160, 89, 0.05) 0%, transparent 40%),
+                url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C5A059' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M26 26c0-9.941-8.059-18-18-18S-10 16.059-10 26s8.059 18 18 18 18-8.059 18-18zm0 0c0 9.941 8.059 18 18 18s18-8.059 18-18-8.059-18-18-18-18 8.059-18 18z'/%3E%3Ccircle cx='26' cy='26' r='2'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        body.mode-malam { background-color: #120D09 !important; color: #E6DFD5 !important; }
+        body.mode-malam .naskah-box { background-color: #19120C !important; border-color: rgba(197,160,89,0.3) !important; }
+        body.mode-malam .prose-teks { color: #D6CEBE !important; }
+
+        .fade-transition { transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; }
+        .hidden-lang { opacity: 0; transform: translateY(12px); pointer-events: none; position: absolute; visibility: hidden; }
+        .active-lang { opacity: 1; transform: translateY(0); position: relative; visibility: visible; }
+
+        /* Hologram Tooltip Krama */
+        .krama-word {
+            position: relative; display: inline-block;
+            border-bottom: 2px dashed #C5A059; cursor: pointer; color: #7B1818; font-weight: 600;
+        }
+        .krama-word .tooltip-card {
+            visibility: hidden; opacity: 0; width: 210px; background: rgba(20, 14, 10, 0.95);
+            backdrop-filter: blur(10px); border: 1px solid #D4AF37;
+            color: #FAF5EB; border-radius: 12px; padding: 10px 14px; position: absolute; z-index: 50;
+            bottom: 135%; left: 50%; transform: translateX(-50%) translateY(8px);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(212,175,55,0.2);
+            pointer-events: none; text-align: center;
+        }
+        .krama-word:hover .tooltip-card { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        .dropcap::first-letter {
+            font-family: 'Cinzel Decorative', serif; font-size: 4.8rem; line-height: 0.85; float: left;
+            margin-right: 0.85rem; color: #7B1818; text-shadow: 2px 2px 0px rgba(197, 160, 89, 0.3);
+        }
+
+        /* Futuristic HUD Glow */
+        .hud-border {
+            border: 1px solid rgba(197, 160, 89, 0.35);
+            box-shadow: 0 0 25px rgba(197, 160, 89, 0.08);
+        }
+    </style>
+</head>
+<body class="naskah-bg text-coklat-teks font-serif-teks antialiased overflow-x-hidden transition-colors duration-500 opacity-0" id="body-naskah">
+
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-[4px] bg-black/10 z-[100]">
+        <div id="read-progress" class="h-full w-0 bg-gradient-to-r from-merah-marun via-emas-prada to-emas-terang"></div>
+    </div>
+
+    <!-- NAVBAR BACAAN -->
+    <nav class="fixed top-0 left-0 w-full z-40 bg-krem-lontar/90 backdrop-blur-md border-b border-emas-prada/20 py-4">
+        <div class="max-w-5xl mx-auto px-6 flex justify-between items-center">
+            <!-- Tombol Kembali yang Mendarat di Posisi Semula -->
+            <button onclick="kembaliKePustaka()" class="flex items-center gap-2 text-coklat-teks hover:text-merah-marun transition group">
+                <span class="w-8 h-8 rounded-full border border-emas-prada/40 flex items-center justify-center group-hover:-translate-x-1 transition duration-300">←</span>
+                <span class="font-royal text-xs tracking-widest uppercase font-bold">Kembali ke Pustaka</span>
+            </button>
+
+            <div class="flex items-center gap-3">
+                <button onclick="ubahUkuranFont(-1)" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs font-bold">A-</button>
+                <button onclick="ubahUkuranFont(1)" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs font-bold">A+</button>
+                <button onclick="toggleModeMalam()" id="theme-btn" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HEADER & HERO BANNER DENGAN ANIMASI GSAP -->
+    <header class="pt-28 pb-8 max-w-5xl mx-auto px-6">
+        <div id="hero-img-box" class="relative rounded-3xl overflow-hidden shadow-2xl h-[45vh] border border-emas-prada/40 hud-border">
+            <img id="hero-img" src="https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&q=80&w=1400" alt="Prambanan" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-coklat-keraton via-coklat-keraton/50 to-transparent"></div>
+            
+            <div class="absolute bottom-8 left-8 right-8 text-white">
+                <!-- Futuristic HUD Pill -->
+                <div class="flex items-center gap-3 mb-2 flex-wrap">
+                   
+                </div>
+                
+                <h1 id="hero-title" class="text-4xl md:text-6xl font-serif-judul font-bold mt-2">Serat Roro Jonggrang</h1>
+                <p id="hero-aksara" class="font-aksara text-emas-prada text-2xl mt-1">ꦫꦺꦴꦫꦺꦴꦗꦺꦴꦁꦒꦿꦁꦭꦤ꧀ꦱꦼꦮꦸꦕꦤ꧀ꦝꦶ</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- KONTEN CERITA MENDALAM -->
+    <main class="max-w-4xl mx-auto px-6 pb-28">
+        <div id="naskah-container" class="naskah-box bg-[#FBF8F1] rounded-2xl p-8 md:p-14 border border-emas-prada/30 shadow-2xl relative hud-border">
+            
+            <div class="text-center mb-10">
+                <span class="font-aksara text-emas-prada text-4xl block opacity-75">꧁ ꦕꦫꦶꦠ ꧂</span>
+                <p class="font-royal text-[11px] tracking-[0.3em] uppercase text-coklat-teks/50 mt-1">Kisah Lengkap Babad Candi Sewu Prambanan</p>
+            </div>
+
+            <!-- TOGGLE BAHASA -->
+            <div class="flex flex-col items-center mb-12">
+                <div class="p-1 rounded-full bg-black/5 border border-emas-prada/40 inline-flex relative shadow-inner">
+                    <div id="toggle-bg" class="absolute top-1 left-1 w-[calc(50%-4px)] h-[calc(100%-8px)] bg-coklat-keraton rounded-full transition-transform duration-500"></div>
+                    <button id="btn-indo" onclick="switchLanguage('indo')" class="relative z-10 px-7 py-2.5 text-xs font-royal font-bold tracking-widest uppercase text-emas-terang">Indonesia</button>
+                    <button id="btn-jawa" onclick="switchLanguage('jawa')" class="relative z-10 px-7 py-2.5 text-xs font-royal font-bold tracking-widest uppercase text-coklat-teks/60">ꦗꦮ Krama</button>
+                </div>
+            </div>
+
+            <!-- TEKS BAHASA INDONESIA (LENGKAP & DETAIL) -->
+            <article id="teks-indo" class="fade-transition active-lang prose-teks text-base md:text-lg leading-[2.3] text-justify space-y-7">
+                <p class="dropcap">
+                    Alkisah pada masa lampau di tanah Jawa, berdirilah dua kerajaan agung yang hidup bertetangga namun berlawanan watak: Kerajaan Pengging yang subur makmur dipimpin oleh Prabu Damar Moyo, dan Kerajaan Prambanan yang megah di bawah tampuk kekuasaan Prabu Baka, seorang raja raksasa yang perkasa nan ditakuti segenap penjuru negeri.
+                </p>
+                <p>
+                    Prabu Damar Moyo mengutus putra mahkotanya, Raden Bandung Bondowoso—seorang ksatria pilih tanding yang menguasai berbagai aji kesaktian serta memiliki senjata pusaka bernama Kyai Bandung—untuk menaklukkan Prambanan demi menghentikan ancaman penyerbuan Prabu Baka. Perang dahsyat pun tak terelakkan di padang perbatasan. Pasukan Prambanan yang dipimpin patih setia bernama Patih Gupala bertempur habis-habisan. Namun, kedigdayaan Bandung Bondowoso tak tertandingi; Prabu Baka tewas bersimbah darah di ujung kesaktian sang ksatria Pengging.
+                </p>
+                <p>
+                    Dengan sisa tenaga, Patih Gupala melarikan diri kembali ke Keraton Prambanan untuk menyampaikan kabar duka gugurnya sang baginda kepada putri mahkota, Dyah Roro Jonggrang. Sang putri yang amat rupawan itu seketika runtuh hatinya didera duka nestapa. Belum kering air mata yang mengalir di pipinya, Bandung Bondowoso beserta balatentaranya telah mengepung dan menduduki istana Prambanan.
+                </p>
+                <p>
+                    Akan tetapi, tatkala langkah kaki Bandung Bondowoso memasuki bangsal keputren, amarah sang ksatria luluh seketika. Sorot matanya terpikat oleh paras Dyah Roro Jonggrang yang luar biasa cantik jelita bagai bidadari kahyangan. Tanpa ragu, Bandung Bondowoso menyatakan kehendak hatinya untuk memperistri Roro Jonggrang dan menjadikannya ratu permaisuri di Pengging.
+                </p>
+                <p>
+                    Hati Roro Jonggrang memberontak hebat. Bagaimana mungkin ia sudi dinikahi oleh ksatria yang telah membunuh ayahandanya dan merenggut kedaulatan tanah tumpah darahnya? Namun menolak secara terang-terangan sama saja dengan mengundang pertumpahan darah rakyat Prambanan yang tersisa. Dengan ketajaman akal budinya, Roro Jonggrang menetapkan dua syarat penolakan halus yang dianggap berada di luar batas kemampuan manusia.
+                </p>
+                <p>
+                    Syarat pertama adalah penggalian sebuah sumur yang amat dalam di bukit Prambanan bernama Sumur Jalatunda. Bandung Bondowoso menyanggupi dan menggali sumur tersebut dengan kesaktiannya. Begitu sang ksatria berada di dasar sumur, Patih Gupala atas titah Roro Jonggrang segera menimbun sumur itu dengan tumpukan batu-batu besar untuk mengubur Bandung Bondowoso hidup-hidup. Namun berkat kesaktian ilmu batinnya, Bandung Bondowoso berhasil menjebol timbunan batu dan melompat keluar dengan selamat. Kendati geram, pesona Roro Jonggrang kembali meredam murkanya.
+                </p>
+                <p>
+                    Sang putri lantas mengajukan syarat kedua yang jauh lebih mustahil: Bandung Bondowoso wajib membangun seribu buah candi megah dalam rentang waktu satu malam saja, dan seluruh candi harus sudah paripurna berdiri tegak sebelum fajar menyingsing dan ayam jantan berkokok.
+                </p>
+                <p>
+                    Bandung Bondowoso tersenyum penuh percaya diri. Menjelang tengah malam yang kelam, ia bersila di puncak bukit, merapalkan mantra aji pamungkas untuk memanggil ribuan wadyabala lelembut, jin, dan makhluk halus dari segala penjuru tanah Jawa. Pasukan gaib itu bergotong-royong dengan kecepatan luar biasa membelah bukit, memahat batu andesit, dan menegakkan candi demi candi. Menjelang sepertiga malam terakhir, 999 buah candi telah menjulang megah menembus kabut malam.
+                </p>
+                <p>
+                    Menyaksikan kenyataan yang mengancam nasibnya, Roro Jonggrang dilanda kepanikan yang teramat sangat. Ia bergegas mengumpulkan para dayang keraton dan para perempuan desa di sekeliling Prambanan. Sang putri menitahkan mereka untuk membakar tumpukan jerami padi di ufuk timur serta menumbuk alu pada lesung kayu dengan irama bertalu-talu tanpa henti. Bau harum bunga-bunga yang ditaburkan merebak ke udara.
+                </p>
+                <p>
+                    Semburat cahaya merah menyala di ufuk timur serta riuh gema lesung padi mengecoh kawanan ayam jago, yang serentak berkokok nyaring bersahut-sahutan mengira pagi telah tiba. Pasukan lelembut dan jin yang ketakutan akan sinar surya seketika menjerit panik dan lari tunggang-langgang kembali ke alam baka, meninggalkan pembangunan candi terakhir yang tinggal menyisakan bagian atapnya.
+                </p>
+                <p>
+                    Bandung Bondowoso terperangah. Ketika ia memeriksa keadaan di timur dan mendapati muslihat lesung serta jerami yang menyala, amarahnya meledak laksana lahar gunung berapi. Dengan mata membara, ia mendatangi Roro Jonggrang seraya berseru lantang: "Wahai Jonggrang! Engkau telah mencurangi janjimu dengan kelicikan! Candiku telah berjumlah sembilan ratus sembilan puluh sembilan, dan hanya kurang satu candi untuk menggenapinya. Maka jadilah engkau arca batu pelengkap candi yang keseribu!"
+                </p>
+                <p>
+                    Seketika sabda kutukan bertuah itu meresap ke dalam raga Roro Jonggrang. Tubuh sang putri perlahan mengeras, dingin, dan membatu menjadi arca Dewi Durga yang amat rupawan. Hingga hari ini, arca tersebut berdiri abadi di ruang utara Candi Siwa di kompleks Candi Prambanan, menjadi saksi bisu legenda cinta yang tertolak dan keabadian seribu candi di tanah Jawa.
+                </p>
+            </article>
+
+            <!-- TEKS BASA JAWA KRAMA (LENGKAP & MENDALAM) -->
+            <article id="teks-jawa" class="fade-transition hidden-lang prose-teks text-base md:text-lg leading-[2.3] text-justify space-y-7">
+                <p class="dropcap">
+                    Ing jaman <span class="krama-word">rumiyin<span class="tooltip-card"><strong>Rumiyin</strong><br>Dahulu kala</span></span> ing tlatah tanah Jawi, wonten kalih keraton ageng ingkang sami tetanggan nanging beda watakipun: Keraton Pengging ingkang tata tentrem kerta raharja dipun <span class="krama-word">lenggahi<span class="tooltip-card"><strong>Lenggahi</strong><br>Ditahtai / Dipimpin</span></span> dening Prabu Damar Moyo, sarta Keraton Prambanan ingkang dipun pimpin dening Prabu Baka, sawijining narendra raseksa ingkang sekti mandraguna lan dipun ajrihi dening para praja sanesipun.
+                </p>
+                <p>
+                    Prabu Damar Moyo paring dhawuh dhumateng putranipun, Raden Bandung Bondowoso—ksatria linuwih ingkang gadhah pusaka aji Kyai Bandung—supados ngadhepi Keraton Prambanan amargi asring damel kisruh ing tlatah wates. Paprangan ageng lajeng pecah ing palagan. Wadyabala Prambanan ingkang dipun pandhegani dening Patih Gupala sami ngesokaken sedaya daya kasantosan. Nanging pranyata kasektenipun Bandung Bondowoso mboten wonten tandhingipun; Prabu Baka <span class="krama-word">seda<span class="tooltip-card"><strong>Seda</strong><br>Gugur / Wafat</span></span> wonten ing madyaning palagan.
+                </p>
+                <p>
+                    Kanthi sisa kekiyatanipun, Patih Gupala mlajar wangsul dhateng Keraton Prambanan ngaturaken wartos lelayu kasebat dhumateng putrinipun sang prabu, inggih menika Dyah Roro Jonggrang. Sang putri ingkang sanget <span class="krama-word">sulistya<span class="tooltip-card"><strong>Sulistya</strong><br>Cantik jelita</span></span> menika lajeng nandhang sungkawa ingkang lebet sanget. Dereng ngantos lilih luh ing pipinipun, Bandung Bondowoso sampun nglangkahi gapura keputren lan mbedhah keraton Prambanan.
+                </p>
+                <p>
+                    Nanging nalika Bandung Bondowoso mlebet ing bangsal keputren, manahipun lajeng luluh saknalika priksa kaendahanipun Dyah Roro Jonggrang. Panjenengane kasengsem sanget lan ngesthi badhe ndadosaken sang dewi minangka <span class="krama-word">garwa prameswari<span class="tooltip-card"><strong>Garwa Prameswari</strong><br>Istri Ratu Utama</span></span> ing Pengging.
+                </p>
+                <p>
+                    Manahipun Roro Jonggrang nolak kanthi asru. Panjenengane mboten <span class="krama-word">purun<span class="tooltip-card"><strong>Purun</strong><br>Bersedia / Mau</span></span> kadhaup dening satriya ingkang sampun mejahi ramanipun. Nanging menawi nolak kanthi terang-terangan, tamtu badhe nuwuhaken bilai tumrap para kawula Prambanan ingkang taksih gesang. Kanthi landheping nalar, sang putri nyuwun bebana kalih prakawis ingkang <span class="krama-word">mokal<span class="tooltip-card"><strong>Mokal</strong><br>Mustahil dilogika</span></span> dipun lampahi dening tiyang limrah.
+                </p>
+                <p>
+                    Bebana kapisan inggih menika ndhudhuk sumur ingkang lebet sanget ing paruntayan redi, ingkang dipun wastani Sumur Jalatunda. Bandung Bondowoso nyanggupi lan enggal ndhudhuk sumur kasebat. Nalika panjenengane sampun dumugi dhasaring sumur, Patih Gupala awit dhawuhipun sang putri lajeng ngurug sumur kasebat kanthi sela-sela ageng supados Bandung Bondowoso sirna kependhem. Nanging awit aji jayanipun, Bandung Bondowoso saged mbledhosaken sela-sela kasebat lan mlumpat medal kanthi wilujeng. Senadyan sanget duka, panjenengane taksih saged ngempet amarahipun amargi rasa tresnanipun dhumateng sang putri.
+                </p>
+                <p>
+                    Roro Jonggrang lajeng paring bebana kaping kalih: Bandung Bondowoso kedah saged mangun sewu candhi ingkang megah namung salebeting setunggal dalu, lan sedaya candhi kedah sampun jumeneng sakderengipun jago kluruk ing wanci byar esuk.
+                </p>
+                <p>
+                    Bandung Bondowoso nyanggupi kanthi manah mantep. Ing wanci dalu, panjenengane jumeneng semedi, ngempalaken lelembut, jin, lan para makhluk alus saking sedaya papan. Ewonan jin sami tumandang nyigar redi, ngukir sela andesit, lan ngedegaken candhi kanthi cepet sanget. Sakderengipun parak esuk, sangangatus sangangpuluh sanga candhi sampun ngadeg jejeg nglangkahi mega.
+                </p>
+                <p>
+                    Priksa kaanan ingkang mbebayani kasebat, Roro Jonggrang sanget kewedhen. Sang dewi enggal nggugah para abdi dalem estri sarta para tiyang dhusun ing iring wetan. Sami kadhawuhan ngobong dami pari ingkang numpuk sarta nutu lesung kanthi asru sesarengan.
+                </p>
+                <p>
+                    Praba abrit ing sisih wetan lan swanten lesung ingkang gumuruh njalari para ayam jago sami kluruk amargi ngira surya sampun mlethak. Para wadyabala lelembut sami ajrih amargi kobar benteripun surya, lajeng sami lumajar ajrih nilaraken pedamelanipun, satemah candhi ingkang kaping sewu dereng rampung sirapipun.
+                </p>
+                <p>
+                    Bandung Bondowoso kaget sanget. Nalika priksa bilih fajar menika namung reka dayanipun lesung lan kobongan dami, panjenengane <span class="krama-word">duka yayah sinipi<span class="tooltip-card"><strong>Duka Yayah Sinipi</strong><br>Marah meluap-luap</span></span>. Kanthi netra ingkang mubyar murub amarah, panjenengane ngesabda: "Heh Roro Jonggrang! Sliramu wus cidra ing janji kanthi reka daya culika! Candhiku kurang siji, mula sliramu sing bakal jangkepi dadi arca kang kaping sewu!"
+                </p>
+                <p>
+                    Sabda kasebat dados kasunyatan. Saliranipun Roro Jonggrang lajeng salin wujud dados arca watu Dewi Durga ingkang sulistya ing warna. Ngantos sapunika, arca kasebat taksih jumeneng wonten ing Candi Prambanan, minangka seksi bisu legenda katresnan ingkang kacidran lan sewu candhi ing tanah Jawi.
+                </p>
+            </article>
+
+            <div class="mt-14 pt-8 border-t border-emas-prada/30 text-center">
+                <span class="font-aksara text-emas-prada text-3xl">꧋ꦠꦩꦠ꧀꧋</span>
+                <p class="font-royal text-xs uppercase tracking-widest text-coklat-teks/50 mt-1">Tamating Babad Roro Jonggrang</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- JAVASCRIPT: ENTRANCE ANIMATION & SMART RETURN -->
+    <script>
+        // 1. Lenis Smooth Scroll
+        const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
+        function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // 2. Reading Progress
+        window.addEventListener('scroll', () => {
+            const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById('read-progress').style.width = ((document.documentElement.scrollTop / h) * 100) + '%';
+        });
+
+        // 3. ANIMASI MASUK SINEMATIK GSAP SAAT HALAMAN DIBUKA
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            
+            gsap.to("#body-naskah", { opacity: 1, duration: 0.5 });
+            
+            tl.from("#hero-img", { scale: 1.2, duration: 1.4, ease: "power3.out" })
+              .from("#hero-title", { y: 30, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.8")
+              .from("#hero-aksara", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.6")
+              .from("#naskah-container", { y: 60, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.4");
+        });
+
+        // 4. KEMBALI KE POSISI SEMULA DI DASHBOARD
+        function kembaliKePustaka() {
+            gsap.to("#body-naskah", {
+                opacity: 0, duration: 0.3, onComplete: () => {
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    } else {
+                        window.location.href = 'pustaka-lontar-premium.html#koleksi';
+                    }
+                }
+            });
+        }
+
+        // 5. Toggle Bahasa
+        function switchLanguage(lang) {
+            const bg = document.getElementById('toggle-bg');
+            const btnIndo = document.getElementById('btn-indo');
+            const btnJawa = document.getElementById('btn-jawa');
+            const tIndo = document.getElementById('teks-indo');
+            const tJawa = document.getElementById('teks-jawa');
+
+            if (lang === 'jawa') {
+                bg.style.transform = 'translateX(100%)';
+                btnJawa.classList.add('text-emas-terang'); btnJawa.classList.remove('text-coklat-teks/60');
+                btnIndo.classList.remove('text-emas-terang'); btnIndo.classList.add('text-coklat-teks/60');
+                tIndo.classList.replace('active-lang', 'hidden-lang');
+                setTimeout(() => tJawa.classList.replace('hidden-lang', 'active-lang'), 150);
+            } else {
+                bg.style.transform = 'translateX(0)';
+                btnIndo.classList.add('text-emas-terang'); btnIndo.classList.remove('text-coklat-teks/60');
+                btnJawa.classList.remove('text-emas-terang'); btnJawa.classList.add('text-coklat-teks/60');
+                tJawa.classList.replace('active-lang', 'hidden-lang');
+                setTimeout(() => tIndo.classList.replace('hidden-lang', 'active-lang'), 150);
+            }
+        }
+
+        // 6. Font Scaler
+        let fSize = 18;
+        function ubahUkuranFont(step) {
+            fSize = Math.max(15, Math.min(24, fSize + (step * 2)));
+            document.querySelectorAll('.prose-teks').forEach(el => el.style.fontSize = fSize + 'px');
+        }
+
+        // 7. Dark Mode
+        let isDark = false;
+        function toggleModeMalam() {
+            isDark = !isDark;
+            document.body.classList.toggle('mode-malam');
+            document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+        }
+    </script>
+</body>
+</html>
