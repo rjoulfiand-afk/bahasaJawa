@@ -78,13 +78,56 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        /* Nav Link Presisi & Garis Tipis Halus (Razor-thin 1px) */
+        .nav-link {
+            position: relative;
+            color: rgba(255, 255, 255, 0.65);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 8px 6px;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-link:hover {
+            color: #F3E5AB;
+        }
+        .nav-link.active {
+            color: #F3E5AB;
+            font-weight: 600;
+        }
+        /* Garis bawah sutra 1px dengan pendaran halus */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            left: 50%;
+            width: 0;
+            height: 1px; /* Tipis elegan 1px */
+            background: linear-gradient(90deg, transparent, #D4AF37 30%, #F3E5AB 50%, #D4AF37 70%, transparent);
+            transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease;
+            transform: translateX(-50%);
+            opacity: 0;
+            border-radius: 1px;
+            pointer-events: none;
+        }
+        .nav-link.active::after {
+            width: 75%; /* Proporsi ideal presisi */
+            opacity: 0.95;
+            box-shadow: 0 1px 5px rgba(212, 175, 55, 0.4); /* Pendaran lembut */
+        }
+        .nav-link:hover::after {
+            width: 45%;
+            opacity: 0.55;
+        }
     </style>
 </head>
 <body class="bg-krem-lontar text-coklat-keraton font-serif-teks overflow-x-hidden selection:bg-emas-prada selection:text-coklat-keraton">
 
     <div id="ambient" class="ambient-gold hidden lg:block"></div>
 
-    <!-- PRELOADER ANTI-MACET -->
+    <!-- PRELOADER ANTI-MACET (HANYA MUNCUL DI AWAL SESI) -->
     <div id="preloader" class="fixed inset-0 z-[10000] bg-coklat-keraton bg-batik-gelap flex flex-col items-center justify-center transition-opacity duration-700">
         <div class="text-center">
             <span class="text-emas-prada font-aksara text-7xl mb-3 block animate-pulse">ꦥꦸꦱ꧀ꦠꦏ</span>
@@ -96,64 +139,82 @@
         </div>
     </div>
 
-    <!-- NAVBAR LUWES & ELEGAN -->
-    <nav id="navbar" class="absolute top-0 left-0 w-full z-40 py-8 border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center">
+    <!-- ========================================== -->
+    <!-- NAVBAR LEGA, BERKELAS, DAN SIMETRIS -->
+    <!-- ========================================== -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 h-[84px] md:h-[88px] bg-[#140E0A]/95 backdrop-blur-xl border-b border-emas-prada/20 flex items-center transition-all duration-300">
+        <div class="max-w-7xl w-full mx-auto px-5 sm:px-8 lg:px-12 flex justify-between items-center">
             
-            <a href="#" class="flex items-center gap-3 group shrink-0">
-                <div class="w-11 h-11 rounded-full border border-emas-prada/60 flex items-center justify-center bg-coklat-keraton/80 backdrop-blur-md group-hover:border-emas-prada transition duration-300">
-                    <span class="text-emas-prada font-aksara text-2xl group-hover:scale-110 transition duration-300">ꦕ</span>
+            <!-- 1. KIRI: LOGO & IDENTITAS -->
+            <a href="#hero" class="flex items-center gap-3.5 group shrink-0">
+                <div class="w-11 h-11 rounded-full border border-emas-prada/50 flex items-center justify-center bg-gradient-to-b from-[#2A1A10] to-[#120D09] shadow-inner group-hover:border-emas-prada transition duration-300 shrink-0">
+                    <span class="text-emas-prada font-aksara text-2xl group-hover:scale-105 transition duration-300">ꦕ</span>
                 </div>
-                <div>
-                    <span class="font-royal font-bold text-lg md:text-xl tracking-widest text-white block leading-none">Pustaka Lontar</span>
-                    <span class="text-[9px] uppercase tracking-[0.25em] text-emas-prada/90 font-serif-judul block mt-1">Rekayasa Perangkat Lunak</span>
+                <div class="whitespace-nowrap">
+                    <span class="font-royal font-bold text-base md:text-lg tracking-[0.2em] text-white block leading-none">Pustaka Lontar</span>
+                    <span class="text-[9px] uppercase tracking-[0.25em] text-emas-prada/80 font-serif-judul block mt-1">Portal Cerita Nusantara</span>
                 </div>
             </a>
             
-            <div class="hidden md:flex items-center gap-8 lg:gap-14">
-                <a href="#koleksi" class="text-white/80 hover:text-emas-prada text-xs font-royal uppercase tracking-[0.25em] transition duration-300">Daftar Babad</a>
-                <a href="sinau-aksara.html" class="text-white/80 hover:text-emas-prada text-xs font-royal uppercase tracking-[0.25em] transition duration-300">Sinau Aksara</a>
-                <a href="#filosofi" class="text-white/80 hover:text-emas-prada text-xs font-royal uppercase tracking-[0.25em] transition duration-300">Falsafah</a>
-                <a href="#profil" class="text-white/80 hover:text-emas-prada text-xs font-royal uppercase tracking-[0.25em] transition duration-300">Profil Siswa</a>
+            <!-- 2. TENGAH: MENU TAUTAN LEGA & RAPI (JARAK TERUKUR & TIDAK MENUMPUK) -->
+            <div class="hidden md:flex items-center gap-6 lg:gap-9 xl:gap-11">
+                <a href="#hero" class="nav-link active text-xs font-serif-judul uppercase tracking-[0.18em]" data-section="hero">Beranda</a>
+                <a href="#koleksi" class="nav-link text-xs font-serif-judul uppercase tracking-[0.18em]" data-section="koleksi">Koleksi Babad</a>
+                <a href="#falsafah" class="nav-link text-xs font-serif-judul uppercase tracking-[0.18em]" data-section="falsafah">Falsafah Luhur</a>
+                <a href="#sinau" class="nav-link text-xs font-serif-judul uppercase tracking-[0.18em]" data-section="sinau">Sinau Aksara</a>
             </div>
 
-            <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 p-2">
-                <span class="w-7 h-[2px] bg-emas-prada"></span>
-                <span class="w-5 h-[2px] bg-emas-prada self-end"></span>
-                <span class="w-7 h-[2px] bg-emas-prada"></span>
+            <!-- 3. KANAN: ORNAMEN DWIBAHASA SIMETRIS -->
+            <div class="hidden md:flex items-center gap-3 shrink-0 border-l border-emas-prada/20 pl-5 lg:pl-6 whitespace-nowrap">
+                <span class="text-emas-prada/50 font-aksara text-xl select-none shrink-0">꧋ꦱꦼꦫꦠ꧀꧋</span>
+                <span class="text-[10px] font-serif-judul tracking-[0.2em] uppercase text-white/70 whitespace-nowrap">
+                    Dwibahasa Sastra
+                </span>
+            </div>
+
+            <!-- Tombol Hamburger Layar HP -->
+            <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menu Mobile">
+                <span class="w-6 h-[2px] bg-emas-prada"></span>
+                <span class="w-4 h-[2px] bg-emas-prada self-end"></span>
+                <span class="w-6 h-[2px] bg-emas-prada"></span>
             </button>
         </div>
     </nav>
 
     <!-- MOBILE MENU DRAWER -->
-    <div id="mobile-menu" class="fixed inset-0 z-50 bg-coklat-keraton/98 backdrop-blur-2xl translate-x-full transition-transform duration-500 flex flex-col items-center justify-center gap-8 bg-batik-gelap">
+    <div id="mobile-menu" class="fixed inset-0 z-50 bg-[#120D09]/98 backdrop-blur-2xl translate-x-full transition-transform duration-500 flex flex-col items-center justify-center gap-8 bg-batik-gelap">
         <span class="font-aksara text-emas-prada/30 text-7xl">ꦥꦸꦱ꧀ꦠꦏ</span>
-        <a href="#koleksi" class="mobile-link text-2xl font-serif-judul text-white hover:text-emas-prada">Daftar Babad</a>
-        <a href="sinau-aksara.html" class="mobile-link text-2xl font-serif-judul text-white hover:text-emas-prada">Sinau Aksara Jawa</a>
-        <a href="#filosofi" class="mobile-link text-2xl font-serif-judul text-white hover:text-emas-prada">Falsafah Budaya</a>
-        <a href="#profil" class="mobile-link text-2xl font-serif-judul text-white hover:text-emas-prada">Profil Siswa RPL</a>
+        <a href="#hero" class="mobile-link text-xl font-serif-judul uppercase tracking-widest text-white hover:text-emas-prada">Beranda</a>
+        <a href="#koleksi" class="mobile-link text-xl font-serif-judul uppercase tracking-widest text-white hover:text-emas-prada">Koleksi Babad</a>
+        <a href="#falsafah" class="mobile-link text-xl font-serif-judul uppercase tracking-widest text-white hover:text-emas-prada">Falsafah Luhur</a>
+        <a href="#sinau" class="mobile-link text-xl font-serif-judul uppercase tracking-widest text-white hover:text-emas-prada">Sinau Aksara</a>
+        <button onclick="toggleMobileMenu();" class="mt-4 px-6 py-2 rounded-full border border-emas-prada/40 text-xs text-emas-prada uppercase font-serif-judul tracking-wider">Tutup</button>
     </div>
 
-    <!-- SECTION 1: HERO SECTION -->
-    <header id="hero" class="relative h-screen min-h-[750px] flex items-center justify-center overflow-hidden bg-coklat-keraton bg-batik-gelap">
+    <!-- ========================================== -->
+    <!-- SECTION 1: HERO PARALLAX DENGAN LATAR CANDI -->
+    <!-- ========================================== -->
+    <header id="hero" class="relative min-h-[92vh] flex items-center justify-center overflow-hidden bg-coklat-keraton bg-batik-gelap pt-28">
+        <!-- Parallax Candi Image -->
         <div class="hero-bg absolute inset-0 bg-[url('https://images.unsplash.com/photo-1596402184320-417e7178b2cd?q=80&w=1920')] bg-cover bg-center opacity-30 scale-110"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-coklat-keraton/90 via-coklat-keraton/50 to-krem-lontar"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-coklat-keraton/90 via-coklat-keraton/60 to-krem-lontar"></div>
 
-        <div class="hero-aksara absolute top-20 -left-8 text-[20vw] font-aksara text-emas-prada/[0.04] pointer-events-none select-none">ꦗꦮ</div>
-        <div class="hero-aksara absolute bottom-12 -right-8 text-[20vw] font-aksara text-emas-prada/[0.04] pointer-events-none select-none">ꦱꦼꦫꦠ꧀</div>
+        <!-- Watermark Aksara Raksasa -->
+        <div class="hero-aksara absolute top-28 -left-6 text-[20vw] font-aksara text-emas-prada/[0.04] pointer-events-none select-none">ꦗꦮ</div>
+        <div class="hero-aksara absolute bottom-12 -right-6 text-[20vw] font-aksara text-emas-prada/[0.04] pointer-events-none select-none">ꦱꦼꦫꦠ꧀</div>
 
-        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto mt-20">
-            <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full border border-emas-prada/30 bg-emas-prada/5 backdrop-blur-md mb-8 gs-reveal">
+        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto py-12">
+            <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full border border-emas-prada/30 bg-emas-prada/10 backdrop-blur-md mb-8 gs-reveal">
                 <span class="w-2 h-2 rounded-full bg-emas-prada animate-ping"></span>
-                <span class="font-royal text-emas-terang text-xs tracking-[0.3em] uppercase">Tugas Rekayasa Perangkat Lunak 2026</span>
+                <span class="font-royal text-emas-terang text-xs tracking-[0.3em] uppercase">Pusaka Babad Nusantara 2026</span>
             </div>
 
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif-judul font-black text-white leading-tight mb-8 gs-reveal">
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif-judul font-black text-white leading-tight mb-8 gs-reveal">
                 Membaca <span class="gold-text italic font-normal">Cerita Rakyat</span><br>
                 Dalam Dua Bahasa.
             </h1>
 
-            <p class="text-lg md:text-xl text-white/80 max-w-2xl mx-auto font-light leading-relaxed mb-12 gs-reveal">
+            <p class="text-base sm:text-lg text-white/85 max-w-2xl mx-auto font-light leading-relaxed mb-10 gs-reveal">
                 Portal digitalisasi cerita rakyat Nusantara dengan sajian dwibahasa: <strong>Bahasa Indonesia</strong> dan <strong>Basa Jawa Krama Inggil</strong> secara mendalam, lengkap, dan interaktif.
             </p>
 
@@ -161,71 +222,75 @@
                 <a href="#koleksi" class="w-full sm:w-auto px-10 py-4 rounded-full bg-gradient-to-r from-emas-prada to-emas-terang text-coklat-keraton font-serif-judul font-bold text-xs uppercase tracking-[0.25em] shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:scale-105 transition duration-500">
                     Mulai Eksplorasi Kisah
                 </a>
-                <a href="sinau-aksara.html" class="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 hover:border-emas-prada text-white/90 hover:text-emas-prada font-serif-judul text-xs uppercase tracking-[0.25em] transition duration-500 backdrop-blur-sm">
+                <a href="#sinau" class="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 hover:border-emas-prada text-white/90 hover:text-emas-prada font-serif-judul text-xs uppercase tracking-[0.25em] transition duration-500 backdrop-blur-sm">
                     Sinau Aksara Jawa
                 </a>
             </div>
         </div>
 
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
-            <span class="text-[10px] uppercase tracking-[0.3em] text-white/60 font-royal">Gulir</span>
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
+            <span class="text-[9px] uppercase tracking-[0.3em] text-white/70 font-royal">Gulir</span>
             <div class="w-5 h-8 rounded-full border border-emas-prada/40 flex justify-center p-1">
                 <div class="w-1 h-2 bg-emas-prada rounded-full animate-bounce"></div>
             </div>
         </div>
     </header>
 
+    <!-- ========================================== -->
     <!-- SECTION 2: STATS RINGKAS -->
-    <section class="py-16 bg-krem-lontar bg-batik-kawung border-b border-emas-prada/20 relative z-20">
+    <!-- ========================================== -->
+    <section class="py-14 bg-krem-lontar bg-batik-kawung border-b border-emas-prada/20 relative z-20">
         <div class="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-emas-prada/20 gs-reveal">
             <div>
-                <h3 class="text-4xl md:text-5xl font-serif-judul font-bold text-merah-marun">3 Wilayah</h3>
+                <h3 class="text-3xl md:text-5xl font-serif-judul font-bold text-merah-marun">3 Wilayah</h3>
                 <p class="text-xs uppercase tracking-widest text-coklat-keraton/70 mt-1 font-semibold">Jateng, Jatim & Jabar</p>
             </div>
             <div class="pt-4 md:pt-0">
-                <h3 class="text-4xl md:text-5xl font-serif-judul font-bold text-merah-marun">100%</h3>
+                <h3 class="text-3xl md:text-5xl font-serif-judul font-bold text-merah-marun">100%</h3>
                 <p class="text-xs uppercase tracking-widest text-coklat-keraton/70 mt-1 font-semibold">Bahasa Jawa Krama Baku</p>
             </div>
             <div class="pt-4 md:pt-0">
-                <h3 class="text-4xl md:text-5xl font-serif-judul font-bold text-merah-marun">20+</h3>
+                <h3 class="text-3xl md:text-5xl font-serif-judul font-bold text-merah-marun">20+</h3>
                 <p class="text-xs uppercase tracking-widest text-coklat-keraton/70 mt-1 font-semibold">Aksara Carakan Lengkap</p>
             </div>
             <div class="pt-4 md:pt-0">
-                <h3 class="text-4xl md:text-5xl font-serif-judul font-bold text-merah-marun">A+</h3>
+                <h3 class="text-3xl md:text-5xl font-serif-judul font-bold text-merah-marun">A+</h3>
                 <p class="text-xs uppercase tracking-widest text-coklat-keraton/70 mt-1 font-semibold">Standar Kualitas RPL</p>
             </div>
         </div>
     </section>
 
+    <!-- ========================================== -->
     <!-- SECTION 3: KOLEKSI CERITA RAKYAT LENGKAP -->
-    <section id="koleksi" class="py-28 bg-krem-lontar bg-batik-kawung">
+    <!-- ========================================== -->
+    <section id="koleksi" class="py-24 bg-krem-lontar bg-batik-kawung">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
             
-            <div class="text-center mb-16 gs-reveal">
-                <span class="text-emas-prada font-aksara text-4xl block mb-2">ꦱꦼꦫꦠ꧀ꦭꦤ꧀ꦧꦧꦢ꧀</span>
-                <h2 class="text-4xl md:text-5xl font-serif-judul font-bold text-coklat-keraton mb-4">Koleksi Cerita Rakyat Nusantara</h2>
+            <div class="text-center mb-14 gs-reveal">
+                <span class="text-emas-prada font-aksara text-3xl block mb-2">ꦕꦫꦶꦠꦫꦏꦾꦠ꧀ꦤꦸꦱꦤ꧀ꦠꦫ</span>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif-judul font-bold text-coklat-keraton mb-4">Koleksi Cerita Rakyat Nusantara</h2>
                 <div class="flex items-center justify-center gap-3 my-4">
                     <div class="h-px w-20 bg-emas-prada/40"></div>
                     <div class="w-2.5 h-2.5 rotate-45 bg-merah-marun border border-emas-prada"></div>
                     <div class="h-px w-20 bg-emas-prada/40"></div>
                 </div>
-                <p class="text-coklat-keraton/70 max-w-xl mx-auto text-sm md:text-base">
-                    Pilih cerita rakyat di bawah ini untuk membaca kisah selengkapnya dalam versi Bahasa Indonesia & Basa Jawa Krama yang mendalam.
+                <p class="text-coklat-keraton/70 max-w-xl mx-auto text-xs sm:text-sm">
+                    Pilih kisah babad di bawah ini untuk membaca cerita selengkapnya dalam versi dwibahasa (Bahasa Indonesia & Jawa Krama Inggil).
                 </p>
             </div>
 
             <!-- SEARCH BAR & FILTER 3 WILAYAH JAWA -->
-            <div class="max-w-4xl mx-auto mb-16 flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl shadow-lg border border-emas-prada/30 gs-reveal">
+            <div class="max-w-4xl mx-auto mb-14 flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl shadow-lg border border-emas-prada/30 gs-reveal">
                 <div class="relative w-full md:w-1/2">
                     <span class="absolute left-4 top-1/2 -translate-y-1/2 text-coklat-keraton/40">🔍</span>
-                    <input type="text" id="cari-cerita" onkeyup="filterPencarian()" placeholder="Cari judul cerita atau tokoh..." class="w-full pl-11 pr-4 py-2.5 rounded-xl bg-krem-lontar/50 border border-emas-prada/20 text-sm focus:outline-none focus:border-emas-prada">
+                    <input type="text" id="cari-cerita" onkeyup="filterPencarian()" placeholder="Cari judul cerita atau tokoh..." class="w-full pl-11 pr-4 py-2.5 rounded-xl bg-krem-lontar/50 border border-emas-prada/20 text-xs sm:text-sm focus:outline-none focus:border-emas-prada">
                 </div>
 
                 <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto">
-                    <button onclick="filterDaerah('semua')" class="filter-btn active-filter px-4 py-2 rounded-xl text-xs font-royal uppercase tracking-wider bg-coklat-keraton text-emas-terang border border-emas-prada/40 transition">Semua</button>
-                    <button onclick="filterDaerah('jateng')" class="filter-btn px-4 py-2 rounded-xl text-xs font-royal uppercase tracking-wider bg-krem-lontar text-coklat-keraton/80 border border-emas-prada/20 hover:border-emas-prada transition">Jawa Tengah</button>
-                    <button onclick="filterDaerah('jatim')" class="filter-btn px-4 py-2 rounded-xl text-xs font-royal uppercase tracking-wider bg-krem-lontar text-coklat-keraton/80 border border-emas-prada/20 hover:border-emas-prada transition">Jawa Timur</button>
-                    <button onclick="filterDaerah('jabar')" class="filter-btn px-4 py-2 rounded-xl text-xs font-royal uppercase tracking-wider bg-krem-lontar text-coklat-keraton/80 border border-emas-prada/20 hover:border-emas-prada transition">Jawa Barat</button>
+                    <button onclick="filterDaerah('semua')" class="filter-btn active-filter px-4 py-2 rounded-xl text-xs font-serif-judul uppercase tracking-wider bg-coklat-keraton text-emas-terang border border-emas-prada/40 transition">Semua</button>
+                    <button onclick="filterDaerah('jateng')" class="filter-btn px-4 py-2 rounded-xl text-xs font-serif-judul uppercase tracking-wider bg-krem-lontar text-coklat-keraton/80 border border-emas-prada/20 hover:border-emas-prada transition">Jawa Tengah</button>
+                    <button onclick="filterDaerah('jatim')" class="filter-btn px-4 py-2 rounded-xl text-xs font-serif-judul uppercase tracking-wider bg-krem-lontar text-coklat-keraton/80 border border-emas-prada/20 hover:border-emas-prada transition">Jawa Timur</button>
+                    <button onclick="filterDaerah('jabar')" class="filter-btn px-4 py-2 rounded-xl text-xs font-serif-judul uppercase tracking-wider bg-krem-lontar text-coklat-keraton/80 border border-emas-prada/20 hover:border-emas-prada transition">Jawa Barat</button>
                 </div>
             </div>
 
@@ -233,27 +298,27 @@
             <div id="grid-cerita" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 max-w-5xl mx-auto">
                 
                 <!-- CARD 1: RORO JONGGRANG (JAWA TENGAH) -->
-                <div class="cerita-card jateng gs-reveal group" data-title="roro jonggrang bandung bondowoso prambanan jawa tengah">
+                <div class="cerita-card jateng gs-reveal group" data-title="roro jonggrang bandung bondowoso prambanan candi seribu">
                     <a href="roro-jonggrang.html" onclick="simpanPosisiScroll()" class="block bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 border border-emas-prada/25">
-                        <div class="h-72 overflow-hidden relative">
+                        <div class="h-64 sm:h-72 overflow-hidden relative">
                             <img src="https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&q=80&w=800" alt="Roro Jonggrang" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition duration-700">
                             <div class="absolute inset-0 bg-gradient-to-t from-coklat-keraton via-coklat-keraton/30 to-transparent opacity-90"></div>
                             
-                            <span class="absolute top-4 left-4 bg-coklat-keraton/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-royal uppercase text-emas-prada tracking-widest border border-emas-prada/30">
+                            <span class="absolute top-4 left-4 bg-coklat-keraton/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-serif-judul uppercase text-emas-prada tracking-widest border border-emas-prada/30">
                                 Jawa Tengah
                             </span>
 
                             <div class="absolute bottom-5 left-6 right-6">
-                                <span class="font-aksara text-emas-prada/70 text-xl block mb-1">ꦫꦺꦴꦫꦺꦴꦗꦺꦴꦁꦒꦿꦁ</span>
+                                <span class="font-aksara text-emas-prada/80 text-xl block mb-1">ꦫꦺꦴꦫꦺꦴꦗꦺꦴꦁꦒꦿꦁ</span>
                                 <h3 class="font-serif-judul font-bold text-2xl text-white group-hover:text-emas-prada transition">Roro Jonggrang</h3>
                             </div>
                         </div>
                         <div class="p-6">
-                            <p class="text-coklat-keraton/70 text-sm leading-relaxed mb-6 line-clamp-3">
+                            <p class="text-coklat-keraton/70 text-xs sm:text-sm leading-relaxed mb-6 line-clamp-3">
                                 Epik kepahlawanan, runtuhnya Kerajaan Prambanan, siasat Sumur Jalatunda, hingga muslihat fajar seribu candi abadi.
                             </p>
                             <div class="flex items-center justify-between pt-4 border-t border-emas-prada/15 text-xs">
-                                <span class="font-royal text-merah-marun font-bold flex items-center gap-1 group-hover:translate-x-1 transition duration-300">
+                                <span class="font-serif-judul text-merah-marun font-bold flex items-center gap-1 group-hover:translate-x-1 transition duration-300">
                                     Baca Naskah Lengkap →
                                 </span>
                                 <span class="text-coklat-keraton/40 italic">Dwibahasa Krama</span>
@@ -263,27 +328,27 @@
                 </div>
 
                 <!-- CARD 2: TIMUN MAS (JAWA TENGAH) -->
-                <div class="cerita-card jateng gs-reveal group" data-title="timun mas mbok srini buto ijo jawa tengah">
+                <div class="cerita-card jateng gs-reveal group" data-title="timun mas mbok srini buto ijo jarum garam terasi mentimun">
                     <a href="timun-mas.html" onclick="simpanPosisiScroll()" class="block bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 border border-emas-prada/25">
-                        <div class="h-72 overflow-hidden relative">
-                            <img src="jawatengah.jpg" alt="Timun Mas" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition duration-700">
+                        <div class="h-64 sm:h-72 overflow-hidden relative">
+                            <img src="jawatengah.jpg" alt="Timun Mas" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=800&q=80'">
                             <div class="absolute inset-0 bg-gradient-to-t from-coklat-keraton via-coklat-keraton/30 to-transparent opacity-90"></div>
                             
-                            <span class="absolute top-4 left-4 bg-coklat-keraton/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-royal uppercase text-emas-prada tracking-widest border border-emas-prada/30">
+                            <span class="absolute top-4 left-4 bg-coklat-keraton/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-serif-judul uppercase text-emas-prada tracking-widest border border-emas-prada/30">
                                 Jawa Tengah
                             </span>
 
                             <div class="absolute bottom-5 left-6 right-6">
-                                <span class="font-aksara text-emas-prada/70 text-xl block mb-1">ꦠꦶꦩꦸꦤ꧀ꦩꦱ꧀</span>
+                                <span class="font-aksara text-emas-prada/80 text-xl block mb-1">ꦠꦶꦩꦸꦤ꧀ꦩꦱ꧀</span>
                                 <h3 class="font-serif-judul font-bold text-2xl text-white group-hover:text-emas-prada transition">Timun Mas</h3>
                             </div>
                         </div>
                         <div class="p-6">
-                            <p class="text-coklat-keraton/70 text-sm leading-relaxed mb-6 line-clamp-3">
-                                Kisah kasih tulus Mbok Srini, kemurkaan Buto Ijo, dan pelarian heroik berbekal empat bungkusan pusaka sakti Gunung Gundul.
+                            <p class="text-coklat-keraton/70 text-xs sm:text-sm leading-relaxed mb-6 line-clamp-3">
+                                Kisah kasih tulus Mbok Srini, kemurkaan raksasa Buto Ijo, dan pelarian heroik berbekal empat bungkusan sakti Gunung Gundul.
                             </p>
                             <div class="flex items-center justify-between pt-4 border-t border-emas-prada/15 text-xs">
-                                <span class="font-royal text-merah-marun font-bold flex items-center gap-1 group-hover:translate-x-1 transition duration-300">
+                                <span class="font-serif-judul text-merah-marun font-bold flex items-center gap-1 group-hover:translate-x-1 transition duration-300">
                                     Baca Naskah Lengkap →
                                 </span>
                                 <span class="text-coklat-keraton/40 italic">Dwibahasa Krama</span>
@@ -293,27 +358,27 @@
                 </div>
 
                 <!-- CARD 3: KEONG MAS (JAWA TIMUR) -->
-                <div class="cerita-card jatim gs-reveal group" data-title="keong mas candra kirana galuh ajeng panji asmarabangun daha kediri jenggala jawa timur">
+                <div class="cerita-card jatim gs-reveal group" data-title="keong mas dewi candra kirana galuh ajeng raden panji daha kediri">
                     <a href="keong-mas.html" onclick="simpanPosisiScroll()" class="block bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 border border-emas-prada/25">
-                        <div class="h-72 overflow-hidden relative">
-                            <img src="jawatimur.jpg" alt="Keong Mas" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition duration-700">
+                        <div class="h-64 sm:h-72 overflow-hidden relative">
+                            <img src="jawatimur.jpg" alt="Keong Mas" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80'">
                             <div class="absolute inset-0 bg-gradient-to-t from-coklat-keraton via-coklat-keraton/30 to-transparent opacity-90"></div>
                             
-                            <span class="absolute top-4 left-4 bg-coklat-keraton/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-royal uppercase text-emas-prada tracking-widest border border-emas-prada/30">
+                            <span class="absolute top-4 left-4 bg-coklat-keraton/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-serif-judul uppercase text-emas-prada tracking-widest border border-emas-prada/30">
                                 Jawa Timur
                             </span>
 
                             <div class="absolute bottom-5 left-6 right-6">
-                                <span class="font-aksara text-emas-prada/70 text-xl block mb-1">ꦏꦺꦪꦺꦴꦁꦩꦱ꧀</span>
+                                <span class="font-aksara text-emas-prada/80 text-lg block mb-1">ꦏꦺꦪꦺꦴꦁꦩꦱ꧀</span>
                                 <h3 class="font-serif-judul font-bold text-2xl text-white group-hover:text-emas-prada transition">Keong Mas</h3>
                             </div>
                         </div>
                         <div class="p-6">
-                            <p class="text-coklat-keraton/70 text-sm leading-relaxed mb-6 line-clamp-3">
-                                Kutukan jahat Dewi Galuh, pengembaraan Raden Panji Asmarabangun, dan kesetiaan Putri Candra Kirana dari Kerajaan Daha.
+                            <p class="text-coklat-keraton/70 text-xs sm:text-sm leading-relaxed mb-6 line-clamp-3">
+                                Kutukan jahat Dewi Galuh, pengembaraan Raden Panji Inu Kertapati, dan kesetiaan Putri Candra Kirana dari Kerajaan Daha.
                             </p>
                             <div class="flex items-center justify-between pt-4 border-t border-emas-prada/15 text-xs">
-                                <span class="font-royal text-merah-marun font-bold flex items-center gap-1 group-hover:translate-x-1 transition duration-300">
+                                <span class="font-serif-judul text-merah-marun font-bold flex items-center gap-1 group-hover:translate-x-1 transition duration-300">
                                     Baca Naskah Lengkap →
                                 </span>
                                 <span class="text-coklat-keraton/40 italic">Dwibahasa Krama</span>
@@ -322,28 +387,28 @@
                     </a>
                 </div>
 
-                <!-- CARD 4: SANGKURIANG (JAWA BARAT) - KINI AKTIF LENGKAP -->
-                <div class="cerita-card jabar gs-reveal group" data-title="sangkuriang dayang sumbi tangkuban perahu sunda jawa barat">
+                <!-- CARD 4: SANGKURIANG (JAWA BARAT) -->
+                <div class="cerita-card jabar gs-reveal group" data-title="sangkuriang dayang sumbi tangkuban perahu sunda citarum priangan">
                     <a href="sangkuriang.html" onclick="simpanPosisiScroll()" class="block bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 border border-emas-prada/25">
-                        <div class="h-72 overflow-hidden relative">
-                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=800" alt="Sangkuriang" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition duration-700">
+                        <div class="h-64 sm:h-72 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=800" alt="Sangkuriang" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
                             <div class="absolute inset-0 bg-gradient-to-t from-coklat-keraton via-coklat-keraton/30 to-transparent opacity-90"></div>
                             
-                            <span class="absolute top-4 left-4 bg-coklat-keraton/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-royal uppercase text-emas-prada tracking-widest border border-emas-prada/30">
+                            <span class="absolute top-4 left-4 bg-coklat-keraton/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-serif-judul uppercase text-emas-prada tracking-widest border border-emas-prada/30">
                                 Jawa Barat
                             </span>
 
                             <div class="absolute bottom-5 left-6 right-6">
-                                <span class="font-aksara text-emas-prada/70 text-xl block mb-1">ꦱꦁꦏꦸꦫꦶꦪꦁ</span>
+                                <span class="font-aksara text-emas-prada/80 text-lg block mb-1">ꦱꦁꦏꦸꦫꦶꦪꦁ</span>
                                 <h3 class="font-serif-judul font-bold text-2xl text-white group-hover:text-emas-prada transition">Sangkuriang</h3>
                             </div>
                         </div>
                         <div class="p-6">
-                            <p class="text-coklat-keraton/70 text-sm leading-relaxed mb-6 line-clamp-3">
+                            <p class="text-coklat-keraton/70 text-xs sm:text-sm leading-relaxed mb-6 line-clamp-3">
                                 Kisah cinta terlarang Dayang Sumbi, kesaktian membendung Citarum, dan amarah perahu terbalik pembentuk Tangkuban Perahu.
                             </p>
                             <div class="flex items-center justify-between pt-4 border-t border-emas-prada/15 text-xs">
-                                <span class="font-royal text-merah-marun font-bold flex items-center gap-1 group-hover:translate-x-1 transition duration-300">
+                                <span class="font-serif-judul text-merah-marun font-bold flex items-center gap-1 group-hover:translate-x-1 transition duration-300">
                                     Baca Naskah Lengkap →
                                 </span>
                                 <span class="text-coklat-keraton/40 italic">Dwibahasa Krama</span>
@@ -356,70 +421,235 @@
         </div>
     </section>
 
-    <!-- SECTION 4: BANNER EDUKASI AKSARA JAWA -->
-    <section class="py-24 bg-coklat-keraton bg-batik-gelap text-white relative overflow-hidden">
+    <!-- ========================================== -->
+    <!-- SECTION 4: FALSAFAH LUHUR & PETUAH MORAL -->
+    <!-- ========================================== -->
+    <section id="falsafah" class="py-24 bg-coklat-keraton bg-batik-gelap text-white relative overflow-hidden">
         <div class="max-w-6xl mx-auto px-6 relative z-10">
-            <div class="bg-gradient-to-r from-coklat-keraton via-coklat-sogan to-coklat-keraton p-10 md:p-16 rounded-3xl border border-emas-prada/40 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-10 gs-reveal">
-                <div class="max-w-xl">
-                    <span class="text-emas-prada font-royal text-xs tracking-[0.3em] uppercase block mb-3">Modul Interaktif</span>
-                    <h2 class="text-3xl md:text-5xl font-serif-judul font-bold text-white mb-4">Sinau Aksara Jawa & Basa Krama</h2>
-                    <p class="text-white/70 text-sm md:text-base leading-relaxed mb-8">
-                        Pelajari silsilah 20 Aksara Carakan, Pasangan, Sandhangan, Angka Jawa, serta alat konverter Latin ke Aksara Jawa otomatis dalam satu ruang pembelajaran khusus.
+            
+            <div class="text-center max-w-2xl mx-auto mb-14 gs-reveal">
+                <span class="text-xs uppercase tracking-widest text-emas-prada font-sans font-semibold block mb-2">Nilai Luhur & Budi Pekerti</span>
+                <h2 class="text-3xl md:text-5xl font-serif-judul font-bold text-emas-terang mb-3">
+                    Falsafah di Balik Setiap Cerita
+                </h2>
+                <p class="text-xs sm:text-sm text-white/70 leading-relaxed">
+                    Kisah sastra Nusantara sarat akan mutiara hikmah yang mengajarkan kehormatan, kejujuran, dan ketabahan batin.
+                </p>
+            </div>
+
+            <!-- 4 Kartu Filosofi Cerita -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                
+                <div class="bg-coklat-sogan/70 border border-emas-prada/25 rounded-2xl p-6 hover:border-emas-prada transition duration-300 gs-reveal">
+                    <span class="text-xs font-serif-judul text-emas-prada block mb-1">Kisah 01</span>
+                    <h3 class="font-serif-judul text-xl font-bold text-white mb-2">Roro Jonggrang</h3>
+                    <p class="text-xs text-emas-terang italic mb-3">"Sura Dira Jayaningrat, Lebur Dening Pangastuti"</p>
+                    <p class="text-xs text-white/70 leading-relaxed">
+                        Keangkuhan sakti dan paksaan tidak akan melahirkan kebahagiaan. Kekuatan sejati tunduk pada ketulusan cinta dan kerendahan hati.
                     </p>
-                    <a href="sinau-aksara.html" class="inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-gradient-to-r from-emas-prada to-emas-terang text-coklat-keraton font-royal font-bold text-xs uppercase tracking-widest hover:scale-105 transition shadow-xl">
-                        Buka Ruang Belajar Aksara →
+                </div>
+
+                <div class="bg-coklat-sogan/70 border border-emas-prada/25 rounded-2xl p-6 hover:border-emas-prada transition duration-300 gs-reveal">
+                    <span class="text-xs font-serif-judul text-emas-prada block mb-1">Kisah 02</span>
+                    <h3 class="font-serif-judul text-xl font-bold text-white mb-2">Timun Mas</h3>
+                    <p class="text-xs text-emas-terang italic mb-3">"Ikhtiar, Wani, lan Mantep"</p>
+                    <p class="text-xs text-white/70 leading-relaxed">
+                        Seberat apa pun ancaman raksasa, manusia tidak boleh putus asa. Doa orang tua dan kecerdikan akal budi selalu membuka jalan keselamatan.
+                    </p>
+                </div>
+
+                <div class="bg-coklat-sogan/70 border border-emas-prada/25 rounded-2xl p-6 hover:border-emas-prada transition duration-300 gs-reveal">
+                    <span class="text-xs font-serif-judul text-emas-prada block mb-1">Kisah 03</span>
+                    <h3 class="font-serif-judul text-xl font-bold text-white mb-2">Keong Mas</h3>
+                    <p class="text-xs text-emas-terang italic mb-3">"Becik Ketitik, Ala Ketara"</p>
+                    <p class="text-xs text-white/70 leading-relaxed">
+                        Keburukan dan fitnah iri dengki pada akhirnya akan tersingkap. Budi pekerti luhur yang tabah akan kembali meraih kemuliaan hakiki.
+                    </p>
+                </div>
+
+                <div class="bg-coklat-sogan/70 border border-emas-prada/25 rounded-2xl p-6 hover:border-emas-prada transition duration-300 gs-reveal">
+                    <span class="text-xs font-serif-judul text-emas-prada block mb-1">Kisah 04</span>
+                    <h3 class="font-serif-judul text-xl font-bold text-white mb-2">Sangkuriang</h3>
+                    <p class="text-xs text-emas-terang italic mb-3">"Hormat Indung Bapa"</p>
+                    <p class="text-xs text-white/70 leading-relaxed">
+                        Peringatan agung tentang pantangan melanggar batas kodrat kesucian keluarga serta keharusan mengendalikan hawa nafsu dan amarah murka.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Geografi 3 Pilar Sastra -->
+            <div class="bg-black/40 border border-emas-prada/25 p-8 rounded-3xl max-w-4xl mx-auto text-center gs-reveal">
+                <span class="text-[10px] font-serif-judul tracking-[0.3em] uppercase text-emas-prada block mb-2">Kearifan Lokal Tiga Wilayah</span>
+                <h3 class="text-2xl font-serif-judul font-bold text-white mb-4">Peta Warisan Budaya Tanah Jawa</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left text-xs text-white/80 pt-4 border-t border-emas-prada/20">
+                    <div>
+                        <strong class="text-emas-terang block mb-1">Jawa Tengah (Kejawen):</strong>
+                        Halusnya etika keraton, bahasa bertingkat Krama Inggil, dan keindahan arsitektur candi warisan leluhur.
+                    </div>
+                    <div>
+                        <strong class="text-emas-terang block mb-1">Jawa Timur (Brang Wetan):</strong>
+                        Epos kepahlawanan wiracarita Panji era Daha-Kediri yang gagah, setia, dan penuh keteguhan tekad.
+                    </div>
+                    <div>
+                        <strong class="text-emas-terang block mb-1">Jawa Barat (Tatar Sunda):</strong>
+                        Kearifan kosmologis mitologi alam Priangan dan keluhuran falsafah hidup ramah "Silih Asih, Silih Asah, Silih Asuh".
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 5: MODUL SINAU AKSARA INTERAKTIF -->
+    <!-- ========================================== -->
+    <section id="sinau" class="py-24 bg-krem-lontar bg-batik-kawung text-coklat-keraton">
+        <div class="max-w-5xl mx-auto px-6">
+            
+            <div class="text-center max-w-2xl mx-auto mb-12 gs-reveal">
+                <span class="bg-merah-marun/10 text-merah-marun px-4 py-1.5 rounded-full text-xs font-serif-judul tracking-widest uppercase border border-merah-marun/20 inline-block mb-3">
+                    Modul Aksara Jawa Terpadu
+                </span>
+                <h2 class="text-3xl md:text-5xl font-serif-judul font-bold text-coklat-keraton mb-2">Sinau Aksara & Basa Jawi</h2>
+                <p class="text-xs sm:text-sm text-coklat-keraton/70">
+                    Coba langsung mesin transliterasi fonetik di bawah ini untuk mengubah kata Latin menjadi Aksara Jawa secara otomatis!
+                </p>
+            </div>
+
+            <!-- Mesin Konverter Real-Time -->
+            <div class="bg-white p-6 sm:p-10 rounded-3xl border border-emas-prada/40 shadow-xl mb-12 gs-reveal">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mb-3">
+                    <label class="text-xs font-serif-judul uppercase tracking-wider text-coklat-keraton font-bold">Ketik Teks Latin:</label>
+                    <div class="flex gap-2">
+                        <button onclick="setContohSlide('Pustaka Lontar')" class="text-[10px] bg-krem-lontar border border-emas-prada/40 px-2.5 py-1 rounded-full text-coklat-keraton hover:bg-emas-prada/20">"Pustaka Lontar"</button>
+                        <button onclick="setContohSlide('Kraton 2026')" class="text-[10px] bg-krem-lontar border border-emas-prada/40 px-2.5 py-1 rounded-full text-coklat-keraton hover:bg-emas-prada/20">"Kraton 2026"</button>
+                    </div>
+                </div>
+
+                <input type="text" id="slide-input-latin" onkeyup="konversiSlideAksara()" placeholder="Ketik kata (contoh: timun mas, kraton, gajah, mangan)..." class="w-full px-5 py-3.5 rounded-2xl bg-krem-lontar/40 border border-emas-prada/40 text-sm focus:outline-none focus:border-emas-prada font-serif-teks shadow-inner mb-6">
+
+                <!-- Kotak Hasil Aksara -->
+                <div class="p-8 rounded-2xl bg-coklat-keraton text-white border border-emas-prada/30 text-center relative">
+                    <span class="text-[11px] text-emas-terang/50 font-serif-judul uppercase tracking-widest block mb-2">Wujud Aksara Jawa:</span>
+                    <div id="slide-output-aksara" class="font-aksara text-4xl sm:text-5xl text-emas-prada min-h-[60px] flex items-center justify-center select-all tracking-wider py-1">
+                        ꦥꦸꦱ꧀ꦠꦏꦭꦺꦴꦤ꧀ꦠꦂ
+                    </div>
+                    <div class="mt-4 flex items-center justify-center gap-3">
+                        <button onclick="salinSlideAksara()" class="px-5 py-2 rounded-full bg-emas-prada/20 hover:bg-emas-prada/30 text-emas-terang text-xs font-serif-judul uppercase tracking-widest border border-emas-prada/40 transition">
+                            📋 Salin Aksara
+                        </button>
+                        <span id="slide-toast-salin" class="text-xs text-green-400 opacity-0 transition-opacity">Tersalin!</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview 20 Aksara Carakan Dasar -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-emas-prada/30 shadow-md mb-8 gs-reveal">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-serif-judul text-xl font-bold text-coklat-keraton">20 Aksara Carakan (Nglegena)</h3>
+                    <a href="sinau-aksara.html" class="text-xs font-serif-judul uppercase tracking-wider text-merah-marun font-bold hover:underline flex items-center gap-1">
+                        Buka Modul 5 Tab Lengkap →
                     </a>
                 </div>
-                <div class="text-center md:text-right">
-                    <div class="text-emas-prada font-aksara text-8xl md:text-9xl opacity-60 leading-none select-none">ꦲꦤꦕꦫꦏ</div>
-                    <p class="text-xs text-emas-terang/50 font-royal uppercase tracking-widest mt-2">Ha-Na-Ca-Ra-Ka</p>
+                <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-2.5 text-center">
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦲ</span>
+                        <span class="text-[11px] font-bold">Ha</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦤ</span>
+                        <span class="text-[11px] font-bold">Na</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦕ</span>
+                        <span class="text-[11px] font-bold">Ca</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦫ</span>
+                        <span class="text-[11px] font-bold">Ra</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦏ</span>
+                        <span class="text-[11px] font-bold">Ka</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦢ</span>
+                        <span class="text-[11px] font-bold">Da</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦠ</span>
+                        <span class="text-[11px] font-bold">Ta</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦱ</span>
+                        <span class="text-[11px] font-bold">Sa</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦮ</span>
+                        <span class="text-[11px] font-bold">Wa</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦭ</span>
+                        <span class="text-[11px] font-bold">La</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦥ</span>
+                        <span class="text-[11px] font-bold">Pa</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦝ</span>
+                        <span class="text-[11px] font-bold">Dha</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦗ</span>
+                        <span class="text-[11px] font-bold">Ja</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦪ</span>
+                        <span class="text-[11px] font-bold">Ya</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦚ</span>
+                        <span class="text-[11px] font-bold">Nya</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦩ</span>
+                        <span class="text-[11px] font-bold">Ma</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦒ</span>
+                        <span class="text-[11px] font-bold">Ga</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦧ</span>
+                        <span class="text-[11px] font-bold">Ba</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦛ</span>
+                        <span class="text-[11px] font-bold">Tha</span>
+                    </div>
+                    <div class="bg-krem-lontar/70 p-2.5 rounded-xl border border-emas-prada/20">
+                        <span class="font-aksara text-2xl text-merah-marun block">ꦔ</span>
+                        <span class="text-[11px] font-bold">Nga</span>
+                    </div>
                 </div>
             </div>
+
+            <!-- CTA Buka Halaman Lengkap -->
+            <div class="text-center pt-2 gs-reveal">
+                <a href="sinau-aksara.html" class="inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-coklat-keraton text-emas-terang border border-emas-prada font-serif-judul text-xs uppercase tracking-widest hover:bg-coklat-sogan transition shadow-lg">
+                    <span>Buka Modul Pasangan, Sandhangan & Angka Jawa</span>
+                    <span>→</span>
+                </a>
+            </div>
+
         </div>
     </section>
 
-    <!-- SECTION 5: PROFIL PENGEMBANG / PENUGASAN RPL -->
-    <section id="profil" class="py-24 bg-krem-lontar bg-batik-kawung">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="bg-white rounded-3xl p-8 md:p-14 border border-emas-prada/30 shadow-2xl relative overflow-hidden gs-reveal">
-                
-                <div class="flex flex-col md:flex-row items-center gap-8 mb-8 pb-8 border-b border-emas-prada/20">
-                    <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-merah-marun to-emas-prada p-1 shrink-0">
-                        <div class="w-full h-full bg-coklat-keraton rounded-xl flex items-center justify-center text-emas-prada font-aksara text-4xl">
-                            ꦱ
-                        </div>
-                    </div>
-                    <div>
-                        <span class="text-[10px] font-royal uppercase tracking-[0.25em] text-merah-marun font-bold bg-merah-marun/10 px-3 py-1 rounded-full">
-                            Profil Siswa Pembuat
-                        </span>
-                        <h3 class="text-3xl font-serif-judul font-bold text-coklat-keraton mt-2">Karya Ujian Praktik RPL 2026</h3>
-                        <p class="text-sm text-coklat-keraton/70 mt-1">
-                            Aplikasi Antarmuka Web Profil Cerita Rakyat Berbasis Narasi Dwibahasa.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-coklat-keraton/80">
-                    <div>
-                        <h4 class="font-bold text-coklat-keraton mb-1">Pilar Rekayasa Web:</h4>
-                        <p class="text-xs leading-relaxed text-coklat-keraton/70">
-                            Mengimplementasikan Semantic HTML5, Tailwind CSS modern, GSAP Animation Engine, serta integrasi momentum scroll Lenis untuk kenyamanan navigasi.
-                        </p>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-coklat-keraton mb-1">Fokus Pelestarian Budaya:</h4>
-                        <p class="text-xs leading-relaxed text-coklat-keraton/70">
-                            Menyajikan sastra babad Jawa secara utuh dan mendalam, dilengkapi translasi akurat bahasa Jawa Krama Inggil dan tipografi Aksara Jawa asli.
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER LENGKAP -->
+    <!-- ========================================== -->
+    <!-- FOOTER LENGKAP & BERWIBAWA -->
+    <!-- ========================================== -->
     <footer class="bg-coklat-keraton bg-batik-gelap text-white/70 pt-20 pb-12 border-t border-emas-prada/20">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 mb-14">
             <div>
@@ -428,12 +658,12 @@
                     <span class="font-royal text-xl tracking-widest text-white">Pustaka Lontar</span>
                 </div>
                 <p class="text-xs text-white/50 leading-relaxed max-w-sm">
-                    Dibuat untuk memenuhi Tugas Ujian Praktik Kejuruan Rekayasa Perangkat Lunak (RPL). Dilengkapi fitur bilingual, modul aksara Jawa, dan alur babad komprehensif.
+                    Dedikasi pelestarian cerita rakyat Nusantara berbasis dwibahasa dan tipografi sastra leluhur nusantara.
                 </p>
             </div>
 
             <div>
-                <h4 class="font-royal text-xs text-emas-prada uppercase tracking-widest mb-4">Navigasi Halaman</h4>
+                <h4 class="font-serif-judul text-xs text-emas-prada uppercase tracking-widest mb-4">Navigasi Halaman</h4>
                 <ul class="space-y-2 text-xs">
                     <li><a href="roro-jonggrang.html" onclick="simpanPosisiScroll()" class="hover:text-emas-prada transition">Naskah Roro Jonggrang (Jateng)</a></li>
                     <li><a href="timun-mas.html" onclick="simpanPosisiScroll()" class="hover:text-emas-prada transition">Naskah Timun Mas (Jateng)</a></li>
@@ -445,19 +675,22 @@
 
             <div class="flex flex-col md:items-end">
                 <span class="text-emas-prada font-aksara text-5xl mb-2">ꦩꦠꦸꦂꦤꦸꦮꦸꦤ꧀</span>
-                <p class="font-royal text-xs text-white/60 uppercase tracking-widest">Matur Nuwun</p>
+                <p class="font-serif-judul text-xs text-white/60 uppercase tracking-widest">Matur Nuwun</p>
             </div>
         </div>
 
         <div class="max-w-7xl mx-auto px-6 pt-6 border-t border-white/10 text-center text-xs text-white/40">
-            &copy; 2026 Pustaka Lontar Nusantara &bull; Tugas Rekayasa Perangkat Lunak (RPL)
+            &copy; 2026 Pustaka Lontar Nusantara &bull; Khazanah Sastra Tutur Klasik
         </div>
     </footer>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT ENGINE & LOGIKA -->
+    <!-- ========================================== -->
     <script>
+        // 1. Inisialisasi Lenis Smooth Scroll
         const lenis = new Lenis({
-            duration: 1.3,
+            duration: 1.25,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             smoothWheel: true,
         });
@@ -465,6 +698,66 @@
         gsap.ticker.add((time) => lenis.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
 
+        // 2. Klik Navbar Meluncur Halus (Smooth Slide)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const targetEl = document.querySelector(targetId);
+                if (targetEl) {
+                    e.preventDefault();
+                    lenis.scrollTo(targetEl, { offset: -80, duration: 1.2 });
+                }
+            });
+        });
+
+        // 3. ScrollSpy: Garis Bawah Navbar Bergeser Sesuai Posisi Layar
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('header[id], section[id]');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const scrollY = window.pageYOffset + 130;
+
+            sections.forEach(sec => {
+                const secTop = sec.offsetTop;
+                const secHeight = sec.offsetHeight;
+                if (scrollY >= secTop && scrollY < secTop + secHeight) {
+                    current = sec.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 4. Parallax Background Latar Candi
+        gsap.to(".hero-bg", {
+            yPercent: 25, ease: "none",
+            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
+        });
+
+        // 5. Animasi Scroll Bolak-Balik GSAP
+        gsap.utils.toArray('.gs-reveal').forEach((elem) => {
+            gsap.fromTo(elem,
+                { y: 40, opacity: 0, scale: 0.98 },
+                {
+                    y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: "top 88%",
+                        end: "bottom 12%",
+                        toggleActions: "play reverse play reverse"
+                    }
+                }
+            );
+        });
+
+        // 6. Logika Posisi Scroll & Anti-Loading Ulang Saat Tombol Back
         function simpanPosisiScroll() {
             sessionStorage.setItem('lontarScrollY', window.scrollY);
         }
@@ -475,7 +768,7 @@
                 setTimeout(() => {
                     lenis.scrollTo(parseInt(savedY), { immediate: true });
                     sessionStorage.removeItem('lontarScrollY');
-                }, 150);
+                }, 100);
             }
         }
 
@@ -498,32 +791,12 @@
                 pulihkanPosisiScroll();
             } else {
                 if (preloadBar) preloadBar.style.width = '100%';
-                setTimeout(dismissPreloader, 1000);
+                setTimeout(dismissPreloader, 800);
             }
         });
-        setTimeout(dismissPreloader, 2000);
+        setTimeout(dismissPreloader, 1800);
 
-        gsap.to(".hero-bg", {
-            yPercent: 30, ease: "none",
-            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
-        });
-
-        // ANIMASI SCROLL BOLAK-BALIK BERKESINAMBUNGAN
-        gsap.utils.toArray('.gs-reveal').forEach((elem) => {
-            gsap.fromTo(elem,
-                { y: 45, opacity: 0, scale: 0.98 },
-                {
-                    y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: elem,
-                        start: "top 88%",
-                        end: "bottom 12%",
-                        toggleActions: "play reverse play reverse"
-                    }
-                }
-            );
-        });
-
+        // 7. Filter Wilayah & Pencarian Cerita
         function filterDaerah(kategori) {
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('bg-coklat-keraton', 'text-emas-terang');
@@ -553,16 +826,137 @@
             ScrollTrigger.refresh();
         }
 
+        // 8. Mobile Menu Drawer
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('translate-x-full'));
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('translate-x-full');
+        }
+        if (menuBtn) menuBtn.addEventListener('click', toggleMobileMenu);
         document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.add('translate-x-full')));
 
+        // 9. Ambient Mouse Glow
         const ambient = document.getElementById('ambient');
         if (window.matchMedia("(pointer: fine)").matches && ambient) {
             window.addEventListener('mousemove', (e) => {
                 ambient.style.left = e.clientX + 'px';
                 ambient.style.top = e.clientY + 'px';
+            });
+        }
+
+        // 10. Engine Transliterasi Aksara Jawa Real-Time
+        const mapKonsonan = {
+            'ng': 'ꦔ', 'ny': 'ꦚ', 'th': 'ꦛ', 'dh': 'ꦝ',
+            'h': 'ꦲ', 'n': 'ꦤ', 'c': 'ꦕ', 'r': 'ꦫ', 'k': 'ꦏ',
+            'd': 'ꦢ', 't': 'ꦠ', 's': 'ꦱ', 'w': 'ꦮ', 'l': 'ꦭ',
+            'p': 'ꦥ', 'j': 'ꦗ', 'y': 'ꦪ', 'm': 'ꦩ', 'g': 'ꦒ', 'b': 'ꦧ'
+        };
+
+        const mapVokal = {
+            'i': 'ꦶ', 'u': 'ꦸ', 'e': 'ꦺ', 'é': 'ꦺ', 'ê': 'ꦼ', 'o': 'ꦺꦴ', 'a': ''
+        };
+
+        const mapAngka = {
+            '0': '꧐', '1': '꧑', '2': '꧒', '3': '꧓', '4': '꧔',
+            '5': '꧕', '6': '꧖', '7': '꧗', '8': '꧘', '9': '꧙'
+        };
+
+        function parseKata(kata) {
+            let res = '';
+            let i = 0;
+            const n = kata.length;
+
+            while (i < n) {
+                if (kata[i] >= '0' && kata[i] <= '9') {
+                    let numStr = '';
+                    while (i < n && kata[i] >= '0' && kata[i] <= '9') {
+                        numStr += mapAngka[kata[i]];
+                        i++;
+                    }
+                    res += '꧇' + numStr + '꧇';
+                    continue;
+                }
+
+                let c = kata[i];
+                if ('aiueoéê'.includes(c)) {
+                    if (c === 'a') res += 'ꦲ';
+                    else if (c === 'i') res += 'ꦲꦶ';
+                    else if (c === 'u') res += 'ꦲꦸ';
+                    else if (c === 'e' || c === 'é') res += 'ꦲꦺ';
+                    else if (c === 'ê') res += 'ꦲꦼ';
+                    else if (c === 'o') res += 'ꦲꦺꦴ';
+                    i++;
+                    continue;
+                }
+
+                let k = '';
+                if (i + 1 < n && mapKonsonan[kata.substr(i, 2)]) {
+                    k = kata.substr(i, 2);
+                    i += 2;
+                } else if (mapKonsonan[kata[i]]) {
+                    k = kata[i];
+                    i++;
+                } else {
+                    res += kata[i];
+                    i++;
+                    continue;
+                }
+
+                let aksaraBase = mapKonsonan[k];
+
+                let sisipan = '';
+                if (i < n && kata[i] === 'r' && i + 1 < n && 'aiueoéê'.includes(kata[i+1])) {
+                    sisipan = 'ꦿ';
+                    i++;
+                } else if (i < n && kata[i] === 'y' && i + 1 < n && 'aiueoéê'.includes(kata[i+1])) {
+                    sisipan = 'ꦾ';
+                    i++;
+                }
+
+                if (i < n && 'aiueoéê'.includes(kata[i])) {
+                    let v = kata[i];
+                    i++;
+                    res += aksaraBase + sisipan + mapVokal[v];
+                } else {
+                    if (k === 'ng') res += 'ꦁ';
+                    else if (k === 'r') res += 'ꦂ';
+                    else if (k === 'h') res += 'ꦃ';
+                    else res += aksaraBase + '꧀';
+                }
+            }
+            return res;
+        }
+
+        function konversiSlideAksara() {
+            const raw = document.getElementById('slide-input-latin').value;
+            if (!raw.trim()) {
+                document.getElementById('slide-output-aksara').innerText = 'ꦲꦤꦕꦫꦏ';
+                return;
+            }
+
+            const tokens = raw.toLowerCase().split(/(\s+|[.,!?:;])/);
+            let hasil = '';
+            tokens.forEach(tok => {
+                if (tok === ' ') hasil += ' ';
+                else if (tok === '.') hasil += '꧉ ';
+                else if (tok === ',') hasil += '꧈ ';
+                else hasil += parseKata(tok);
+            });
+
+            document.getElementById('slide-output-aksara').innerText = hasil;
+        }
+
+        function setContohSlide(teks) {
+            document.getElementById('slide-input-latin').value = teks;
+            konversiSlideAksara();
+        }
+
+        function salinSlideAksara() {
+            const txt = document.getElementById('slide-output-aksara').innerText;
+            navigator.clipboard.writeText(txt).then(() => {
+                const toast = document.getElementById('slide-toast-salin');
+                toast.classList.remove('opacity-0');
+                setTimeout(() => toast.classList.add('opacity-0'), 2000);
             });
         }
     </script>
