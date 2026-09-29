@@ -36,6 +36,12 @@
         }
     </script>
     <style>
+        /* Anti-Ghost Scroll & Reset Tinggi Dokumen */
+        html, body {
+            height: auto;
+            min-height: 100%;
+            overflow-x: clip;
+        }
         html.lenis, html.lenis body { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
@@ -53,31 +59,67 @@
         body.mode-malam { background-color: #120D09 !important; color: #E6DFD5 !important; }
         body.mode-malam .naskah-box { background-color: #19120C !important; border-color: rgba(197,160,89,0.3) !important; }
         body.mode-malam .prose-teks { color: #D6CEBE !important; }
+        body.mode-malam .nav-glass { background-color: rgba(18, 13, 9, 0.92) !important; border-color: rgba(197,160,89,0.2) !important; }
+        body.mode-malam .quote-box { background-color: rgba(0,0,0,0.3) !important; border-color: rgba(197,160,89,0.4) !important; }
 
-        .fade-transition { transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; }
-        .hidden-lang { opacity: 0; transform: translateY(12px); pointer-events: none; position: absolute; visibility: hidden; }
-        .active-lang { opacity: 1; transform: translateY(0); position: relative; visibility: visible; }
+        /* Sistem Tab Naskah Bersih Tanpa Ruang Kosong */
+        .fade-transition { transition: opacity 0.3s ease-in-out; }
+        .hidden-lang { display: none !important; }
+        .active-lang { 
+            display: block !important; 
+            opacity: 1; 
+            transform: translateY(0); 
+            position: relative; 
+            visibility: visible; 
+        }
 
         /* Hologram Tooltip Krama */
         .krama-word {
-            position: relative; display: inline-block;
-            border-bottom: 2px dashed #C5A059; cursor: pointer; color: #7B1818; font-weight: 600;
+            position: relative; 
+            display: inline-block;
+            border-bottom: 2px dashed #C5A059; 
+            cursor: pointer; 
+            color: #7B1818; 
+            font-weight: 600;
         }
+        body.mode-malam .krama-word { color: #E5A93C; }
+
         .krama-word .tooltip-card {
-            visibility: hidden; opacity: 0; width: 210px; background: rgba(20, 14, 10, 0.95);
-            backdrop-filter: blur(10px); border: 1px solid #D4AF37;
-            color: #FAF5EB; border-radius: 12px; padding: 10px 14px; position: absolute; z-index: 50;
-            bottom: 135%; left: 50%; transform: translateX(-50%) translateY(8px);
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(212,175,55,0.2);
-            pointer-events: none; text-align: center;
+            visibility: hidden; 
+            opacity: 0; 
+            width: 220px; 
+            background: rgba(20, 14, 10, 0.96);
+            backdrop-filter: blur(12px); 
+            border: 1px solid #D4AF37;
+            color: #FAF5EB; 
+            border-radius: 12px; 
+            padding: 10px 14px; 
+            position: absolute; 
+            z-index: 50;
+            bottom: 135%; 
+            left: 50%; 
+            transform: translateX(-50%) translateY(8px);
+            transition: all 0.25s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(212,175,55,0.25);
+            pointer-events: none; 
+            text-align: center;
         }
-        .krama-word:hover .tooltip-card { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+        .krama-word:hover .tooltip-card { 
+            visibility: visible; 
+            opacity: 1; 
+            transform: translateX(-50%) translateY(0); 
+        }
 
         .dropcap::first-letter {
-            font-family: 'Cinzel Decorative', serif; font-size: 4.8rem; line-height: 0.85; float: left;
-            margin-right: 0.85rem; color: #7B1818; text-shadow: 2px 2px 0px rgba(197, 160, 89, 0.3);
+            font-family: 'Cinzel Decorative', serif; 
+            font-size: 4.8rem; 
+            line-height: 0.85; 
+            float: left;
+            margin-right: 0.85rem; 
+            color: #7B1818; 
+            text-shadow: 2px 2px 0px rgba(197, 160, 89, 0.3);
         }
+        body.mode-malam .dropcap::first-letter { color: #C5A059; }
 
         .hud-border {
             border: 1px solid rgba(197, 160, 89, 0.35);
@@ -85,182 +127,221 @@
         }
     </style>
 </head>
-<body class="naskah-bg text-coklat-teks font-serif-teks antialiased overflow-x-hidden transition-colors duration-500 opacity-0" id="body-naskah">
+<body class="naskah-bg text-coklat-teks font-serif-teks antialiased overflow-x-clip transition-colors duration-500 opacity-0" id="body-naskah">
 
+    <!-- Reading Progress Bar -->
     <div class="fixed top-0 left-0 w-full h-[4px] bg-black/10 z-[100]">
-        <div id="read-progress" class="h-full w-0 bg-gradient-to-r from-merah-marun via-emas-prada to-emas-terang"></div>
+        <div id="read-progress" class="h-full w-0 bg-gradient-to-r from-merah-marun via-emas-prada to-emas-terang transition-all duration-75"></div>
     </div>
 
     <!-- NAVBAR BACAAN -->
-    <nav class="fixed top-0 left-0 w-full z-40 bg-krem-lontar/90 backdrop-blur-md border-b border-emas-prada/20 py-4">
+    <nav class="nav-glass fixed top-0 left-0 w-full z-40 bg-krem-lontar/90 backdrop-blur-md border-b border-emas-prada/20 py-3.5 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-6 flex justify-between items-center">
-            <button onclick="kembaliKePustaka()" class="flex items-center gap-2 text-coklat-teks hover:text-merah-marun transition group">
+            <button onclick="kembaliKePustaka()" class="flex items-center gap-2.5 text-coklat-teks hover:text-merah-marun transition group">
                 <span class="w-8 h-8 rounded-full border border-emas-prada/40 flex items-center justify-center group-hover:-translate-x-1 transition duration-300">←</span>
                 <span class="font-royal text-xs tracking-widest uppercase font-bold">Kembali ke Pustaka</span>
             </button>
 
-            <div class="flex items-center gap-3">
-                <button onclick="ubahUkuranFont(-1)" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs font-bold">A-</button>
-                <button onclick="ubahUkuranFont(1)" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs font-bold">A+</button>
-                <button onclick="toggleModeMalam()" id="theme-btn" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs">🌙</button>
+            <!-- Reader Controls -->
+            <div class="flex items-center gap-2.5">
+                <button onclick="ubahUkuranFont(-1)" title="Perkecil Font" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs font-bold transition hover:bg-emas-prada/10">A-</button>
+                <span id="font-indicator" class="text-[11px] font-royal font-semibold text-emas-prada min-w-[28px] text-center">18px</span>
+                <button onclick="ubahUkuranFont(1)" title="Perbesar Font" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs font-bold transition hover:bg-emas-prada/10">A+</button>
+                <div class="h-4 w-[1px] bg-emas-prada/30 mx-1"></div>
+                <button onclick="toggleModeMalam()" id="theme-btn" title="Ganti Mode Tampilan" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs transition hover:bg-emas-prada/10">🌙</button>
             </div>
         </div>
     </nav>
 
     <!-- HEADER & HERO BANNER DENGAN ANIMASI GSAP -->
-    <header class="pt-28 pb-8 max-w-5xl mx-auto px-6">
-        <div id="hero-img-box" class="relative rounded-3xl overflow-hidden shadow-2xl h-[45vh] border border-emas-prada/40 hud-border">
-            <img id="hero-img" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1400" alt="Timun Mas" class="w-full h-full object-cover">
+    <header class="pt-24 pb-8 max-w-5xl mx-auto px-6">
+        <div id="hero-img-box" class="relative rounded-3xl overflow-hidden shadow-2xl h-[48vh] min-h-[340px] border border-emas-prada/40 hud-border">
+            <img id="hero-img" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1400" alt="Hutan Rimba Timun Mas" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-t from-coklat-keraton via-coklat-keraton/50 to-transparent"></div>
             
-            <div class="absolute bottom-8 left-8 right-8 text-white">
-                <div class="flex items-center gap-3 mb-2 flex-wrap">
-                   
+            <div class="absolute bottom-7 left-7 right-7 text-white">
+                <!-- Meta Pill Badges -->
+                <div class="flex items-center gap-2.5 mb-2.5 flex-wrap">
+                    <span class="px-3 py-1 rounded-full bg-merah-marun/85 text-[10px] font-royal uppercase tracking-widest border border-emas-prada/30">📍 Jawa Tengah (Bagelen)</span>
+                    <span class="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-[10px] font-royal uppercase tracking-widest text-emas-terang border border-emas-prada/30">📜 Cerita Rakyat Klasik</span>
+                    <span class="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-[10px] font-royal uppercase tracking-widest text-white/80 border border-white/20">⏱️ ±6 Menit Baca</span>
                 </div>
 
-                <h1 id="hero-title" class="text-4xl md:text-6xl font-serif-judul font-bold mt-2">Serat Timun Mas</h1>
-                <p id="hero-aksara" class="font-aksara text-emas-prada text-2xl mt-1">ꦠꦶꦩꦸꦤ꧀ꦩꦱ꧀ꦭꦤ꧀ꦧꦸꦠꦲꦶꦗꦺꦴ</p>
+                <h1 id="hero-title" class="text-3xl md:text-5xl lg:text-6xl font-serif-judul font-bold leading-tight">Serat Timun Mas</h1>
+                <p id="hero-aksara" class="font-aksara text-emas-prada text-xl md:text-2xl mt-1 tracking-wide">ꦠꦶꦩꦸꦤ꧀ꦩꦱ꧀ꦭꦤ꧀ꦧꦸꦠꦲꦶꦗꦺꦴ</p>
             </div>
         </div>
     </header>
 
     <!-- KONTEN CERITA MENDALAM -->
-    <main class="max-w-4xl mx-auto px-6 pb-28">
-        <div id="naskah-container" class="naskah-box bg-[#FBF8F1] rounded-2xl p-8 md:p-14 border border-emas-prada/30 shadow-2xl relative hud-border">
+    <main class="max-w-4xl mx-auto px-6 pb-20">
+        <div id="naskah-container" class="naskah-box bg-[#FBF8F1] rounded-2xl p-7 md:p-14 border border-emas-prada/30 shadow-2xl relative hud-border transition-colors duration-500">
             
-            <div class="text-center mb-10">
-                <span class="font-aksara text-emas-prada text-4xl block opacity-75">꧁ ꦕꦫꦶꦠ ꧂</span>
-                <p class="font-royal text-[11px] tracking-[0.3em] uppercase text-coklat-teks/50 mt-1">Kisah Lengkap Keberanian, Doa Ibu, dan Biji Emas</p>
+            <div class="text-center mb-8">
+                <span class="font-aksara text-emas-prada text-4xl block opacity-80">꧁ ꦕꦫꦶꦠ ꧂</span>
+                <p class="font-royal text-[11px] tracking-[0.3em] uppercase text-coklat-teks/50 mt-1">Kisah Lengkap Keberanian, Doa Ibu, dan Biji Emas Melawan Buto Ijo</p>
             </div>
 
             <!-- TOGGLE BAHASA -->
-            <div class="flex flex-col items-center mb-12">
+            <div class="flex flex-col items-center mb-10">
                 <div class="p-1 rounded-full bg-black/5 border border-emas-prada/40 inline-flex relative shadow-inner">
-                    <div id="toggle-bg" class="absolute top-1 left-1 w-[calc(50%-4px)] h-[calc(100%-8px)] bg-coklat-keraton rounded-full transition-transform duration-500"></div>
-                    <button id="btn-indo" onclick="switchLanguage('indo')" class="relative z-10 px-7 py-2.5 text-xs font-royal font-bold tracking-widest uppercase text-emas-terang">Indonesia</button>
-                    <button id="btn-jawa" onclick="switchLanguage('jawa')" class="relative z-10 px-7 py-2.5 text-xs font-royal font-bold tracking-widest uppercase text-coklat-teks/60">ꦗꦮ Krama</button>
+                    <div id="toggle-bg" class="absolute top-1 left-1 w-[calc(50%-4px)] h-[calc(100%-8px)] bg-coklat-keraton rounded-full transition-transform duration-300"></div>
+                    <button id="btn-indo" onclick="switchLanguage('indo')" class="relative z-10 px-7 py-2 text-xs font-royal font-bold tracking-widest uppercase text-emas-terang transition">Indonesia</button>
+                    <button id="btn-jawa" onclick="switchLanguage('jawa')" class="relative z-10 px-7 py-2 text-xs font-royal font-bold tracking-widest uppercase text-coklat-teks/60 transition">ꦗꦮ Krama</button>
                 </div>
             </div>
 
-            <!-- TEKS BAHASA INDONESIA (LENGKAP & DETAIL) -->
-            <article id="teks-indo" class="fade-transition active-lang prose-teks text-base md:text-lg leading-[2.3] text-justify space-y-7">
+            <!-- TEKS BAHASA INDONESIA (SUPER LENGKAP & MENDALAM) -->
+            <article id="teks-indo" class="fade-transition active-lang prose-teks text-base md:text-lg leading-[2.2] text-justify space-y-7">
                 <p class="dropcap">
-                    Zaman dahulu kala di sebuah padukuhan terpencil di tepi hutan rimba lereng Gunung Jawa Tengah, hiduplah seorang janda tua nan bersahaja bernama Mbok Srini. Hari-harinya dihabiskan seorang diri mencari kayu bakar dan menggarap sejengkal ladang. Dalam kesunyian usia senjanya, satu-satunya kerinduan yang senantiasa ia panjatkan kepada Yang Mahakuasa adalah kehadiran seorang anak yang dapat menemani dan mewarnai gubuk tuanya.
+                    Zaman dahulu kala di sebuah padukuhan terpencil di tepi hutan rimba lereng pegunungan Jawa Tengah, hiduplah seorang janda tua nan bersahaja bernama Mbok Srini. Hari-harinya dihabiskan seorang diri mengumpulkan kayu bakar dan menggarap sejengkal ladang jagung kering demi menyambung napas hidupnya. Dalam kesunyian usia senjanya yang kian renta, satu-satunya permohonan yang tak pernah putus ia panjatkan kepada Sang Pencipta adalah kehadiran seorang anak yang sudi menemani, merawat, dan menghangatkan bilik gubuk bambunya.
                 </p>
                 <p>
-                    Pada suatu petang tatkala Mbok Srini tengah berdoa di ladangnya, bumi tiba-tiba bergetar hebat. Dari lebatnya rimba belantara, melangkah keluar sosok raksasa bertubuh hijau legam mengerikan bernama Buto Ijo. Suaranya menggelegar bagai guntur: "Wahai perempuan tua! Aku mendengar rintihan hatimu yang mendambakan anak. Aku dapat memberikannya kepadamu, namun ingat perjanjiannya: kelak bila anak itu telah genap berusia tujuh belas tahun, engkau wajib menyerahkannya kembali kepadaku untuk kujadikan santapan!"
+                    Pada suatu petang tatkala mentari temaram dan Mbok Srini tengah berdoa di pematang ladang, bumi tiba-tiba bergetar hebat bagai diguncang gempa. Dari kelebatan pohon-pohon purba yang tumbang, melangkah keluar sosok makhluk raksasa bertubuh hijau legam mengerikan bernama Buto Ijo. Matanya merah menyala bagai bara api dan suaranya menggelegar bagai guntur membelah langit: "Wahai perempuan tua yang malang! Rintihan hatimu yang mendambakan anak telah mengusik tidur panjangku. Aku sanggup mengabulkan keinginanmu, namun ingatlah sumpah perjanjiannya: kelak apabila anak itu telah genap berusia tujuh belas tahun, engkau wajib menyerahkannya kembali kepadaku untuk kujadikan santapan lezat!"
                 </p>
                 <p>
-                    Didorong oleh kerinduan yang teramat besar dan rasa takut yang mencengkeram, Mbok Srini menyetujui perjanjian mengerikan itu. Buto Ijo menyerahkan sebutir biji mentimun bersinar keemasan untuk ditanam di kebun belakang gubuknya. Mbok Srini merawat tunas mentimun itu dengan penuh ketelatenan. Tak lama berselang, tanaman itu berbuah sebiji mentimun raksasa berwarna kuning keemasan yang berkilauan ditimpa sinar mentari.
+                    Didera rasa takut yang mencengkeram sekaligus kerinduan mendalam yang telah membeku puluhan tahun, Mbok Srini menyetujui perjanjian kelam tersebut tanpa berpikir panjang. Buto Ijo lantas menyerahkan sebutir biji mentimun bersinar keemasan untuk ditanam di pekarangan belakang gubuknya. Mbok Srini merawat tunas mentimun itu dengan segenap jiwa dan ketelatenan. Tak lama berselang, tanaman ajaib itu berbuah sebiji mentimun raksasa berwarna kuning keemasan berkilauan yang memancarkan pendar cahaya suci ditimpa sinar surya.
                 </p>
                 <p>
-                    Dengan hati berdebar, Mbok Srini memetik mentimun tersebut dan membelahnya dengan pisau secara berhati-hati. Alangkah takjub dan bersyukurnya sang janda tua ketika mendapati di dalam mentimun itu terbaring seorang bayi perempuan mungil yang teramat jelita dan bersinar elok. Bayi tersebut kemudian diberi nama Timun Mas. Mbok Srini merawat Timun Mas dengan segenap jiwa dan limpahan kasih sayang. Timun Mas tumbuh menjadi gadis remaja yang tidak hanya cantik rupawan, tetapi juga cerdas, berbudi pekerti luhur, dan amat berbakti kepada ibundanya.
+                    Dengan debar jantung yang tak menentu, Mbok Srini memetik mentimun tersebut dan membelahnya secara perlahan menggunakan pisau dapur. Alangkah takjub, haru, dan bersyukurnya sang janda tua ketika mendapati di dalam mentimun itu terbaring seorang bayi perempuan mungil yang luar biasa jelita, berwajah putih bersih, dan bersinar molek. Bayi itu diberi nama Timun Mas. Mbok Srini membesarkannya dengan limpahan kasih sayang seorang ibu yang tak bertepi. Timun Mas tumbuh menjadi gadis remaja yang tidak hanya cantik rupawan, melainkan juga cerdas, bertutur kata santun, berbudi pekerti luhur, dan amat berbakti kepada ibundanya.
                 </p>
                 <p>
-                    Waktu berlalu begitu lekas laksana hembusan angin. Hari ulang tahun Timun Mas yang ketujuh belas pun tiba, membawa serta bayang-bayang kelam maut. Gempa bumi kembali terasa dan raungan Buto Ijo mengguncang seluruh desa menagih janji. Mbok Srini yang tak rela putri tercintanya menjadi mangsa raksasa segera memohon waktu penundaan beberapa hari dengan dalih bahwa Timun Mas masih terlalu kurus dan belum cukup sedap untuk disantap. Buto Ijo yang tamak mempercayai muslihat itu dan berjanji akan kembali tiga hari lagi.
+                    Waktu berlalu begitu lekas laksana desau anak panah. Hari ulang tahun Timun Mas yang ketujuh belas pun tiba, membawa serta bayang-bayang kelam maut. Gempa bumi kembali menggetarkan lereng gunung dan raungan lapar Buto Ijo mengguncang seluruh desa guna menagih janji. Mbok Srini yang tak sudi membiarkan belahan jiwanya menjadi santapan raksasa memutar akal memohon penundaan waktu dengan dalih bahwa Timun Mas baru saja sembuh dari sakit, tubuhnya masih kurus, dan dagingnya alot belum sedap disantap. Buto Ijo yang tamak mempercayai muslihat itu dan memberi tenggat waktu tiga hari lagi.
                 </p>
                 <p>
-                    Tak ingin berpangku tangan menanti maut, Mbok Srini mendaki lereng Gunung Gundul untuk meminta petunjuk kepada seorang pertapa suci yang tersohor arif bijaksana. Sang pertapa yang tersentuh oleh ketulusan kasih sayang sang ibu memberikan empat bungkusan kain wasiat kecil berisi: biji mentimun, jarum jahit, segenggam garam, dan sebongkah terasi udang. "Berikan ini kepada putrimu. Bila sang raksasa mengejarnya, lemparkan bungkusan ini satu per satu dengan melafalkan doa," pesan sang pertapa.
+                    Menolak pasrah pada takdir maut, malam itu juga Mbok Srini mendaki lereng Gunung Gundul yang terjal dan berkabut tebal. Di puncak bukit batu, ia bersujud memohon petunjuk di hadapan seorang petapa suci yang tersohor wasis dan bijaksana. Sang petapa yang tersentuh oleh ketulusan cinta kasih seorang ibu menyerahkan empat bungkusan kain putih wasiat yang berisi: sebutir biji mentimun, segenggam jarum jahit, segenggam garam dapur, dan sebongkah terasi udang. "Berikan ini kepada putrimu. Bila raksasa mengejarnya, lemparkan bungkusan ini satu per satu dengan melafalkan doa tulus kepada Hyang Widhi," wejang sang petapa.
                 </p>
                 <p>
-                    Ketika hari ketiga tiba, Buto Ijo datang dengan raungan lapar yang dahsyat. Mbok Srini memerintahkan Timun Mas segera lari menyusup ke dalam hutan lewat pintu belakang sembari membawa empat bungkusan wasiat. Buto Ijo yang menyadari dirinya diperdaya langsung melompati ladang dan mengejar Timun Mas dengan langkah-langkah raksasa yang menumbangkan pepohonan.
+                    Ketika fajar hari ketiga menyingsing, Buto Ijo datang menerobos desa dengan kemurkaan buas yang meremukkan pagar-pagar rumah. Mbok Srini segera menyerahkan empat bungkusan wasiat ke tangan Timun Mas dan menitahkannya lari menyusup ke dalam hutan lebat lewat pintu belakang gubuk. Menyadari dirinya diperdaya, Buto Ijo melompat murka dan mengejar gadis itu dengan langkah-langkah raksasa yang merontokkan dahan-dahan pepohonan.
                 </p>
                 <p>
-                    Saat langkah kaki Buto Ijo kian mendekat dan bayangan tangannya hampir mencengkeram pundak Timun Mas, gadis itu segera melemparkan bungkusan pertama berisi biji mentimun. Seketika hamparan belantara berubah menjadi ladang mentimun yang amat luas dengan buah-buah yang ranum dan segar. Buto Ijo yang lapar tergoda dan berhenti memakan mentimun-mentimun itu dengan rakus hingga perutnya buncit dan sempat tertidur sejenak. Namun tak lama kemudian, ia bangkit kembali mengejar Timun Mas dengan amarah yang kian berkobar.
+                    Tatkala deru napas panas sang raksasa kian memburu dan bayangan tangannya hampir mencengkeram pundak Timun Mas, gadis itu melemparkan bungkusan pertama berisi biji mentimun. Seketika hamparan rimba bertransformasi menjadi ladang mentimun yang amat luas dengan buah-buah ranum yang segar menggiurkan. Buto Ijo yang lapar tergiur dan melahap buah-buah itu dengan rakus hingga perutnya menggelembung buncit dan sempat tertidur pulas. Namun tak berselang lama, raksasa itu terbangun kembali dan mengejar dengan dengusan amarah yang kian berlipat ganda.
                 </p>
                 <p>
-                    Melihat raksasa itu kembali mengejar, Timun Mas melemparkan bungkusan kedua berisi jarum jahit. Dalam sekejap mata, tanah rimba bertransformasi menjadi hutan bambu berduri tajam yang lebat dan menjulang tinggi. Ranting-ranting duri bambu merobek dan menusuk sekujur tubuh serta telapak kaki Buto Ijo hingga bersimbah darah. Kendati kesakitan melolong-lolong, keganasan Buto Ijo membuatnya sanggup menerobos hutan bambu berduri itu.
+                    Melihat bahaya maut kembali mendekat, Timun Mas melemparkan bungkusan kedua berisi jarum jahit. Dalam sekejap mata, tanah tempat jarum berserakan menjelma menjadi hutan bambu berduri tajam yang lebat, tinggi, dan rapat tak tertembus. Ranting-ranting duri bambu merobek daging, mencakar muka, dan menusuk kedua telapak kaki Buto Ijo hingga bersimbah darah segar. Kendati melolong kesakitan, keganasan Buto Ijo membuatnya sanggup menerobos rimba duri tersebut.
                 </p>
                 <p>
-                    Dalam kepungan maut, Timun Mas melemparkan bungkusan ketiga berisi segenggam garam. Seketika dataran rimba yang dilewati berubah menjadi lautan samudra luas dengan ombak yang bergulung-gulung tinggi. Buto Ijo terhempas ke dalam air garam yang amat perih mengenai luka-luka di tubuhnya. Namun dengan sisa tenaganya yang luar biasa, sang raksasa berenang susah payah menyeberangi lautan dan kembali merayap naik ke tepian mengejar sang gadis.
+                    Dalam kepungan maut yang kian genting, Timun Mas melemparkan bungkusan ketiga berisi segenggam garam. Seketika daratan hutan yang ia lewati ambles dan berubah menjadi samudra lautan lepas dengan ombak pasang yang bergulung-gulung tinggi. Buto Ijo terhempas ke dalam air garam yang amat pekat, yang menyengat perih ribuan luka robek di sekujur badannya. Namun dengan sisa tenaga kedigdayaannya, sang raksasa berenang susah payah menyeberangi lautan dan kembali merangkak naik ke tepian mengejar sang gadis.
                 </p>
                 <p>
-                    Napas Timun Mas tersengal-sengal dan tenaganya nyaris terkuras habis. Hanya tersisa bungkusan keempat yang merupakan harapan terakhirnya: sebongkah terasi udang. Ketika jari-jemari Buto Ijo tinggal sejengkal lagi menyentuh ujung rambutnya, Timun Mas melemparkan terasi itu sekuat tenaga ke arah sang raksasa sembari memohon pertolongan Yang Kuasa.
+                    Napas Timun Mas tersengal-sengal dan tenaganya nyaris terkuras tandas. Hanya tersisa bungkusan keempat yang menjadi harapan terakhir penyelamat hidupnya: sebongkah terasi udang. Ketika kuku-kuku hitam Buto Ijo tinggal sejengkal lagi menyambar ujung rambutnya, Timun Mas melemparkan terasi itu sekuat tenaga ke arah sang raksasa seraya memanjatkan doa kepasrahan kepada Sang Pencipta Alam Semesta.
                 </p>
                 <p>
-                    Ajaib, seketika tanah tempat Buto Ijo berpijak runtuh dan menyembur menjadi lautan lumpur mendidih yang sangat pekat, panas, dan berbau menyengat. Buto Ijo terjerumus ke dalam kubangan lumpur hidup tersebut. Semakin keras ia meronta untuk meloloskan diri, semakin dalam lumpur mendidih itu menenggelamkan tubuhnya. Raungan kesakitan sang raksasa akhirnya lenyap bersamaan dengan tenggelamnya Buto Ijo ke dasar lautan lumpur untuk selama-lamanya.
+                    Ajaib, seketika tanah tempat Buto Ijo berpijak runtuh dan menyembur menjadi lautan lumpur mendidih (blethok umob) yang amat pekat, panas membakar, dan berbau belerang menyengat. Buto Ijo terjerumus ke dalam pusaran lumpur hidup tersebut. Semakin keras ia meronta untuk meloloskan diri, semakin dalam lumpur mendidih itu mengisap dan menenggelamkan tubuh raksasanya. Raungan kesakitan sang raksasa akhirnya lenyap perlahan bersamaan dengan tenggelamnya Buto Ijo ke dasar lumpur hisap untuk selama-lamanya.
                 </p>
                 <p>
-                    Dengan derai air mata bahagia dan rasa syukur yang tak terhingga, Timun Mas kembali ke pelukan Mbok Srini di gubuk mereka. Berkat ketabahan, keberanian, dan kasih sayang tulus yang tak lekang oleh marabahaya, Timun Mas dan Mbok Srini hidup rukun, damai, dan berkecukupan sepanjang hayat mereka.
+                    Dengan derai air mata haru dan rasa syukur yang membuncah di dada, Timun Mas melangkah pulang kembali ke pelukan Mbok Srini di gubuk mereka. Berkat ketabahan, keberanian, dan perisai doa tulus seorang ibu yang tak terkalahkan oleh marabahaya apa pun, Timun Mas dan Mbok Srini hidup rukun, ayem tentrem, dan berkecukupan sepanjang sisa hayat mereka.
                 </p>
+
+                <!-- Falsafah Luhur Box -->
+                <div class="quote-box p-6 rounded-xl border border-emas-prada/40 bg-emas-prada/5 my-8">
+                    <p class="font-royal text-xs tracking-widest text-emas-prada uppercase mb-2">✦ Falsafah Luhur Serat Timun Mas</p>
+                    <p class="italic text-sm text-coklat-teks/80 leading-relaxed font-serif-teks">
+                        "Rawe-rawe rantas, malang-malang putung. Donga tulusipun tiyang sepuh menika pusaka ingkang paling mandhi, saged ngasoraken sedaya angkara murka lan bilai ing alam marcapada."
+                        <span class="block mt-2 text-xs not-italic text-coklat-teks/60">— Segala rintangan dan kejahatan akan runtuh oleh ketabahan; dan doa tulus seorang ibu adalah perisai paling sakti yang mampu mengalahkan keangkaramurkaan sebesar apa pun di muka bumi.</span>
+                    </p>
+                </div>
             </article>
 
-            <!-- TEKS BASA JAWA KRAMA (LENGKAP & MENDALAM) -->
-            <article id="teks-jawa" class="fade-transition hidden-lang prose-teks text-base md:text-lg leading-[2.3] text-justify space-y-7">
+            <!-- TEKS BASA JAWA KRAMA (SUPER LENGKAP & MENDALAM) -->
+            <article id="teks-jawa" class="fade-transition hidden-lang prose-teks text-base md:text-lg leading-[2.2] text-justify space-y-7">
                 <p class="dropcap">
-                    Ing satunggaling dhusun ingkang celak kaliyan wana gung liwang-liwung ing perenging Redi Jawi Tengah, wonten sawijining <span class="krama-word">wanodya<span class="tooltip-card"><strong>Wanodya</strong><br>Perempuan / Wanita</span></span> sepuh asma Mbok Srini ingkang gesang piyambakan. Padintenanipun namung ngempalaken kajeng garing sarta nggarap sabin alit kangge nyambung gesang. Nalika yuswanipun sampun sepuh, panyuwunan ingkang tansah dipun unjukaken dhumateng Gusti Kang Akarya Jagad inggih menika kepengin <span class="krama-word">gadhah putra<span class="tooltip-card"><strong>Gadhah Putra</strong><br>Mempunyai anak</span></span> ingkang saged dados panglipuring manah.
+                    Ing satunggaling dhusun ingkang celak kaliyan wana gung liwang-liwung ing perenging Redi Jawi Tengah, wonten sawijining <span class="krama-word">wanodya<span class="tooltip-card"><strong>Wanodya</strong><br>Perempuan / Ibu</span></span> sepuh asma Mbok Srini ingkang gesang piyambakan ing gubug alit. Padintenanipun namung ngempalaken kajeng garing sarta nggarap sabin jagung kangge nyambung gesang. Nalika yuswanipun sampun sepuh lan raga saya ringkih, panyuwunan ingkang tansah dipun unjukaken dhumateng Gusti Kang Akarya Jagad inggih menika kepengin <span class="krama-word">gadhah putra<span class="tooltip-card"><strong>Gadhah Putra</strong><br>Mempunyai anak</span></span> ingkang saged dados panglipuring manah lan ngrawat ing dinten tuwanipun.
                 </p>
                 <p>
-                    Nalika Mbok Srini saweg dedonga ing sabin nalika suruping surya, bumi gumeter asru. Saking lebet wana mijil raseksa ageng nggegirisi awarna ijem ingkang asma Buto Ijo. Swantenipun dremba kados guntur: "Heh wong tuwa! Aku krungu sambatmu sing kepengin duwe anak. Bakal tak wenehi, nanging elinga janjimu: yen bocah kuwi wis umur pitulas taun, kudu kok pasrahake maneh marang aku supaya dadi manganku!"
+                    Nalika Mbok Srini saweg dedonga ing sabin nalika suruping surya, bumi gumeter asru kados obahing lindhu ageng. Saking lebet wana mijil raseksa ageng nggegirisi awarna ijem ingkang asma Buto Ijo. Netranipun abrit kados mawa geni lan swantenipun dremba kados guntur: "Heh wong tuwa! Aku krungu sambatmu sing kepengin duwe anak. Bakal tak wenehi, nanging elinga janjimu: yen bocah kuwi wis umur pitulas taun, kudu kok pasrahake maneh marang aku supaya dadi manganku!"
                 </p>
                 <p>
-                    Awit saking krenteging manah ingkang kepengin sanget kagungan anak sarta ajrih dhumateng raseksa, Mbok Srini nyaguhi prajanjian kasebat. Buto Ijo lajeng maringi satunggal wiji timun kencana supados dipun tanem ing wingking griya. Mbok Srini ngrumat tetaneman menika kanthi gemati. Mboten dangu, tanduran menika ngasilaken woh timun ageng awarna jene kencana ingkang sumorot mencorong.
+                    Awit saking krenteging manah ingkang kepengin sanget kagungan anak sarta ajrih dhumateng raseksa, Mbok Srini nyaguhi prajanjian kasebat. Buto Ijo lajeng maringi satunggal wiji timun kencana supados dipun tanem ing wingking gubugipun. Mbok Srini ngrumat tetaneman menika kanthi gemati lan asih. Mboten dangu, tanduran menika ngasilaken woh timun ageng awarna jene kencana ingkang sumorot mencorong kados emas murni.
                 </p>
                 <p>
-                    Kanthi manah ingkang dhag-dhig-dher, Mbok Srini ngundhuh timun kasebat lajeng dipun bikak kanthi ngatos-atos. Sakelangkung bingah manahipun nalika priksa ing lebet timun kasebat wonten jabang bayi estri ingkang sanget sulistya ing warna. Bayi menika lajeng dipun paringi asma Timun Mas. Mbok Srini nggulawentah Timun Mas kanthi kebak tresna asih satemah dados lare ingkang pinter, sumeh, lan bekti sanget dhumateng tiyang sepuhipun.
+                    Kanthi manah ingkang dhag-dhig-dher, Mbok Srini ngundhuh timun kasebat lajeng dipun bikak kanthi ngatos-atos mawi lading. Sakelangkung bingah lan trenyuh manahipun nalika priksa ing lebet timun kasebat wonten jabang bayi estri ingkang sanget sulistya ing warna, sumunar elok pasuryanipun. Bayi menika lajeng dipun paringi asma Timun Mas. Mbok Srini nggulawentah Timun Mas kanthi kebak tresna asih satemah dados lare ingkang pinter, sumeh, bekti sanget, lan dados damaring manahipun sang ibu.
                 </p>
                 <p>
-                    Wanci lumampah kados ilining toya. Yuswanipun Timun Mas sampun jangkep pitulas warsa. Bumi malih gonjang-ganjing lan swantenipun Buto Ijo rawuh nagih janji. Mbok Srini ingkang mboten rila putranipun dados mangsaning raseksa lajeng pados reka daya, nyuwun wekdal tigang dinten kanthi alesan bilih Timun Mas taksih kera lan dereng eca dipun tedha. Buto Ijo ingkang dremba pitados lajeng kesah lan janji badhe wangsul tigang dinten malih.
+                    Wanci lumampah kados ilining toya. Yuswanipun Timun Mas sampun jangkep pitulas warsa. Bumi malih gonjang-ganjing lan swanten gerenganipun Buto Ijo rawuh nagih janji. Mbok Srini ingkang mboten rila putranipun dados mangsaning raseksa lajeng pados reka daya, nyuwun wekdal tigang dinten kanthi alesan bilih Timun Mas taksih gerah, badanipun kera, lan dereng eca dipun tedha. Buto Ijo ingkang dremba pitados lajeng kesah lan janji badhe wangsul tigang dinten malih.
                 </p>
                 <p>
-                    Mboten badhe pasrah dhumateng nasib, Mbok Srini enggal minggah dhateng pucuk Redi Gundul sowan dhumateng pertapa wasis ingkang sekti mandraguna. Sang pertapa ingkang trenyuh priksa katresnanipun sang ibu maringi sekawan <span class="krama-word">buntelan aji<span class="tooltip-card"><strong>Buntelan Aji</strong><br>Bungkusan pusaka sakti</span></span>: wiji timun, dom panjait, sarem, lan terasi. "Paringna iki marang putramu. Nalika raseksa ngoyak, uncalna siji-siji kanthi donga," dhawuhipun sang pertapa.
+                    Mboten badhe pasrah dhumateng bilai, wanci dalu menika ugi Mbok Srini minggah dhateng pucuk Redi Gundul sowan dhumateng pertapa wasis ingkang sekti mandraguna. Sang pertapa ingkang trenyuh priksa katresnanipun sang ibu maringi sekawan <span class="krama-word">buntelan aji<span class="tooltip-card"><strong>Buntelan Aji</strong><br>Bungkusan pusaka sakti</span></span> pethak: wiji timun, dom panjait, sarem, lan terasi. "Paringna iki marang putramu. Nalika raseksa ngoyak, uncalna siji-siji kanthi nyenyuwun pitulungan Gusti," dhawuhipun sang pertapa.
                 </p>
                 <p>
-                    Nalika dinten ingkang katemtokaken dumugi, Buto Ijo <span class="krama-word">rawuh<span class="tooltip-card"><strong>Rawuh</strong><br>Datang tiba</span></span> kanthi ngamuk kenceng. Mbok Srini dhawuh Timun Mas lumajar mlebet wana lumantar lawang wingking kanthi ngasta sekawan buntelan pusaka. Buto Ijo priksa bilih dipun apusi, lajeng ngoyak Timun Mas kanthi jangkah ingkang ngorokaken wit-witan ageng.
+                    Nalika dinten ingkang katemtokaken dumugi, Buto Ijo <span class="krama-word">rawuh<span class="tooltip-card"><strong>Rawuh</strong><br>Datang tiba</span></span> kanthi ngamuk ngrusak pager. Mbok Srini dhawuh Timun Mas lumajar mlebet wana lumantar lawang wingking kanthi ngasta sekawan buntelan pusaka. Buto Ijo priksa bilih dipun apusi, lajeng ngoyak Timun Mas kanthi jangkah ingkang ngorokaken wit-witan ageng.
                 </p>
                 <p>
-                    Nalika astanipun Buto Ijo meh nyandhak, Timun Mas nguncalaken buntelan kapisan ingkang isinipun wiji timun. Saknalika papan kasebat salin wujud dados pategalan timun ingkang wiyar sanget kanthi woh ingkang seger. Buto Ijo kandheg amargi kepincut nedha timun-timun kasebat ngantos wetengipun wareg lan keturon. Nanging mboten dangu, raseksa wungu malih lan ngoyak kanthi amarah ingkang langkung ageng.
+                    Nalika astanipun Buto Ijo meh nyandhak pundhakipun, Timun Mas nguncalaken buntelan kapisan ingkang isinipun wiji timun. Saknalika papan kasebat salin wujud dados pategalan timun ingkang wiyar sanget kanthi woh ingkang seger. Buto Ijo kandheg amargi kepincut nedha timun-timun kasebat ngantos wetengipun wareg lan keturon. Nanging mboten dangu, raseksa wungu malih lan ngoyak kanthi amarah ingkang langkung nggegirisi.
                 </p>
                 <p>
-                    Priksa raseksa sampun celak malih, Timun Mas nguncalaken buntelan kaping kalih ingkang isinipun dom. Sanalika wana menika salin wujud dados wana pring eri ingkang landhep sanget. Eri-eri pring kasebat nyoblos lan nyuwek saliranipun sarta dlamakan Buto Ijo ngantos getihipun ambyah-ambyah. Senadyan sesambat kelaran, Buto Ijo taksih saged nrobos wana pring menika.
+                    Priksa raseksa sampun celak malih, Timun Mas nguncalaken buntelan kaping kalih ingkang isinipun dom panjait. Sanalika wana menika salin wujud dados wana pring eri ingkang landhep sanget. Eri-eri pring kasebat nyoblos lan nyuwek saliranipun sarta dlamakan Buto Ijo ngantos getihipun ambyah-ambyah. Senadyan sesambat kelaran, Buto Ijo taksih saged nrobos wana pring menika.
                 </p>
                 <p>
                     Kanthi manah ingkang sumelang, Timun Mas nguncalaken buntelan kaping tiga ingkang isinipun sarem. Sanalika dharatan menika salin dados samodra ombak ageng ingkang lebet sanget. Buto Ijo kelem ing toya sarem ingkang sanget perih ngenani tatu-tatunipun. Nanging kanthi sisa kasantosanipun, raseksa taksih saged nglangi nyabrang samodra lan munggah malih ngoyak sang dewi.
                 </p>
                 <p>
-                    Ambeganipun Timun Mas sampun meh telas lan kekiyatanipun kendho. Namung kantun satunggal buntelan pungkasan ingkang dados pangajabipun: buntelan terasi. Nalika jemarinipun Buto Ijo meh nyenggol rikmanipun, Timun Mas nguncalaken terasi kasebat kanthi sedaya kekiyatan sinambi nyenyuwun pitulungan Gusti Kang Maha Luhur.
+                    Ambeganipun Timun Mas sampun meh telas lan kekiyatanipun kendho. Namung kantun satunggal buntelan pungkasan ingkang dados pangajabipun: buntelan terasi. Nalika kukunipun Buto Ijo meh nyenggol rikmanipun, Timun Mas nguncalaken terasi kasebat kanthi sedaya kekiyatan sinambi nyenyuwun pitulungan Gusti Kang Maha Luhur.
                 </p>
                 <p>
                     Elokipun kahanan, siti ingkang dipun idak Buto Ijo ambles dados <span class="krama-word">blethok umob<span class="tooltip-card"><strong>Blethok Umob</strong><br>Lumpur panas mendidih</span></span> ingkang sanget benter, pekat, lan mambet sengak. Buto Ijo kajromong ing madyaning lumpur mendidih kasebat. Saya panjenengane obah badhe ngentas, saya lebet lumpur menika nguntal saliranipun. Swanten gerenganipun raseksa pungkasanipun ical kependhem ing dhasaring blethok umob salawas-lawase.
                 </p>
                 <p>
-                    Kanthi luh kabingahan lan rasa syukur ingkang mboten saged kagambaraken, Timun Mas wangsul dhumateng gubugipun Mbok Srini. Awit saking sabar, kendel, lan tresna asih ingkang tulus linambaran donga dhumateng Gusti, Timun Mas lan Mbok Srini lajeng gesang ayem tentrem kerta raharja salaminipun.
+                    Kanthi luh kabingahan lan rasa syukur ingkang mboten saged kagambaraken, Timun Mas wangsul dhumateng pelukanipun Mbok Srini. Awit saking sabar, kendel, lan tresna asih tulus linambaran donga dhumateng Gusti, Timun Mas lan Mbok Srini lajeng gesang ayem tentrem kerta raharja salaminipun.
                 </p>
             </article>
 
-            <div class="mt-14 pt-8 border-t border-emas-prada/30 text-center">
+            <!-- Tanda Tamat -->
+            <div class="mt-12 pt-7 border-t border-emas-prada/30 text-center">
                 <span class="font-aksara text-emas-prada text-3xl">꧋ꦠꦩꦠ꧀꧋</span>
                 <p class="font-royal text-xs uppercase tracking-widest text-coklat-teks/50 mt-1">Tamating Serat Timun Mas</p>
             </div>
         </div>
     </main>
 
-    <!-- JAVASCRIPT: ENTRANCE ANIMATION & SMART RETURN -->
+    <!-- JAVASCRIPT: LENIS SMOOTH, GSAP & LOGIC -->
     <script>
-        const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
-        function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+        // 1. Inisialisasi Lenis Smooth Scroll (Anti-Overscroll)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            wheelMultiplier: 0.85,
+            touchMultiplier: 1.5,
+            infinite: false
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
         requestAnimationFrame(raf);
 
-        window.addEventListener('scroll', () => {
-            const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            document.getElementById('read-progress').style.width = ((document.documentElement.scrollTop / h) * 100) + '%';
+        // 2. Reading Progress Bar Akurat via Lenis Event
+        lenis.on('scroll', ({ scroll, limit }) => {
+            const progress = limit > 0 ? (scroll / limit) * 100 : 0;
+            document.getElementById('read-progress').style.width = Math.min(100, Math.max(0, progress)) + '%';
         });
 
-        // ANIMASI MASUK SINEMATIK GSAP
+        // 3. Animasi Masuk Sinematik GSAP + Kalibrasi Presisi
         window.addEventListener('load', () => {
-            const tl = gsap.timeline();
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    lenis.resize();
+                }
+            });
+
             gsap.to("#body-naskah", { opacity: 1, duration: 0.5 });
-            
-            tl.from("#hero-img", { scale: 1.2, duration: 1.4, ease: "power3.out" })
-              .from("#hero-title", { y: 30, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.8")
-              .from("#hero-aksara", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.6")
-              .from("#naskah-container", { y: 60, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.4");
+
+            tl.from("#hero-img", { scale: 1.15, duration: 1.2, ease: "power2.out" })
+              .from("#hero-title", { y: 25, opacity: 0, duration: 0.7, ease: "power2.out" }, "-=0.6")
+              .from("#hero-aksara", { y: 15, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.4")
+              .from("#naskah-container", { y: 40, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.3");
+
+            setTimeout(() => lenis.resize(), 300);
         });
 
-        // KEMBALI KE POSISI SEMULA DI DASHBOARD
+        // 4. Tombol Kembali Cerdas ke Dashboard
         function kembaliKePustaka() {
             gsap.to("#body-naskah", {
-                opacity: 0, duration: 0.3, onComplete: () => {
+                opacity: 0,
+                duration: 0.25,
+                onComplete: () => {
                     if (window.history.length > 1) {
                         window.history.back();
                     } else {
@@ -270,6 +351,7 @@
             });
         }
 
+        // 5. Toggle Bahasa Bersih (Auto Lenis Resize)
         function switchLanguage(lang) {
             const bg = document.getElementById('toggle-bg');
             const btnIndo = document.getElementById('btn-indo');
@@ -281,28 +363,41 @@
                 bg.style.transform = 'translateX(100%)';
                 btnJawa.classList.add('text-emas-terang'); btnJawa.classList.remove('text-coklat-teks/60');
                 btnIndo.classList.remove('text-emas-terang'); btnIndo.classList.add('text-coklat-teks/60');
+                
                 tIndo.classList.replace('active-lang', 'hidden-lang');
-                setTimeout(() => tJawa.classList.replace('hidden-lang', 'active-lang'), 150);
+                tJawa.classList.replace('hidden-lang', 'active-lang');
             } else {
                 bg.style.transform = 'translateX(0)';
                 btnIndo.classList.add('text-emas-terang'); btnIndo.classList.remove('text-coklat-teks/60');
                 btnJawa.classList.remove('text-emas-terang'); btnJawa.classList.add('text-coklat-teks/60');
+                
                 tJawa.classList.replace('active-lang', 'hidden-lang');
-                setTimeout(() => tIndo.classList.replace('hidden-lang', 'active-lang'), 150);
+                tIndo.classList.replace('hidden-lang', 'active-lang');
             }
+
+            setTimeout(() => {
+                lenis.resize();
+            }, 60);
         }
 
-        let fSize = 18;
-        function ubahUkuranFont(step) {
-            fSize = Math.max(15, Math.min(24, fSize + (step * 2)));
-            document.querySelectorAll('.prose-teks').forEach(el => el.style.fontSize = fSize + 'px');
+        // 6. Font Scaler Interaktif
+        let currentFontSize = 18;
+        function ubahUkuranFont(delta) {
+            currentFontSize = Math.max(15, Math.min(24, currentFontSize + (delta * 2)));
+            document.querySelectorAll('.prose-teks').forEach(el => {
+                el.style.fontSize = currentFontSize + 'px';
+            });
+            document.getElementById('font-indicator').textContent = currentFontSize + 'px';
+            
+            setTimeout(() => lenis.resize(), 50);
         }
 
-        let isDark = false;
+        // 7. Dark Mode
+        let isDarkMode = false;
         function toggleModeMalam() {
-            isDark = !isDark;
+            isDarkMode = !isDarkMode;
             document.body.classList.toggle('mode-malam');
-            document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+            document.getElementById('theme-btn').textContent = isDarkMode ? '☀️' : '🌙';
         }
     </script>
 </body>

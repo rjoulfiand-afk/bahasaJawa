@@ -36,6 +36,12 @@
         }
     </script>
     <style>
+        /* Anti-Ghost Scroll & Reset Tinggi Dokumen */
+        html, body {
+            height: auto;
+            min-height: 100%;
+            overflow-x: clip;
+        }
         html.lenis, html.lenis body { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
@@ -53,30 +59,67 @@
         body.mode-malam { background-color: #120D09 !important; color: #E6DFD5 !important; }
         body.mode-malam .naskah-box { background-color: #19120C !important; border-color: rgba(197,160,89,0.3) !important; }
         body.mode-malam .prose-teks { color: #D6CEBE !important; }
+        body.mode-malam .nav-glass { background-color: rgba(18, 13, 9, 0.92) !important; border-color: rgba(197,160,89,0.2) !important; }
+        body.mode-malam .quote-box { background-color: rgba(0,0,0,0.3) !important; border-color: rgba(197,160,89,0.4) !important; }
 
-        .fade-transition { transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; }
-        .hidden-lang { opacity: 0; transform: translateY(12px); pointer-events: none; position: absolute; visibility: hidden; }
-        .active-lang { opacity: 1; transform: translateY(0); position: relative; visibility: visible; }
+        /* Sistem Tab Naskah Bersih Tanpa Ruang Kosong */
+        .fade-transition { transition: opacity 0.3s ease-in-out; }
+        .hidden-lang { display: none !important; }
+        .active-lang { 
+            display: block !important; 
+            opacity: 1; 
+            transform: translateY(0); 
+            position: relative; 
+            visibility: visible; 
+        }
 
+        /* Hologram Tooltip Krama */
         .krama-word {
-            position: relative; display: inline-block;
-            border-bottom: 2px dashed #C5A059; cursor: pointer; color: #7B1818; font-weight: 600;
+            position: relative; 
+            display: inline-block;
+            border-bottom: 2px dashed #C5A059; 
+            cursor: pointer; 
+            color: #7B1818; 
+            font-weight: 600;
         }
+        body.mode-malam .krama-word { color: #E5A93C; }
+
         .krama-word .tooltip-card {
-            visibility: hidden; opacity: 0; width: 210px; background: rgba(20, 14, 10, 0.95);
-            backdrop-filter: blur(10px); border: 1px solid #D4AF37;
-            color: #FAF5EB; border-radius: 12px; padding: 10px 14px; position: absolute; z-index: 50;
-            bottom: 135%; left: 50%; transform: translateX(-50%) translateY(8px);
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(212,175,55,0.2);
-            pointer-events: none; text-align: center;
+            visibility: hidden; 
+            opacity: 0; 
+            width: 220px; 
+            background: rgba(20, 14, 10, 0.96);
+            backdrop-filter: blur(12px); 
+            border: 1px solid #D4AF37;
+            color: #FAF5EB; 
+            border-radius: 12px; 
+            padding: 10px 14px; 
+            position: absolute; 
+            z-index: 50;
+            bottom: 135%; 
+            left: 50%; 
+            transform: translateX(-50%) translateY(8px);
+            transition: all 0.25s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(212,175,55,0.25);
+            pointer-events: none; 
+            text-align: center;
         }
-        .krama-word:hover .tooltip-card { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+        .krama-word:hover .tooltip-card { 
+            visibility: visible; 
+            opacity: 1; 
+            transform: translateX(-50%) translateY(0); 
+        }
 
         .dropcap::first-letter {
-            font-family: 'Cinzel Decorative', serif; font-size: 4.8rem; line-height: 0.85; float: left;
-            margin-right: 0.85rem; color: #7B1818; text-shadow: 2px 2px 0px rgba(197, 160, 89, 0.3);
+            font-family: 'Cinzel Decorative', serif; 
+            font-size: 4.8rem; 
+            line-height: 0.85; 
+            float: left;
+            margin-right: 0.85rem; 
+            color: #7B1818; 
+            text-shadow: 2px 2px 0px rgba(197, 160, 89, 0.3);
         }
+        body.mode-malam .dropcap::first-letter { color: #C5A059; }
 
         .hud-border {
             border: 1px solid rgba(197, 160, 89, 0.35);
@@ -84,158 +127,221 @@
         }
     </style>
 </head>
-<body class="naskah-bg text-coklat-teks font-serif-teks antialiased overflow-x-hidden transition-colors duration-500 opacity-0" id="body-naskah">
+<body class="naskah-bg text-coklat-teks font-serif-teks antialiased overflow-x-clip transition-colors duration-500 opacity-0" id="body-naskah">
 
+    <!-- Reading Progress Bar -->
     <div class="fixed top-0 left-0 w-full h-[4px] bg-black/10 z-[100]">
-        <div id="read-progress" class="h-full w-0 bg-gradient-to-r from-merah-marun via-emas-prada to-emas-terang"></div>
+        <div id="read-progress" class="h-full w-0 bg-gradient-to-r from-merah-marun via-emas-prada to-emas-terang transition-all duration-75"></div>
     </div>
 
     <!-- NAVBAR BACAAN -->
-    <nav class="fixed top-0 left-0 w-full z-40 bg-krem-lontar/90 backdrop-blur-md border-b border-emas-prada/20 py-4">
+    <nav class="nav-glass fixed top-0 left-0 w-full z-40 bg-krem-lontar/90 backdrop-blur-md border-b border-emas-prada/20 py-3.5 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-6 flex justify-between items-center">
-            <button onclick="kembaliKePustaka()" class="flex items-center gap-2 text-coklat-teks hover:text-merah-marun transition group">
+            <button onclick="kembaliKePustaka()" class="flex items-center gap-2.5 text-coklat-teks hover:text-merah-marun transition group">
                 <span class="w-8 h-8 rounded-full border border-emas-prada/40 flex items-center justify-center group-hover:-translate-x-1 transition duration-300">←</span>
                 <span class="font-royal text-xs tracking-widest uppercase font-bold">Kembali ke Pustaka</span>
             </button>
 
-            <div class="flex items-center gap-3">
-                <button onclick="ubahUkuranFont(-1)" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs font-bold">A-</button>
-                <button onclick="ubahUkuranFont(1)" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs font-bold">A+</button>
-                <button onclick="toggleModeMalam()" id="theme-btn" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs">🌙</button>
+            <!-- Reader Controls -->
+            <div class="flex items-center gap-2.5">
+                <button onclick="ubahUkuranFont(-1)" title="Perkecil Font" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs font-bold transition hover:bg-emas-prada/10">A-</button>
+                <span id="font-indicator" class="text-[11px] font-royal font-semibold text-emas-prada min-w-[28px] text-center">18px</span>
+                <button onclick="ubahUkuranFont(1)" title="Perbesar Font" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs font-bold transition hover:bg-emas-prada/10">A+</button>
+                <div class="h-4 w-[1px] bg-emas-prada/30 mx-1"></div>
+                <button onclick="toggleModeMalam()" id="theme-btn" title="Ganti Mode Tampilan" class="w-8 h-8 rounded-full border border-emas-prada/30 hover:border-emas-prada text-xs transition hover:bg-emas-prada/10">🌙</button>
             </div>
         </div>
     </nav>
 
-    <!-- HEADER & HERO BANNER (BERSIH SEPERTI TIMUN MAS) -->
-    <header class="pt-28 pb-8 max-w-5xl mx-auto px-6">
-        <div id="hero-img-box" class="relative rounded-3xl overflow-hidden shadow-2xl h-[45vh] border border-emas-prada/40 hud-border">
-            <img id="hero-img" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=1400" alt="Tangkuban Perahu" class="w-full h-full object-cover">
+    <!-- HEADER & HERO BANNER -->
+    <header class="pt-24 pb-8 max-w-5xl mx-auto px-6">
+        <div id="hero-img-box" class="relative rounded-3xl overflow-hidden shadow-2xl h-[48vh] min-h-[340px] border border-emas-prada/40 hud-border">
+            <img id="hero-img" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=1400" alt="Tangkuban Parahu" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-t from-coklat-keraton via-coklat-keraton/50 to-transparent"></div>
             
-            <div class="absolute bottom-8 left-8 right-8 text-white">
-                <h1 id="hero-title" class="text-4xl md:text-6xl font-serif-judul font-bold mt-2">Serat Sangkuriang</h1>
-                <p id="hero-aksara" class="font-aksara text-emas-prada text-2xl mt-1">ꦱꦁꦏꦸꦫꦶꦪꦁꦭꦤ꧀ꦢꦪꦁꦱꦸꦩ꧀ꦧꦶ</p>
+            <div class="absolute bottom-7 left-7 right-7 text-white">
+                <!-- Meta Pill Badges -->
+                <div class="flex items-center gap-2.5 mb-2.5 flex-wrap">
+                    <span class="px-3 py-1 rounded-full bg-merah-marun/85 text-[10px] font-royal uppercase tracking-widest border border-emas-prada/30">📍 Jawa Barat (Pasundan)</span>
+                    <span class="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-[10px] font-royal uppercase tracking-widest text-emas-terang border border-emas-prada/30">📜 Legenda Tangkuban Parahu</span>
+                    <span class="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-[10px] font-royal uppercase tracking-widest text-white/80 border border-white/20">⏱️ ±6 Menit Baca</span>
+                </div>
+
+                <h1 id="hero-title" class="text-3xl md:text-5xl lg:text-6xl font-serif-judul font-bold leading-tight">Serat Sangkuriang</h1>
+                <p id="hero-aksara" class="font-aksara text-emas-prada text-xl md:text-2xl mt-1 tracking-wide">ꦱꦁꦏꦸꦫꦶꦪꦁꦭꦤ꧀ꦢꦪꦁꦱꦸꦩ꧀ꦧꦶ</p>
             </div>
         </div>
     </header>
 
     <!-- KONTEN CERITA MENDALAM -->
-    <main class="max-w-4xl mx-auto px-6 pb-28">
-        <div id="naskah-container" class="naskah-box bg-[#FBF8F1] rounded-2xl p-8 md:p-14 border border-emas-prada/30 shadow-2xl relative hud-border">
+    <main class="max-w-4xl mx-auto px-6 pb-20">
+        <div id="naskah-container" class="naskah-box bg-[#FBF8F1] rounded-2xl p-7 md:p-14 border border-emas-prada/30 shadow-2xl relative hud-border transition-colors duration-500">
             
-            <div class="text-center mb-10">
-                <span class="font-aksara text-emas-prada text-4xl block opacity-75">꧁ ꦕꦫꦶꦠ ꧂</span>
+            <div class="text-center mb-8">
+                <span class="font-aksara text-emas-prada text-4xl block opacity-80">꧁ ꦕꦫꦶꦠ ꧂</span>
                 <p class="font-royal text-[11px] tracking-[0.3em] uppercase text-coklat-teks/50 mt-1">Kisah Lengkap Cinta Terlarang, Sumpah Dayang Sumbi, dan Asal Usul Tangkuban Perahu</p>
             </div>
 
             <!-- TOGGLE BAHASA -->
-            <div class="flex flex-col items-center mb-12">
+            <div class="flex flex-col items-center mb-10">
                 <div class="p-1 rounded-full bg-black/5 border border-emas-prada/40 inline-flex relative shadow-inner">
-                    <div id="toggle-bg" class="absolute top-1 left-1 w-[calc(50%-4px)] h-[calc(100%-8px)] bg-coklat-keraton rounded-full transition-transform duration-500"></div>
-                    <button id="btn-indo" onclick="switchLanguage('indo')" class="relative z-10 px-7 py-2.5 text-xs font-royal font-bold tracking-widest uppercase text-emas-terang">Indonesia</button>
-                    <button id="btn-jawa" onclick="switchLanguage('jawa')" class="relative z-10 px-7 py-2.5 text-xs font-royal font-bold tracking-widest uppercase text-coklat-teks/60">ꦗꦮ Krama</button>
+                    <div id="toggle-bg" class="absolute top-1 left-1 w-[calc(50%-4px)] h-[calc(100%-8px)] bg-coklat-keraton rounded-full transition-transform duration-300"></div>
+                    <button id="btn-indo" onclick="switchLanguage('indo')" class="relative z-10 px-7 py-2 text-xs font-royal font-bold tracking-widest uppercase text-emas-terang transition">Indonesia</button>
+                    <button id="btn-jawa" onclick="switchLanguage('jawa')" class="relative z-10 px-7 py-2 text-xs font-royal font-bold tracking-widest uppercase text-coklat-teks/60 transition">ꦗꦮ Krama</button>
                 </div>
             </div>
 
-            <!-- TEKS BAHASA INDONESIA -->
-            <article id="teks-indo" class="fade-transition active-lang prose-teks text-base md:text-lg leading-[2.3] text-justify space-y-7">
+            <!-- TEKS BAHASA INDONESIA (SUPER LENGKAP & MENDALAM) -->
+            <article id="teks-indo" class="fade-transition active-lang prose-teks text-base md:text-lg leading-[2.2] text-justify space-y-7">
                 <p class="dropcap">
-                    Alkisah pada masa purbakala di tanah Pasundan Jawa Barat, hiduplah seorang putri raja yang molek nan rupawan bernama Dayang Sumbi. Kegemarannya menenun kain membuatnya kerap menyendiri di keputren bukit. Suatu hari tatkala teropong benang tenunnya terjatuh ke jurang, sang putri melontarkan sumpah ceroboh: barang siapa yang sudi mengambilkan alat tenun itu, jika perempuan akan dijadikan saudara dan jika laki-laki akan dipersuami.
+                    Alkisah pada masa purbakala di tanah Parahyangan Jawa Barat yang hijau permai, hiduplah seorang putri raja berparas ayu nan rupawan bernama Dayang Sumbi. Sang putri yang merupakan keturunan bangsawan Kerajaan Galuh tersebut lebih memilih mengasingkan diri di sebuah gubuk sunyi di atas bukit hutan guna menenangkan jiwa sembari menenun kain sutra. Pada suatu petang yang berangin kencang, teropong gulungan benang tenun kesayangannya terlepas dari genggaman dan menggelinding jatuh ke dasar jurang yang terjal.
                 </p>
                 <p>
-                    Tak disangka, seekor anjing jantan berbulu hitam legam bernama Si Tumang—yang sejatinya merupakan jelmaan dewa yang dikutuk turun ke bumi—mengambilkan alat tenun tersebut. Terikat oleh sumpah kehormatan, Dayang Sumbi menikah dengan Si Tumang hingga melahirkan seorang anak laki-laki yang sehat, tampan, dan perkasa bernama Sangkuriang.
+                    Lelah mencari dan didera rasa putus asa, sang putri tanpa berpikir panjang mengucap sebuah sumpah ceroboh: barang siapa yang sudi mengambilkan alat tenun itu ke dasar jurang, jikalau ia seorang wanita akan diangkat menjadi saudara angkat, dan jikalau ia seorang laki-laki maka akan dipersuami seumur hidup. Tak disangka-sangka, dari balik semak belantara melangkah seekor anjing jantan berbulu hitam legam bernama Si Tumang, yang menggigit teropong tenun tersebut dan meletakkannya di hadapan sang putri. Si Tumang sesungguhnya bukanlah anjing hutan sembarangan, melainkan jelmaan dewa kahyangan yang dikutuk turun ke bumi karena suatu kesalahan luhur.
                 </p>
                 <p>
-                    Sangkuriang tumbuh besar tanpa pernah mengetahui bahwa anjing setia yang selalu menemaninya berburu adalah ayah kandungnya sendiri. Pada suatu hari, Dayang Sumbi mengidamkan memakan hati rusa menjangan. Sangkuriang bergegas masuk ke dalam hutan lebat bersama Si Tumang. Namun hingga senja membayang, tak seekor pun hewan buruan berhasil ditangkap. Kecewa dan kalap karena Si Tumang enggan menuruti perintahnya memburu rusa, Sangkuriang melepas anak panah hingga menewaskan Si Tumang. Hatinya diambil dan dibawa pulang untuk dimasak sang ibu.
+                    Terikat oleh sumpah kehormatan yang telah didengar oleh semesta, Dayang Sumbi dengan tabah menerima Si Tumang sebagai suaminya. Dari pernikahan gaib tersebut, lahirlah seorang bayi laki-laki yang montok, tampan, dan perkasa yang diberi nama Sangkuriang. Sangkuriang tumbuh menjadi pemuda yang lincah dan tangkas berburu di rimba raya dengan selalu ditemani oleh Si Tumang, tanpa secuil pun mengetahui rahasia kelam bahwa anjing setia di sampingnya itu adalah ayah kandungnya sendiri.
                 </p>
                 <p>
-                    Betapa hancur dan murkanya Dayang Sumbi saat mengetahui bahwa santapan lezat tersebut adalah hati suaminya sendiri. Dalam puncak kepedihan, Dayang Sumbi memukul kepala Sangkuriang dengan centong nasi dari kayu hingga meninggalkan bekas luka goresan yang dalam di dahinya, lalu mengusirnya pergi dari tanah kelahirannya.
+                    Hingga tibalah suatu hari tatkala Dayang Sumbi yang tengah kurang sehat mengidamkan memakan hati rusa menjangan yang masih segar. Sangkuriang bergegas menyandang busur panah dan mengajak Si Tumang masuk menembus pekatnya hutan belantara. Namun seharian penuh mereka mengintai di balik rerimbunan pohon, tak seekor pun rusa menampakkan diri. Senja pun mulai membayang dan kegagalan membakar emosi Sangkuriang. Ketika melihat seekor babi hutan melintas, Sangkuriang memerintahkan Si Tumang untuk mengejarnya. Namun Si Tumang yang mengenali bahwa babi itu adalah jelmaan dewi Wayungyang (ibunda Dayang Sumbi) menolak perintah itu dan diam mematung.
                 </p>
                 <p>
-                    Bertahun-tahun Sangkuriang mengembara menimba berbagai ilmu kesaktian dan kanuragan hingga menjadi ksatria pilih tanding. Berkat ketekunannya bertapa, wajah dan raganya menjelma menjadi pemuda yang amat gagah perkasa. Takdir lantas membimbing langkah kakinya kembali ke lereng bukit tempat ia dilahirkan. Di sana, ia terpesona oleh kecantikan seorang perempuan yang awet muda berkat anugerah para dewata, yang tak lain adalah Dayang Sumbi. Keduanya saling jatuh cinta tanpa saling menyadari hubungan darah di antara mereka.
+                    Dibutakan oleh rasa kecewa dan amarah yang tak terkendali, Sangkuriang mengancam Si Tumang. Dalam kekalutan emosi, anak panah terlepas dari busurnya dan menembus dada Si Tumang hingga tewas seketika. Karena takut pulang tanpa hasil dan demi memuaskan ibundanya, Sangkuriang menyembelih Si Tumang, mengambil hatinya, lalu membawanya pulang ke gubuk. Dayang Sumbi menyambut gembira dan memasak hati tersebut dengan lahap.
                 </p>
                 <p>
-                    Ketika Sangkuriang merapatkan kepalanya dan meminta Dayang Sumbi merapikan ikat kepalanya sebelum hari pernikahan, Dayang Sumbi tersentak kaget. Di balik helai rambut pemuda itu, tampak jelas bekas luka pukulan centong kayu bertahun-tahun silam. Seketika Dayang Sumbi menyadari bahwa pemuda yang melamarnya adalah anak kandungnya sendiri. Penjelasan Dayang Sumbi ditolak mentah-mentah oleh Sangkuriang yang dibutakan oleh asmara.
+                    Namun kegembiraan itu seketika sirna tatkala Dayang Sumbi menanyakan keberadaan Si Tumang yang tak kunjung pulang. Dengan polos dan terbata-bata, Sangkuriang mengakui bahwa daging hati yang disantap sang ibu adalah hati Si Tumang. Mendengar pengakuan mengerikan itu, dunia Dayang Sumbi runtuh seketika. Didera kepedihan batin dan kemurkaan yang meledak, Dayang Sumbi mengambil centong nasi dari kayu jati lalu memukulkannya sekuat tenaga ke arah kepala Sangkuriang. Darah mengucur deras meninggalkan bekas luka goresan yang dalam di dahi pemuda itu. Sembari menangis histeris, Dayang Sumbi mengusir anak kandungnya pergi menjauh dari tanah Pasundan untuk selama-lamanya.
                 </p>
                 <p>
-                    Demi menggagalkan pernikahan terlarang itu tanpa memicu pertumpahan darah, Dayang Sumbi menetapkan dua syarat yang berada di luar nalar manusia: Sangkuriang harus membendung aliran Sungai Citarum dan membuat sebuah perahu raksasa dari kayu hutan dalam tempo semalam saja sebelum fajar menyingsing.
+                    Bertahun-tahun Sangkuriang mengembara terlunta-lunta merambah rimba dan mendaki puncak-puncak gunung. Dalam pengembaraannya, ia berguru kepada para petapa sakti, menimba ilmu kanuragan, kedigdayaan batin, dan aji pamungkas penakluk makhluk halus hingga menjadi seorang satria pilih tanding yang berwajah amat tampan dan bertubuh tegap gagah perkasa. Takdir lantas menuntun langkah kakinya kembali ke lereng bukit tempat ia dilahirkan bertahun-tahun silam.
                 </p>
                 <p>
-                    Dengan kesaktian tiada tara, Sangkuriang mengerahkan ribuan balatentara lelembut dan makhluk halus hutan untuk menebang pohon raksasa serta membendung sungai dengan batu-batu besar. Menjelang sepertiga malam terakhir, bendungan dan badan perahu raksasa telah hampir paripurna berdiri menentang gelapnya malam.
+                    Di sana, Sangkuriang terpukau oleh pesona seorang perempuan jelita yang hidup menyendiri di sebuah rumah asri. Berkat laku tapa bratanya yang tekun, para dewa menganugerahi Dayang Sumbi kecantikan yang abadi dan awet muda laksana gadis belia. Keduanya saling jatuh cinta pada pandangan pertama tanpa menyadari hubungan darah ibu dan anak yang mengikat mereka. Gelora asmara memuncak hingga Sangkuriang meminang Dayang Sumbi untuk menjadi istrinya.
                 </p>
                 <p>
-                    Melihat keajaiban gaib yang mengancam kehormatannya, Dayang Sumbi memohon petunjuk Hyang Widhi. Ia bergegas membentangkan selendang tenun putihnya di ufuk timur serta mengajak kaum wanita desa memukul lesung alu bertalu-talu. Semburat putih terang yang membiaskan cahaya di timur serta riuh lesung mengecoh para ayam jantan yang serentak berkokok menyangka fajar telah tiba. Pasukan lelembut ketakutan akan cahaya surya dan lari tunggang langgang meninggalkan sisa pekerjaan.
+                    Sehari menjelang hari pernikahan yang ditentukan, Sangkuriang merebahkan kepalanya di pangkuan Dayang Sumbi dan memintanya merapikan destar penutup kepalanya. Tatkala jemari Dayang Sumbi menyibak helai rambut di dahi sang satria, jantungnya berdegup kencang membeku. Tampak jelas bekas luka parut memanjang akibat pukulan centong kayu jati bertahun-tahun silam. Seketika Dayang Sumbi tersadar bahwa satria perkasa yang melamarnya adalah anak kandungnya sendiri yang dulu diusirnya! Dayang Sumbi segera menceritakan kenyataan pahit itu, namun Sangkuriang yang telah dibutakan oleh nafsu asmara menolak mentah-mentah dan menganggapnya sekadar alasan penolakan.
                 </p>
                 <p>
-                    Sangkuriang tersadar dirinya telah diperdaya. Dalam kemurkaan yang meledak-ledak, ia menjebol bendungan Sungai Citarum hingga menenggelamkan dataran Bandung menjadi telaga purba. Dengan segenap daya kesaktiannya, Sangkuriang menendang perahu kayu raksasa yang belum selesai itu ke arah utara. Perahu tersebut melayang jauh di angkasa lalu mendarat tertelungkup. Wujud perahu terbalik itu perlahan membeku menjadi jajaran pegunungan megah yang hingga kini dikenal sebagai Gunung Tangkuban Perahu di tanah Jawa Barat.
+                    Menyadari pernikahan sedarah terlarang itu akan mengundang laknat para dewa, Dayang Sumbi memutar otak mencari siasat penolakan halus. Ia menetapkan dua syarat yang berada di luar batas kodrat manusia: Sangkuriang wajib membendung aliran deras Sungai Citarum dan membuat sebuah perahu kayu raksasa untuk mereka berlayar berdua, dan seluruh pekerjaan itu harus rampung sempurna dalam waktu satu malam saja sebelum fajar menyingsing.
+                </p>
+                <p>
+                    Sangkuriang menyanggupi tantangan tersebut dengan penuh percaya diri. Menjelang tengah malam, ia merapalkan aji mantra penakluk gaib untuk mengerahkan ribuan wadyabala lelembut, guriang tujuh, dan jin belantara tanah Sunda. Dengan kedigdayaan gaib, pasukan makhluk halus itu menumbangkan pohon-pohon raksasa purba, memahat lambung perahu, serta memindahkan bukit batu cadas untuk membendung aliran Sungai Citarum. Menjelang sepertiga malam terakhir, bendungan raksasa telah menahan limpasan air hingga mulai menenggelamkan lembah dataran tinggi, dan badan perahu megah telah hampir selesai dipahat.
+                </p>
+                <p>
+                    Menyaksikan mukjizat gaib yang kian mendekati paripurna, kecemasan luar biasa merayapi dada Dayang Sumbi. Sang putri segera bersujud memohon pertolongan Hyang Tunggal. Ia bergegas membentangkan selendang tenun putihnya yang panjang di ufuk timur, membakar timbunan jerami padi kering, serta memerintahkan para wanita desa menumbuk lesung padi tanpa henti. Semburat cahaya terang keemasan di timur dan gema lesung padi mengecoh kawanan ayam jantan pedukuhan, yang serentak berkokok nyaring bersahut-sahutan mengira pagi telah tiba. Pasukan bangsa jin yang takut akan sengatan sinar mentari seketika lari tunggang-langgang meninggalkan sisa pekerjaan perahu yang terbengkalai.
+                </p>
+                <p>
+                    Sangkuriang tersadar dirinya telah diperdaya oleh tipu muslihat. Kemurkaannya meledak tak terbendung laksana gempa bumi. Dengan aji kesaktian pamungkasnya, ia menjebol bendungan Sungai Citarum yang telah dibuatnya, hingga luapan air bah menenggelamkan seluruh dataran dan menciptakan Danau Bandung Purba. Kemudian, dengan segenap tenaga kanuragannya, Sangkuriang menendang perahu kayu raksasa yang belum rampung itu sekuat tenaga ke arah utara. Perahu tersebut melayang tinggi di angkasa lalu jatuh terhempas dalam keadaan tertelungkup. Wujud perahu terbalik itu perlahan membeku menjadi jajaran pegunungan megah yang hingga detik ini tegak berdiri sebagai Gunung Tangkuban Parahu di tatar Pasundan.
+                </p>
+
+                <!-- Falsafah Luhur Box -->
+                <div class="quote-box p-6 rounded-xl border border-emas-prada/40 bg-emas-prada/5 my-8">
+                    <p class="font-royal text-xs tracking-widest text-emas-prada uppercase mb-2">✦ Falsafah Luhur Parahyangan</p>
+                    <p class="italic text-sm text-coklat-teks/80 leading-relaxed font-serif-teks">
+                        "Ulah lali ka purwadaksi, ulah nuturkeun hawa nafsu nu matak kaduhung sapanjang jalan. Amarah sakedapan bisa ngancurkeun tali silaturahmi jeung ngarobah jalaning takdir."
+                        <span class="block mt-2 text-xs not-italic text-coklat-teks/60">— Jangan pernah melupakan asal-usul diri; amarah sesaat dan nafsu yang membutakan akal budi hanya akan melahirkan penyesalan panjang yang tak dapat diperbaiki seumur hidup.</span>
+                    </p>
+                </div>
+            </article>
+
+            <!-- TEKS BASA JAWA KRAMA (SUPER LENGKAP & MENDALAM) -->
+            <article id="teks-jawa" class="fade-transition hidden-lang prose-teks text-base md:text-lg leading-[2.2] text-justify space-y-7">
+                <p class="dropcap">
+                    Ing jaman <span class="krama-word">rumiyin<span class="tooltip-card"><strong>Rumiyin</strong><br>Dahulu kala</span></span> ing tlatah Pasundan Jawi Kilen ingkang asri, wonten sawijining putri narendra ingkang sanget <span class="krama-word">sulistya<span class="tooltip-card"><strong>Sulistya</strong><br>Cantik jelita</span></span> ing warna asma Dayang Sumbi. Sang dewi langkung remen ngoncati karamean praja lajeng manggen wonten ing gubug redi wana saperlu nenun kain sinambi ngupadi katentremaning manah. Ing satunggaling dinten nalika angin sumilir kenceng, pirantos tenunipun ingkang awujud teropong benang dhawah mlebet ing jurang ingkang lebet sanget.
+                </p>
+                <p>
+                    Awit saking sayah lan semplahing manah, sang putri lajeng ngucap sumpah bilih sinten kemawon ingkang purun mundhutaken pirantos menika, menawi wanodya badhe kaanggep sedherek, nanging menawi jaler badhe <span class="krama-word">kapundhut garwa<span class="tooltip-card"><strong>Kapundhut Garwa</strong><br>Dijadikan suami</span></span> salaminipun. Mboten kanyana-nyana, sawijining segawon jaler awarna cemeng mulus ingkang asma Si Tumang—ingkang sanyatanipun titisan dewa ingkang nampi sot laknat tumurun ing marcapada—mundhutaken pirantos tenun kasebat lajeng dipun aturaken ing ngarsanipun sang dewi.
+                </p>
+                <p>
+                    Kanthi netepi sumpah ingkang sampun kawedhar, Dayang Sumbi nampi Si Tumang minangka garwanipun. Saking palakrama menika, lajeng miyos jabang bayi jaler ingkang gagah pideksa ingkang dipun paringi asma Sangkuriang. Sangkuriang tumuwuh dados satriya ingkang prigel mbebedhag ing wana kaliyan Si Tumang, tanpa nate mangertos bilih segawon setya kasebat inggih menika ramanipun piyambak.
+                </p>
+                <p>
+                    Dumugi satunggaling dinten, Dayang Sumbi ingkang saweg gerah kepengin sanget dhahar manahipun kidang menjangan ingkang taksih seger. Sangkuriang enggal nggendhong jemparing mlebet wana gung kaliyan Si Tumang. Nanging ngantos suruping surya, mboten wonten kidang setunggal-tunggala ingkang saged kapikut. Nalika priksa wonten celeng ngambah marga, Sangkuriang dhawuh Si Tumang supados ngoyak. Nanging Si Tumang ingkang mangertos bilih celeng menika titisan Dewi Wayungyang (eyangipun Sangkuriang) mboten purun obah.
+                </p>
+                <p>
+                    Awit saking duka ingkang mboten saged kaempet, Sangkuriang nglepasaken jemparing ngantos Si Tumang <span class="krama-word">seda<span class="tooltip-card"><strong>Seda</strong><br>Gugur / Wafat</span></span> wonten ing madyaning wana. Sangkuriang mundhut manahipun Si Tumang lajeng kabekta wangsul dipun tedha dening ibunipun. Dayang Sumbi sanget bingah lan ngolah manah kasebat.
+                </p>
+                <p>
+                    Nanging kabingahan menika salin dados tangis nalika Dayang Sumbi nyuwun pirsa babagan Si Tumang. Kanthi getir, Sangkuriang matur bilih olahan kasebat inggih manahipun Si Tumang. Mireng atur menika, manahipun Dayang Sumbi kados dipun iris-iris. Awit saking duka yayah sinipi, sang putri mundhut siwur kajeng jati lajeng dipun gebugaken ing bathukipun Sangkuriang ngantos getihipun ambyah-ambyah lan nilar tatu lebet. Dayang Sumbi lajeng nundhung putranipun kesah tebih saking tanah Pasundan.
+                </p>
+                <p>
+                    Warsa lumampah, Sangkuriang ngulandara ngambah redi lan tapa brata ing sangisoring para pertapa wasis. Panjenengane kasil nguasani maneka aji kanuragan lan dados satriya ingkang sekti mandraguna sarta bagus kencana pasuryanipun. Lampahing takdir nuntun tindakipun Sangkuriang wangsul malih dhateng redi papan lairipun.
+                </p>
+                <p>
+                    Ing ngriku, Sangkuriang kasengsem sanget priksa sawijining wanodya ingkang sulistya ing warna. Awit saking kanugrahaning Gusti Kang Akarya Jagad, Dayang Sumbi pinaringan raga ingkang tansah anem lan ayu mencorong. Kekalihipun sami nandhang wuyung katresnan ngantos Sangkuriang nglamar sang putri badhe kadadosaken garwa prameswari.
+                </p>
+                <p>
+                    Nalika Dayang Sumbi saweg ngusap rikma lan nata udheng ing bathukipun Sangkuriang sakderengipun dinten palakrama, sang putri kaget priksa wonten tilas tatu lebet saking siwur kajeng. Sanalika Dayang Sumbi mangertos bilih satriya menika putranipun piyambak! Panyuwunipun Dayang Sumbi supados mbatalaken palakrama dipun tampik dening Sangkuriang ingkang sampun wuta dening hawa nafsu.
+                </p>
+                <p>
+                    Kangge nyegah bilai ageng menika, Dayang Sumbi paring bebana kalih perkawis ingkang <span class="krama-word">mokal<span class="tooltip-card"><strong>Mokal</strong><br>Mustahil dilogika</span></span> dipun lampahi dening tiyang limrah: Sangkuriang kedah saged mbendung lepen Citarum lan damel baita kajeng ageng salebeting setunggal dalu sakderengipun fajar byar esuk.
+                </p>
+                <p>
+                    Sangkuriang nyanggupi kanthi mantep. Panjenengane semedi ngempalaken lelembut, guriang pitung, lan para jin wana Pasundan. Sedaya jin sami nyigar wit ageng lan ngedegaken bendungan sela. Sakderengipun parak esuk, bendungan lepen sampun nahan toya lan wujud baita ageng sampun meh rampung paripurna.
+                </p>
+                <p>
+                    Priksa kaanan menika, Dayang Sumbi nyenyuwun pitulungan dhumateng Gusti. Sang dewi ngejer slendhang tenun pethak ing sisih wetan, ngobong dami pari, sarta dhawuh para wanodya dhusun nutu lesung kanthi gumuruh. Cahya pethak lan swanten lesung njalari para ayam jago kluruk amargi ngira surya sampun mlethek. Wadyabala lelembut sami ajrih benteripun surya lajeng lumajar nilaraken pedamelanipun.
+                </p>
+                <p>
+                    Sangkuriang duka sanget priksa bilih dipun culikani. Panjenengane mbikak bendungan lepen Citarum ngantos lepen menika ngembeng dados Tlaga Bandung Purba. Kanthi sedaya kasektenipun, Sangkuriang nyepak baita ageng kasebat dhumateng sisih lor. Baita menika mletik ing akasa lajeng dhawah kanthi kahanan nangkub. Baita nangkub kasebat pungkasanipun salin wujud dados Redi Tangkuban Parahu ingkang jumeneng ngantos sapunika.
                 </p>
             </article>
 
-            <!-- TEKS BASA JAWA KRAMA -->
-            <article id="teks-jawa" class="fade-transition hidden-lang prose-teks text-base md:text-lg leading-[2.3] text-justify space-y-7">
-                <p class="dropcap">
-                    Ing jaman <span class="krama-word">rumiyin<span class="tooltip-card"><strong>Rumiyin</strong><br>Dahulu kala</span></span> ing tlatah Pasundan Jawi Kilen, wonten sawijining putri narendra ingkang sanget <span class="krama-word">sulistya<span class="tooltip-card"><strong>Sulistya</strong><br>Cantik jelita</span></span> ing warna asma Dayang Sumbi. Padintenanipun remen nenun kain wonten ing bangsal redi. Nalika pirantos tenunipun dhawah ing jurang, sang dewi ngucap sumpah bilih sinten kemawon ingkang saged mundhutaken pirantos menika, menawi jaler badhe kapundhut garwa.
-                </p>
-                <p>
-                    Mboten kanyana, sawijining segawon jaler ingkang asma Si Tumang—ingkang sanyatanipun titisan dewa ingkang dipun sotaken tumurun ing bumi—ngaturaken pirantos tenun kasebat. Awit saking sumpahipun, Dayang Sumbi lajeng dhaup kaliyan Si Tumang ngantos patutan satunggal lare jaler ingkang gagah asma Sangkuriang.
-                </p>
-                <p>
-                    Sangkuriang mboten nate mangertos bilih Si Tumang menika ramanipun piyambak. Ing satunggaling dinten, Dayang Sumbi kepengin sanget dhahar manahipun kidang menjangan. Sangkuriang mlebet wana gung kaliyan Si Tumang. Nanging ngantos surup surya, mboten pikantuk buron satunggal-tunggala. Awit saking duka amargi Si Tumang mboten purun ngoyak buron, Sangkuriang nglepasaken jemparing ngantos Si Tumang <span class="krama-word">seda<span class="tooltip-card"><strong>Seda</strong><br>Mati / Gugur</span></span>. Manahipun dipun bekta wangsul dipun tedha dening ibunipun.
-                </p>
-                <p>
-                    Sakelangkung duka lan trenyuh manahipun Dayang Sumbi nalika priksa bilih olahan kasebat inggih menika manahipun garwanipun piyambak. Sang dewi nuthuk bathukipun Sangkuriang mawi siwur kajeng ngantos tilas tatu lebet, lajeng nundhung putranipun kesah saking praja.
-                </p>
-                <p>
-                    Warsa lumampah, Sangkuriang dados satriya ingkang sekti mandraguna. Pasuryanipun dados jejaka ingkang sanget bagus kencana. Tindakipun Sangkuriang ngambah redi ingkang nate dados papan lairipun. Ing ngriku, panjenengane kepranan dhumateng sawijining wanodya ingkang tansah anem lan ayu, ingkang mboten sanes inggih ibunipun piyambak. Kekalihipun sami nandhang wuyung katresnan.
-                </p>
-                <p>
-                    Nalika Dayang Sumbi saweg nata udet ing rikmanipun Sangkuriang sakderengipun palakrama, sang putri kaget priksa wonten tilas tatu ing bathukipun sang jejaka. Dayang Sumbi mangertos bilih satriya menika putranipun piyambak. Panyuwunipun Dayang Sumbi supados mbatalaken palakrama dipun tampik dening Sangkuriang ingkang sampun wuta dening katresnan.
-                </p>
-                <p>
-                    Kangge nyegah bilai menika, Dayang Sumbi paring bebana ingkang <span class="krama-word">mokal<span class="tooltip-card"><strong>Mokal</strong><br>Mustahil dilogika</span></span>: Sangkuriang kedah saged mbendung lepen Citarum lan damel baita ageng salebeting setunggal dalu sakderengipun fajar byar.
-                </p>
-                <p>
-                    Kanthi kasektenipun, Sangkuriang ngempalaken lelembut lan jin wana sami nyigar wit ageng lan mbendung lepen mawi sela-sela ageng. Sakderengipun parak esuk, bendungan lan baita ageng sampun meh paripurna ngadeg gagah.
-                </p>
-                <p>
-                    Priksa kaanan ingkang mbebayani, Dayang Sumbi ngasta slendhang pethak dipun jereng ing sisih wetan sarta dhawuh para tiyang dhusun sami nutu lesung kanthi gumuruh. Cahya pethak lan swanten lesung njalari ayam jago sami kluruk amargi ngira surya sampun mlethek. Wadyabala jin sami ajrih lajeng lumajar nilaraken pedamelanipun.
-                </p>
-                <p>
-                    Sangkuriang duka yayah sinipi priksa bilih dipun culikani. Panjenengane mbikak bendungan lepen Citarum ngantos dados tlaga ageng. Kanthi sedaya kasantosanipun, Sangkuriang nyepak baita ageng kasebat dhumateng sisih lor. Baita menika mletik ing akasa lajeng dhawah kanthi wujud nangkub. Baita nangkub menika pungkasanipun salin wujud dados redi ageng ingkang dipun wastani Redi Tangkuban Parahu ing tlatah Pasundan.
-                </p>
-            </article>
-
-            <div class="mt-14 pt-8 border-t border-emas-prada/30 text-center">
+            <!-- Tanda Tamat -->
+            <div class="mt-12 pt-7 border-t border-emas-prada/30 text-center">
                 <span class="font-aksara text-emas-prada text-3xl">꧋ꦠꦩꦠ꧀꧋</span>
                 <p class="font-royal text-xs uppercase tracking-widest text-coklat-teks/50 mt-1">Tamating Serat Sangkuriang</p>
             </div>
         </div>
     </main>
 
-    <!-- JAVASCRIPT: ENTRANCE ANIMATION & SMART RETURN -->
+    <!-- JAVASCRIPT: LENIS SMOOTH, GSAP & LOGIC -->
     <script>
-        const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
-        function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+        // 1. Inisialisasi Lenis Smooth Scroll (Anti-Overscroll)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            wheelMultiplier: 0.85,
+            touchMultiplier: 1.5,
+            infinite: false
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
         requestAnimationFrame(raf);
 
-        window.addEventListener('scroll', () => {
-            const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            document.getElementById('read-progress').style.width = ((document.documentElement.scrollTop / h) * 100) + '%';
+        // 2. Reading Progress Bar Akurat
+        lenis.on('scroll', ({ scroll, limit }) => {
+            const progress = limit > 0 ? (scroll / limit) * 100 : 0;
+            document.getElementById('read-progress').style.width = Math.min(100, Math.max(0, progress)) + '%';
         });
 
+        // 3. Animasi Masuk Sinematik GSAP + Kalibrasi Presisi
         window.addEventListener('load', () => {
-            const tl = gsap.timeline();
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    lenis.resize();
+                }
+            });
+
             gsap.to("#body-naskah", { opacity: 1, duration: 0.5 });
-            
-            tl.from("#hero-img", { scale: 1.2, duration: 1.4, ease: "power3.out" })
-              .from("#hero-title", { y: 30, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.8")
-              .from("#hero-aksara", { y: 20, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.6")
-              .from("#naskah-container", { y: 60, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.4");
+
+            tl.from("#hero-img", { scale: 1.15, duration: 1.2, ease: "power2.out" })
+              .from("#hero-title", { y: 25, opacity: 0, duration: 0.7, ease: "power2.out" }, "-=0.6")
+              .from("#hero-aksara", { y: 15, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.4")
+              .from("#naskah-container", { y: 40, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.3");
+
+            setTimeout(() => lenis.resize(), 300);
         });
 
+        // 4. Tombol Kembali Cerdas ke Dashboard
         function kembaliKePustaka() {
             gsap.to("#body-naskah", {
-                opacity: 0, duration: 0.3, onComplete: () => {
+                opacity: 0,
+                duration: 0.25,
+                onComplete: () => {
                     if (window.history.length > 1) {
                         window.history.back();
                     } else {
@@ -245,6 +351,7 @@
             });
         }
 
+        // 5. Toggle Bahasa Bersih (Auto Lenis Resize)
         function switchLanguage(lang) {
             const bg = document.getElementById('toggle-bg');
             const btnIndo = document.getElementById('btn-indo');
@@ -256,28 +363,41 @@
                 bg.style.transform = 'translateX(100%)';
                 btnJawa.classList.add('text-emas-terang'); btnJawa.classList.remove('text-coklat-teks/60');
                 btnIndo.classList.remove('text-emas-terang'); btnIndo.classList.add('text-coklat-teks/60');
+                
                 tIndo.classList.replace('active-lang', 'hidden-lang');
-                setTimeout(() => tJawa.classList.replace('hidden-lang', 'active-lang'), 150);
+                tJawa.classList.replace('hidden-lang', 'active-lang');
             } else {
                 bg.style.transform = 'translateX(0)';
                 btnIndo.classList.add('text-emas-terang'); btnIndo.classList.remove('text-coklat-teks/60');
                 btnJawa.classList.remove('text-emas-terang'); btnJawa.classList.add('text-coklat-teks/60');
+                
                 tJawa.classList.replace('active-lang', 'hidden-lang');
-                setTimeout(() => tIndo.classList.replace('hidden-lang', 'active-lang'), 150);
+                tIndo.classList.replace('hidden-lang', 'active-lang');
             }
+
+            setTimeout(() => {
+                lenis.resize();
+            }, 60);
         }
 
-        let fSize = 18;
-        function ubahUkuranFont(step) {
-            fSize = Math.max(15, Math.min(24, fSize + (step * 2)));
-            document.querySelectorAll('.prose-teks').forEach(el => el.style.fontSize = fSize + 'px');
+        // 6. Font Scaler Interaktif
+        let currentFontSize = 18;
+        function ubahUkuranFont(delta) {
+            currentFontSize = Math.max(15, Math.min(24, currentFontSize + (delta * 2)));
+            document.querySelectorAll('.prose-teks').forEach(el => {
+                el.style.fontSize = currentFontSize + 'px';
+            });
+            document.getElementById('font-indicator').textContent = currentFontSize + 'px';
+            
+            setTimeout(() => lenis.resize(), 50);
         }
 
-        let isDark = false;
+        // 7. Dark Mode
+        let isDarkMode = false;
         function toggleModeMalam() {
-            isDark = !isDark;
+            isDarkMode = !isDarkMode;
             document.body.classList.toggle('mode-malam');
-            document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+            document.getElementById('theme-btn').textContent = isDarkMode ? '☀️' : '🌙';
         }
     </script>
 </body>
