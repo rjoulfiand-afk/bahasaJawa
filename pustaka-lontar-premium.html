@@ -79,7 +79,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Nav Link Presisi & Garis Tipis Halus (Razor-thin 1px) */
         .nav-link {
             position: relative;
             color: rgba(255, 255, 255, 0.65);
@@ -90,44 +89,23 @@
             align-items: center;
             justify-content: center;
         }
-        .nav-link:hover {
-            color: #F3E5AB;
-        }
-        .nav-link.active {
-            color: #F3E5AB;
-            font-weight: 600;
-        }
-        /* Garis bawah sutra 1px dengan pendaran halus */
+        .nav-link:hover { color: #F3E5AB; }
+        .nav-link.active { color: #F3E5AB; font-weight: 600; }
         .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0px;
-            left: 50%;
-            width: 0;
-            height: 1px; /* Tipis elegan 1px */
+            content: ''; position: absolute; bottom: 0px; left: 50%; width: 0; height: 1px;
             background: linear-gradient(90deg, transparent, #D4AF37 30%, #F3E5AB 50%, #D4AF37 70%, transparent);
             transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease;
-            transform: translateX(-50%);
-            opacity: 0;
-            border-radius: 1px;
-            pointer-events: none;
+            transform: translateX(-50%); opacity: 0; border-radius: 1px; pointer-events: none;
         }
-        .nav-link.active::after {
-            width: 75%; /* Proporsi ideal presisi */
-            opacity: 0.95;
-            box-shadow: 0 1px 5px rgba(212, 175, 55, 0.4); /* Pendaran lembut */
-        }
-        .nav-link:hover::after {
-            width: 45%;
-            opacity: 0.55;
-        }
+        .nav-link.active::after { width: 75%; opacity: 0.95; box-shadow: 0 1px 5px rgba(212, 175, 55, 0.4); }
+        .nav-link:hover::after { width: 45%; opacity: 0.55; }
     </style>
 </head>
 <body class="bg-krem-lontar text-coklat-keraton font-serif-teks overflow-x-hidden selection:bg-emas-prada selection:text-coklat-keraton">
 
     <div id="ambient" class="ambient-gold hidden lg:block"></div>
 
-    <!-- PRELOADER ANTI-MACET (HANYA MUNCUL DI AWAL SESI) -->
+    <!-- PRELOADER ANTI-MACET -->
     <div id="preloader" class="fixed inset-0 z-[10000] bg-coklat-keraton bg-batik-gelap flex flex-col items-center justify-center transition-opacity duration-700">
         <div class="text-center">
             <span class="text-emas-prada font-aksara text-7xl mb-3 block animate-pulse">ꦥꦸꦱ꧀ꦠꦏ</span>
@@ -140,10 +118,10 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- NAVBAR LEGA, BERKELAS, DAN SIMETRIS -->
+    <!-- NAVBAR LEGA & SIMETRIS                     -->
     <!-- ========================================== -->
     <nav id="navbar" class="fixed top-0 left-0 w-full z-50 h-[84px] md:h-[88px] bg-[#140E0A]/95 backdrop-blur-xl border-b border-emas-prada/20 flex items-center transition-all duration-300">
-        <div class="max-w-7xl w-full mx-auto px-5 sm:px-8 lg:px-12 flex justify-between items-center">
+        <div class="w-full max-w-[1920px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 flex justify-between items-center">
             
             <!-- 1. KIRI: LOGO & IDENTITAS -->
             <a href="#hero" class="flex items-center gap-3.5 group shrink-0">
@@ -156,23 +134,24 @@
                 </div>
             </a>
             
-            <!-- 2. TENGAH: MENU TAUTAN LEGA & RAPI (JARAK TERUKUR & TIDAK MENUMPUK) -->
-            <div class="hidden md:flex items-center gap-6 lg:gap-9 xl:gap-11">
-                <a href="#hero" class="nav-link active text-xs font-serif-judul uppercase tracking-[0.18em]" data-section="hero">Beranda</a>
-                <a href="#koleksi" class="nav-link text-xs font-serif-judul uppercase tracking-[0.18em]" data-section="koleksi">Koleksi Babad</a>
-                <a href="#falsafah" class="nav-link text-xs font-serif-judul uppercase tracking-[0.18em]" data-section="falsafah">Falsafah Luhur</a>
-                <a href="#sinau" class="nav-link text-xs font-serif-judul uppercase tracking-[0.18em]" data-section="sinau">Sinau Aksara</a>
+            <!-- 2. KANAN: MENU TAUTAN & DWIBAHASA -->
+            <div class="hidden md:flex items-center gap-7 lg:gap-10 xl:gap-12">
+                <div class="flex items-center gap-5 lg:gap-7 xl:gap-9">
+                    <a href="#hero" class="nav-link active text-xs font-serif-judul uppercase tracking-[0.18em] whitespace-nowrap" data-section="hero">Beranda</a>
+                    <a href="#koleksi" class="nav-link text-xs font-serif-judul uppercase tracking-[0.18em] whitespace-nowrap" data-section="koleksi">Koleksi Babad</a>
+                    <a href="#falsafah" class="nav-link text-xs font-serif-judul uppercase tracking-[0.18em] whitespace-nowrap" data-section="falsafah">Falsafah Luhur</a>
+                    <a href="#sinau" class="nav-link text-xs font-serif-judul uppercase tracking-[0.18em] whitespace-nowrap" data-section="sinau">Sinau Aksara</a>
+                </div>
+
+                <div class="flex items-center gap-3 shrink-0 border-l border-emas-prada/25 pl-6 lg:pl-8 whitespace-nowrap">
+                    <span class="text-emas-prada/60 font-aksara text-xl select-none shrink-0">꧋ꦱꦼꦫꦠ꧀꧋</span>
+                    <span class="text-[10px] font-serif-judul tracking-[0.2em] uppercase text-white/75 whitespace-nowrap">
+                        Dwibahasa Sastra
+                    </span>
+                </div>
             </div>
 
-            <!-- 3. KANAN: ORNAMEN DWIBAHASA SIMETRIS -->
-            <div class="hidden md:flex items-center gap-3 shrink-0 border-l border-emas-prada/20 pl-5 lg:pl-6 whitespace-nowrap">
-                <span class="text-emas-prada/50 font-aksara text-xl select-none shrink-0">꧋ꦱꦼꦫꦠ꧀꧋</span>
-                <span class="text-[10px] font-serif-judul tracking-[0.2em] uppercase text-white/70 whitespace-nowrap">
-                    Dwibahasa Sastra
-                </span>
-            </div>
-
-            <!-- Tombol Hamburger Layar HP -->
+            <!-- 3. TOMBOL HAMBURGER MOBILE -->
             <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menu Mobile">
                 <span class="w-6 h-[2px] bg-emas-prada"></span>
                 <span class="w-4 h-[2px] bg-emas-prada self-end"></span>
@@ -192,14 +171,12 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- SECTION 1: HERO PARALLAX DENGAN LATAR CANDI -->
+    <!-- SECTION 1: HERO PARALLAX                   -->
     <!-- ========================================== -->
     <header id="hero" class="relative min-h-[92vh] flex items-center justify-center overflow-hidden bg-coklat-keraton bg-batik-gelap pt-28">
-        <!-- Parallax Candi Image -->
         <div class="hero-bg absolute inset-0 bg-[url('https://images.unsplash.com/photo-1596402184320-417e7178b2cd?q=80&w=1920')] bg-cover bg-center opacity-30 scale-110"></div>
         <div class="absolute inset-0 bg-gradient-to-b from-coklat-keraton/90 via-coklat-keraton/60 to-krem-lontar"></div>
 
-        <!-- Watermark Aksara Raksasa -->
         <div class="hero-aksara absolute top-28 -left-6 text-[20vw] font-aksara text-emas-prada/[0.04] pointer-events-none select-none">ꦗꦮ</div>
         <div class="hero-aksara absolute bottom-12 -right-6 text-[20vw] font-aksara text-emas-prada/[0.04] pointer-events-none select-none">ꦱꦼꦫꦠ꧀</div>
 
@@ -237,7 +214,7 @@
     </header>
 
     <!-- ========================================== -->
-    <!-- SECTION 2: STATS RINGKAS -->
+    <!-- SECTION 2: STATS RINGKAS                  -->
     <!-- ========================================== -->
     <section class="py-14 bg-krem-lontar bg-batik-kawung border-b border-emas-prada/20 relative z-20">
         <div class="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-emas-prada/20 gs-reveal">
@@ -282,7 +259,7 @@
             <!-- SEARCH BAR & FILTER 3 WILAYAH JAWA -->
             <div class="max-w-4xl mx-auto mb-14 flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl shadow-lg border border-emas-prada/30 gs-reveal">
                 <div class="relative w-full md:w-1/2">
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-coklat-keraton/40">🔍</span>
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-coklat-keraton/40"></span>
                     <input type="text" id="cari-cerita" onkeyup="filterPencarian()" placeholder="Cari judul cerita atau tokoh..." class="w-full pl-11 pr-4 py-2.5 rounded-xl bg-krem-lontar/50 border border-emas-prada/20 text-xs sm:text-sm focus:outline-none focus:border-emas-prada">
                 </div>
 
@@ -294,10 +271,10 @@
                 </div>
             </div>
 
-            <!-- GRID KARTU CERITA (4 KARTU AKTIF 100%) -->
+            <!-- GRID KARTU CERITA (4 KARTU AKTIF) -->
             <div id="grid-cerita" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 max-w-5xl mx-auto">
                 
-                <!-- CARD 1: RORO JONGGRANG (JAWA TENGAH) -->
+                <!-- CARD 1: RORO JONGGRANG -->
                 <div class="cerita-card jateng gs-reveal group" data-title="roro jonggrang bandung bondowoso prambanan candi seribu">
                     <a href="roro-jonggrang.html" onclick="simpanPosisiScroll()" class="block bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 border border-emas-prada/25">
                         <div class="h-64 sm:h-72 overflow-hidden relative">
@@ -327,7 +304,7 @@
                     </a>
                 </div>
 
-                <!-- CARD 2: TIMUN MAS (JAWA TENGAH) -->
+                <!-- CARD 2: TIMUN MAS -->
                 <div class="cerita-card jateng gs-reveal group" data-title="timun mas mbok srini buto ijo jarum garam terasi mentimun">
                     <a href="timun-mas.html" onclick="simpanPosisiScroll()" class="block bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 border border-emas-prada/25">
                         <div class="h-64 sm:h-72 overflow-hidden relative">
@@ -357,7 +334,7 @@
                     </a>
                 </div>
 
-                <!-- CARD 3: KEONG MAS (JAWA TIMUR) -->
+                <!-- CARD 3: KEONG MAS -->
                 <div class="cerita-card jatim gs-reveal group" data-title="keong mas dewi candra kirana galuh ajeng raden panji daha kediri">
                     <a href="keong-mas.html" onclick="simpanPosisiScroll()" class="block bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 border border-emas-prada/25">
                         <div class="h-64 sm:h-72 overflow-hidden relative">
@@ -387,7 +364,7 @@
                     </a>
                 </div>
 
-                <!-- CARD 4: SANGKURIANG (JAWA BARAT) -->
+                <!-- CARD 4: SANGKURIANG -->
                 <div class="cerita-card jabar gs-reveal group" data-title="sangkuriang dayang sumbi tangkuban perahu sunda citarum priangan">
                     <a href="sangkuriang.html" onclick="simpanPosisiScroll()" class="block bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition duration-500 border border-emas-prada/25">
                         <div class="h-64 sm:h-72 overflow-hidden relative">
@@ -422,7 +399,7 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- SECTION 4: FALSAFAH LUHUR & PETUAH MORAL -->
+    <!-- SECTION 4: FALSAFAH LUHUR & CARD BESAR MODAL -->
     <!-- ========================================== -->
     <section id="falsafah" class="py-24 bg-coklat-keraton bg-batik-gelap text-white relative overflow-hidden">
         <div class="max-w-6xl mx-auto px-6 relative z-10">
@@ -433,52 +410,92 @@
                     Falsafah di Balik Setiap Cerita
                 </h2>
                 <p class="text-xs sm:text-sm text-white/70 leading-relaxed">
-                    Kisah sastra Nusantara sarat akan mutiara hikmah yang mengajarkan kehormatan, kejujuran, dan ketabahan batin.
+                    Klik pada setiap kartu di bawah ini untuk membuka uraian lengkap falsafah hidup, pitutur luhur, dan pesan moral mendalam dari para leluhur.
                 </p>
             </div>
 
-            <!-- 4 Kartu Filosofi Cerita -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <!-- 4 KARTU FALSAFAH INTERAKTIF (BISA DIKLIK) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
                 
-                <div class="bg-coklat-sogan/70 border border-emas-prada/25 rounded-2xl p-6 hover:border-emas-prada transition duration-300 gs-reveal">
-                    <span class="text-xs font-serif-judul text-emas-prada block mb-1">Kisah 01</span>
-                    <h3 class="font-serif-judul text-xl font-bold text-white mb-2">Roro Jonggrang</h3>
-                    <p class="text-xs text-emas-terang italic mb-3">"Sura Dira Jayaningrat, Lebur Dening Pangastuti"</p>
-                    <p class="text-xs text-white/70 leading-relaxed">
-                        Keangkuhan sakti dan paksaan tidak akan melahirkan kebahagiaan. Kekuatan sejati tunduk pada ketulusan cinta dan kerendahan hati.
-                    </p>
+                <!-- CARD 1: RORO JONGGRANG -->
+                <div onclick="bukaModalFalsafah('roro')" class="bg-coklat-sogan/80 border border-emas-prada/30 hover:border-emas-prada rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emas-prada/20 cursor-pointer group gs-reveal flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[10px] font-serif-judul text-emas-prada uppercase tracking-widest">Kisah 01</span>
+                            <span class="text-[11px] text-white/40 group-hover:text-emas-terang transition"></span>
+                        </div>
+                        <h3 class="font-serif-judul text-xl font-bold text-white group-hover:text-emas-terang transition mb-2">Roro Jonggrang</h3>
+                        <p class="text-xs text-emas-prada italic mb-3">"Sura Dira Jayaningrat, Lebur Dening Pangastuti"</p>
+                        <p class="text-xs text-white/70 leading-relaxed line-clamp-3">
+                            Keangkuhan sakti dan paksaan tidak akan melahirkan kebahagiaan. Kekuatan sejati tunduk pada ketulusan cinta dan kerendahan hati.
+                        </p>
+                    </div>
+                    <div class="pt-4 mt-4 border-t border-emas-prada/20 flex items-center justify-between text-[11px] text-emas-terang font-semibold">
+                        <span></span>
+                        <span class="group-hover:translate-x-1 transition">→</span>
+                    </div>
                 </div>
 
-                <div class="bg-coklat-sogan/70 border border-emas-prada/25 rounded-2xl p-6 hover:border-emas-prada transition duration-300 gs-reveal">
-                    <span class="text-xs font-serif-judul text-emas-prada block mb-1">Kisah 02</span>
-                    <h3 class="font-serif-judul text-xl font-bold text-white mb-2">Timun Mas</h3>
-                    <p class="text-xs text-emas-terang italic mb-3">"Ikhtiar, Wani, lan Mantep"</p>
-                    <p class="text-xs text-white/70 leading-relaxed">
-                        Seberat apa pun ancaman raksasa, manusia tidak boleh putus asa. Doa orang tua dan kecerdikan akal budi selalu membuka jalan keselamatan.
-                    </p>
+                <!-- CARD 2: TIMUN MAS -->
+                <div onclick="bukaModalFalsafah('timun')" class="bg-coklat-sogan/80 border border-emas-prada/30 hover:border-emas-prada rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emas-prada/20 cursor-pointer group gs-reveal flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[10px] font-serif-judul text-emas-prada uppercase tracking-widest">Kisah 02</span>
+                            <span class="text-[11px] text-white/40 group-hover:text-emas-terang transition"></span>
+                        </div>
+                        <h3 class="font-serif-judul text-xl font-bold text-white group-hover:text-emas-terang transition mb-2">Timun Mas</h3>
+                        <p class="text-xs text-emas-prada italic mb-3">"Ikhtiar, Wani, lan Mantep"</p>
+                        <p class="text-xs text-white/70 leading-relaxed line-clamp-3">
+                            Seberat apa pun ancaman raksasa, manusia tidak boleh putus asa. Doa orang tua dan kecerdikan akal budi selalu membuka jalan keselamatan.
+                        </p>
+                    </div>
+                    <div class="pt-4 mt-4 border-t border-emas-prada/20 flex items-center justify-between text-[11px] text-emas-terang font-semibold">
+                        <span></span>
+                        <span class="group-hover:translate-x-1 transition">→</span>
+                    </div>
                 </div>
 
-                <div class="bg-coklat-sogan/70 border border-emas-prada/25 rounded-2xl p-6 hover:border-emas-prada transition duration-300 gs-reveal">
-                    <span class="text-xs font-serif-judul text-emas-prada block mb-1">Kisah 03</span>
-                    <h3 class="font-serif-judul text-xl font-bold text-white mb-2">Keong Mas</h3>
-                    <p class="text-xs text-emas-terang italic mb-3">"Becik Ketitik, Ala Ketara"</p>
-                    <p class="text-xs text-white/70 leading-relaxed">
-                        Keburukan dan fitnah iri dengki pada akhirnya akan tersingkap. Budi pekerti luhur yang tabah akan kembali meraih kemuliaan hakiki.
-                    </p>
+                <!-- CARD 3: KEONG MAS -->
+                <div onclick="bukaModalFalsafah('keong')" class="bg-coklat-sogan/80 border border-emas-prada/30 hover:border-emas-prada rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emas-prada/20 cursor-pointer group gs-reveal flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[10px] font-serif-judul text-emas-prada uppercase tracking-widest">Kisah 03</span>
+                            <span class="text-[11px] text-white/40 group-hover:text-emas-terang transition"></span>
+                        </div>
+                        <h3 class="font-serif-judul text-xl font-bold text-white group-hover:text-emas-terang transition mb-2">Keong Mas</h3>
+                        <p class="text-xs text-emas-prada italic mb-3">"Becik Ketitik, Ala Ketara"</p>
+                        <p class="text-xs text-white/70 leading-relaxed line-clamp-3">
+                            Keburukan dan fitnah iri dengki pada akhirnya akan tersingkap. Budi pekerti luhur yang tabah akan kembali meraih kemuliaan hakiki.
+                        </p>
+                    </div>
+                    <div class="pt-4 mt-4 border-t border-emas-prada/20 flex items-center justify-between text-[11px] text-emas-terang font-semibold">
+                        <span></span>
+                        <span class="group-hover:translate-x-1 transition">→</span>
+                    </div>
                 </div>
 
-                <div class="bg-coklat-sogan/70 border border-emas-prada/25 rounded-2xl p-6 hover:border-emas-prada transition duration-300 gs-reveal">
-                    <span class="text-xs font-serif-judul text-emas-prada block mb-1">Kisah 04</span>
-                    <h3 class="font-serif-judul text-xl font-bold text-white mb-2">Sangkuriang</h3>
-                    <p class="text-xs text-emas-terang italic mb-3">"Hormat Indung Bapa"</p>
-                    <p class="text-xs text-white/70 leading-relaxed">
-                        Peringatan agung tentang pantangan melanggar batas kodrat kesucian keluarga serta keharusan mengendalikan hawa nafsu dan amarah murka.
-                    </p>
+                <!-- CARD 4: SANGKURIANG -->
+                <div onclick="bukaModalFalsafah('sangkuriang')" class="bg-coklat-sogan/80 border border-emas-prada/30 hover:border-emas-prada rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emas-prada/20 cursor-pointer group gs-reveal flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[10px] font-serif-judul text-emas-prada uppercase tracking-widest">Kisah 04</span>
+                            <span class="text-[11px] text-white/40 group-hover:text-emas-terang transition"></span>
+                        </div>
+                        <h3 class="font-serif-judul text-xl font-bold text-white group-hover:text-emas-terang transition mb-2">Sangkuriang</h3>
+                        <p class="text-xs text-emas-prada italic mb-3">"Hormat Indung Bapa & Waspada Nafsu"</p>
+                        <p class="text-xs text-white/70 leading-relaxed line-clamp-3">
+                            Peringatan agung tentang pantangan melanggar batas kodrat kesucian keluarga serta keharusan mengendalikan hawa nafsu dan amarah murka.
+                        </p>
+                    </div>
+                    <div class="pt-4 mt-4 border-t border-emas-prada/20 flex items-center justify-between text-[11px] text-emas-terang font-semibold">
+                        <span></span>
+                        <span class="group-hover:translate-x-1 transition">→</span>
+                    </div>
                 </div>
 
             </div>
 
-            <!-- Geografi 3 Pilar Sastra -->
+            <!-- GEOGRAFI 3 PILAR SASTRA -->
             <div class="bg-black/40 border border-emas-prada/25 p-8 rounded-3xl max-w-4xl mx-auto text-center gs-reveal">
                 <span class="text-[10px] font-serif-judul tracking-[0.3em] uppercase text-emas-prada block mb-2">Kearifan Lokal Tiga Wilayah</span>
                 <h3 class="text-2xl font-serif-judul font-bold text-white mb-4">Peta Warisan Budaya Tanah Jawa</h3>
@@ -648,7 +665,7 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- FOOTER LENGKAP & BERWIBAWA -->
+    <!-- FOOTER LENGKAP & BERWIBAWA                -->
     <!-- ========================================== -->
     <footer class="bg-coklat-keraton bg-batik-gelap text-white/70 pt-20 pb-12 border-t border-emas-prada/20">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 mb-14">
@@ -684,11 +701,74 @@
         </div>
     </footer>
 
+    <!-- ======================================================== -->
+    <!-- MODAL CARD BESAR: RINCIAN FALSAFAH & NILAI MORAL MENDALAM -->
+    <!-- ======================================================== -->
+    <div id="modal-falsafah" class="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
+        <div id="modal-content" class="bg-[#18110B] border-2 border-emas-prada/50 rounded-3xl max-w-2xl w-full p-6 sm:p-9 shadow-2xl relative overflow-hidden transform scale-95 transition-transform duration-300">
+            
+            <!-- Ornamen Aksara Watermark -->
+            <div id="modal-aksara-bg" class="absolute -right-8 -bottom-8 font-aksara text-9xl text-emas-prada/5 select-none pointer-events-none">ꦗꦮ</div>
+            
+            <!-- Tombol Tutup -->
+            <button onclick="tutupModalFalsafah()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 border border-emas-prada/40 flex items-center justify-center text-emas-terang hover:text-white transition cursor-pointer">
+                ✕
+            </button>
+
+            <!-- Kategori & Judul Cerita -->
+            <div class="mb-5">
+                <span id="modal-badge" class="inline-block px-3 py-1 rounded-full text-[10px] font-serif-judul uppercase tracking-widest bg-emas-prada/15 text-emas-terang border border-emas-prada/30 mb-2">
+                    Kisah 01 &bull; Jawa Tengah
+                </span>
+                <h3 id="modal-judul" class="text-2xl sm:text-3xl font-serif-judul font-bold text-white">
+                    Roro Jonggrang
+                </h3>
+            </div>
+
+            <!-- Quote Falsafah Luhur -->
+            <div class="p-4 rounded-xl bg-coklat-sogan/90 border-l-4 border-emas-prada mb-5">
+                <p id="modal-semboyan" class="text-sm sm:text-base font-serif-judul italic text-emas-terang font-semibold">
+                    "Sura Dira Jayaningrat, Lebur Dening Pangastuti"
+                </p>
+                <span id="modal-arti-semboyan" class="text-[11px] text-white/60 block mt-1">
+                    (Segala bentuk keangkaramurkaan dan kesaktian yang angkuh akan lebur oleh kelembutan budi pekerti serta kerendahan hati.)
+                </span>
+            </div>
+
+            <!-- Uraian Nilai Moral Spesifik & Nyaman Dibaca -->
+            <div class="space-y-3.5 text-xs sm:text-sm text-white/80 font-serif-teks leading-relaxed max-h-[42vh] overflow-y-auto pr-2 custom-scrollbar">
+                <div class="bg-black/25 p-3.5 rounded-xl border border-white/5">
+                    <strong class="text-emas-terang block mb-1 text-xs">1. Hakikat Budi Pekerti & Kemanusiaan:</strong>
+                    <p id="modal-poin-1" class="text-white/70">Kekuatan fisik dan kekuasaan tidak boleh dijadikan alat untuk memaksakan cinta atau kehendak pribadi kepada orang lain.</p>
+                </div>
+
+                <div class="bg-black/25 p-3.5 rounded-xl border border-white/5">
+                    <strong class="text-emas-terang block mb-1 text-xs">2. Akibat Muslihat & Keangkuhan:</strong>
+                    <p id="modal-poin-2" class="text-white/70">Kecurangan akan melahirkan kemurkaan, sementara keangkuhan hanya akan membuahkan penyesalan yang membatu sepanjang masa.</p>
+                </div>
+
+                <div class="bg-black/25 p-3.5 rounded-xl border border-white/5">
+                    <strong class="text-emas-terang block mb-1 text-xs">3. Relevansi dalam Kehidupan Modern:</strong>
+                    <p id="modal-poin-3" class="text-white/70">Mengajarkan generasi muda untuk selalu mengedepankan etika, kesabaran dalam menghadapi penolakan, serta menjunjung tinggi kehormatan sesama.</p>
+                </div>
+            </div>
+
+            <!-- Footer Modal & Tombol Baca Cerita Lengkap -->
+            <div class="pt-5 mt-5 border-t border-emas-prada/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <span class="text-[11px] text-white/50 italic">Khazanah Sastra & Ajaran Luhur Nusantara</span>
+                <a id="modal-link-baca" href="roro-jonggrang.html" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-emas-prada to-emas-terang text-coklat-keraton font-serif-judul font-bold text-xs uppercase tracking-wider text-center hover:scale-105 transition shadow-lg">
+                    Crita →
+                </a>
+            </div>
+
+        </div>
+    </div>
+
     <!-- ========================================== -->
-    <!-- JAVASCRIPT ENGINE & LOGIKA -->
+    <!-- JAVASCRIPT ENGINE & LOGIKA LENGKAP        -->
     <!-- ========================================== -->
     <script>
-        // 1. Inisialisasi Lenis Smooth Scroll
+        // 1. Lenis Smooth Scroll
         const lenis = new Lenis({
             duration: 1.25,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -698,7 +778,7 @@
         gsap.ticker.add((time) => lenis.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
 
-        // 2. Klik Navbar Meluncur Halus (Smooth Slide)
+        // 2. Klik Navbar Meluncur Halus
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const targetId = this.getAttribute('href');
@@ -711,7 +791,7 @@
             });
         });
 
-        // 3. ScrollSpy: Garis Bawah Navbar Bergeser Sesuai Posisi Layar
+        // 3. ScrollSpy Navbar
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('header[id], section[id]');
 
@@ -735,13 +815,13 @@
             });
         });
 
-        // 4. Parallax Background Latar Candi
+        // 4. Parallax Background
         gsap.to(".hero-bg", {
             yPercent: 25, ease: "none",
             scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
         });
 
-        // 5. Animasi Scroll Bolak-Balik GSAP
+        // 5. Animasi Reveal GSAP
         gsap.utils.toArray('.gs-reveal').forEach((elem) => {
             gsap.fromTo(elem,
                 { y: 40, opacity: 0, scale: 0.98 },
@@ -757,7 +837,98 @@
             );
         });
 
-        // 6. Logika Posisi Scroll & Anti-Loading Ulang Saat Tombol Back
+        // 6. Data Lengkap Modal Falsafah (Card Besar)
+        const DATA_FALSAFAH = {
+            'roro': {
+                badge: 'Kisah 01 • Jawa Tengah',
+                judul: 'Roro Jonggrang & Seribu Candi',
+                semboyan: '"Sura Dira Jayaningrat, Lebur Dening Pangastuti"',
+                artiSemboyan: '(Segala bentuk keangkaramurkaan dan kesaktian yang angkuh akan lebur oleh kelembutan budi pekerti serta kerendahan hati.)',
+                aksara: 'ꦫꦺꦴꦫꦺꦴꦗꦺꦴꦁꦒꦿꦁ',
+                poin1: 'Kekuasaan dan kedigdayaan sakti (Bandung Bondowoso) tidak boleh digunakan secara sewenang-wenang untuk menindas martabat orang lain ataupun memaksakan cinta sepihak.',
+                poin2: 'Kecurangan dan muslihat fajar palsu yang dilakukan Roro Jonggrang menjadi cermin bahwa menghindar dari janji dengan kelicikan berujung pada malapetaka kutukan yang membatu.',
+                poin3: 'Pelajaran abadi bagi kehidupan modern: Hubungan yang dibangun atas dasar pemaksaan tidak akan melahirkan kebahagiaan, sedangkan amarah murka yang tak terkendali hanya meninggalkan penyesalan abadi.',
+                link: 'roro-jonggrang.html'
+            },
+            'timun': {
+                badge: 'Kisah 02 • Jawa Tengah',
+                judul: 'Timun Mas & Raksasa Buto Ijo',
+                semboyan: '"Ikhtiar, Wani, Mantep, lan Tawakal"',
+                artiSemboyan: '(Kekuatan doa seorang ibu, keberanian diri, serta keteguhan ikhtiar budi pekerti akan meruntuhkan rintangan sebesar raksasa.)',
+                aksara: 'ꦠꦶꦩꦸꦤ꧀ꦩꦱ꧀',
+                poin1: 'Kasih sayang tulus seorang ibu (Mbok Srini) yang pantang menyerah mencari pertolongan spiritual demi menyelamatkan masa depan anak tercinta dari cengkeraman takdir kelam.',
+                poin2: 'Empat bekal sakti (biji mentimun, jarum, garam, dan terasi) melambangkan potensi akal budi, ketenangan batin, serta strategi cerdik dalam menghadapi krisis hidup.',
+                poin3: 'Pelajaran abadi bagi generasi muda: Sebesar apa pun ancaman masalah hidup (dilambangkan sosok Buto Ijo), kepasrahan yang disertai keberanian bertindak pasti akan membuahkan kemenangan dan kebebasan hakiki.',
+                link: 'timun-mas.html'
+            },
+            'keong': {
+                badge: 'Kisah 03 • Jawa Timur',
+                judul: 'Keong Mas & Candra Kirana',
+                semboyan: '"Becik Ketitik, Ala Ketara"',
+                artiSemboyan: '(Segala kebajikan pada akhirnya akan bersinar terang, dan sebusuk apa pun fitnah iri dengki pasti akan terbongkar.)',
+                aksara: 'ꦏꦺꦪꦺꦴꦁꦩꦱ꧀',
+                poin1: 'Ketabahan dan ketulusan batin Putri Candra Kirana kendati dihina dan dikutuk menjadi makhluk hina (keong), ia tetap berbakti membalas budi Mbok Rondo Dadapan yang miskin.',
+                poin2: 'Rasa iri dengki Dewi Galuh Ajeng membuktikan bahwa kejahatan yang dirancang di tempat tersembunyi tidak akan pernah kekal; kebenaran sejati selalu memiliki jalan untuk terungkap.',
+                poin3: 'Kesetiaan cinta Raden Panji Inu Kertapati yang rela menyamar menjadi rakyat jelata mengajarkan pentingnya ketulusan hati yang memandang budi pekerti, bukan sekadar paras rupa semata.',
+                link: 'keong-mas.html'
+            },
+            'sangkuriang': {
+                badge: 'Kisah 04 • Jawa Barat',
+                judul: 'Sangkuriang & Tangkuban Perahu',
+                semboyan: '"Hormat Ka Indung Bapa, Singkahi Amarah Murka"',
+                artiSemboyan: '(Kewajiban menjaga kehormatan orang tua, menaati norma kesucian keluarga, serta bahaya membiarkan hawa nafsu mengaburkan akal sehat.)',
+                aksara: 'ꦱꦁꦏꦸꦫꦶꦪꦁ',
+                poin1: 'Peringatan keras mengenai batas-batas kesucian norma keluarga dan kewajiban anak untuk senantiasa takzim serta patuh pada titah luhur orang tua kandung (Dayang Sumbi).',
+                poin2: 'Amarah dan kegagalan mengendalikan emosi ketika kehendak tidak tercapai berujung pada kehancuran dan kebinasaan (perahu yang ditendang terbalik menjadi gunung Tangkuban Perahu).',
+                poin3: 'Kearifan Sunda "Silih Asih, Silih Asah, Silih Asuh": Mengingatkan pentingnya saling mengasihi dalam koridor kesucian tata karma dan tidak memaksakan nafsu yang menyalahi kodrat alam semesta.',
+                link: 'sangkuriang.html'
+            }
+        };
+
+        function bukaModalFalsafah(id) {
+            const data = DATA_FALSAFAH[id];
+            if (!data) return;
+
+            document.getElementById('modal-badge').innerText = data.badge;
+            document.getElementById('modal-judul').innerText = data.judul;
+            document.getElementById('modal-semboyan').innerText = data.semboyan;
+            document.getElementById('modal-arti-semboyan').innerText = data.artiSemboyan;
+            document.getElementById('modal-aksara-bg').innerText = data.aksara;
+            document.getElementById('modal-poin-1').innerText = data.poin1;
+            document.getElementById('modal-poin-2').innerText = data.poin2;
+            document.getElementById('modal-poin-3').innerText = data.poin3;
+            document.getElementById('modal-link-baca').setAttribute('href', data.link);
+
+            const modal = document.getElementById('modal-falsafah');
+            const content = document.getElementById('modal-content');
+            
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function tutupModalFalsafah() {
+            const modal = document.getElementById('modal-falsafah');
+            const content = document.getElementById('modal-content');
+            
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Tutup modal jika klik di luar box
+        document.getElementById('modal-falsafah').addEventListener('click', function(e) {
+            if (e.target === this) tutupModalFalsafah();
+        });
+
+        // Tutup modal dengan tombol Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') tutupModalFalsafah();
+        });
+
+        // 7. Simpan Posisi Scroll
         function simpanPosisiScroll() {
             sessionStorage.setItem('lontarScrollY', window.scrollY);
         }
@@ -772,6 +943,7 @@
             }
         }
 
+        // 8. Preloader
         const preloader = document.getElementById('preloader');
         const preloadBar = document.getElementById('preload-bar');
 
@@ -796,7 +968,7 @@
         });
         setTimeout(dismissPreloader, 1800);
 
-        // 7. Filter Wilayah & Pencarian Cerita
+        // 9. Filter Wilayah & Pencarian Cerita
         function filterDaerah(kategori) {
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('bg-coklat-keraton', 'text-emas-terang');
@@ -826,7 +998,7 @@
             ScrollTrigger.refresh();
         }
 
-        // 8. Mobile Menu Drawer
+        // 10. Mobile Menu Drawer
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         function toggleMobileMenu() {
@@ -835,7 +1007,7 @@
         if (menuBtn) menuBtn.addEventListener('click', toggleMobileMenu);
         document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.add('translate-x-full')));
 
-        // 9. Ambient Mouse Glow
+        // 11. Ambient Mouse Glow
         const ambient = document.getElementById('ambient');
         if (window.matchMedia("(pointer: fine)").matches && ambient) {
             window.addEventListener('mousemove', (e) => {
@@ -844,7 +1016,7 @@
             });
         }
 
-        // 10. Engine Transliterasi Aksara Jawa Real-Time
+        // 12. Engine Transliterator Aksara Jawa
         const mapKonsonan = {
             'ng': 'ꦔ', 'ny': 'ꦚ', 'th': 'ꦛ', 'dh': 'ꦝ',
             'h': 'ꦲ', 'n': 'ꦤ', 'c': 'ꦕ', 'r': 'ꦫ', 'k': 'ꦏ',

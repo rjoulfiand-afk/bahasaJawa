@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin | Tambah Cerita Rakyat</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+    
+    <!-- Supabase JS Client SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Javanese:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'krem-lontar': '#FAF6EE',
+                        'krem-tua': '#EFE7D8',
+                        'coklat-keraton': '#120D09',
+                        'coklat-sogan': '#2A1A10',
+                        'emas-prada': '#D4AF37',
+                        'emas-terang': '#F3E5AB',
+                        'merah-marun': '#721919',
+                    },
+                    fontFamily: {
+                        'royal': ['"Cinzel Decorative"', 'serif'],
+                        'serif-judul': ['"Playfair Display"', 'serif'],
+                        'serif-teks': ['"Lora"', 'serif'],
+                        'aksara': ['"Noto Sans Javanese"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #120D09; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
+
+        .bg-batik-kawung {
+            background-color: #FAF6EE;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23D4AF37' fill-opacity='0.06' fill-rule='evenodd'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20S-10 18.954-10 30s8.954 20 20 20 20-8.954 20-20zm0 0c0 11.046 8.954 20 20 20s20-8.954 20-20-8.954-20-20-20-20 8.954-20 20zm-20-20c11.046 0 20-8.954 20-20S21.046-30 10-30-10-21.046-10-10s8.954 20 20 20zm40 40c11.046 0 20-8.954 20-20s-8.954-20-20-20-20 8.954-20 20 8.954 20 20 20z'/%3E%3Ccircle cx='30' cy='30' r='3'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .bingkai-emas { position: relative; }
+        .bingkai-emas::before, .bingkai-emas::after {
+            content: ''; position: absolute; width: 28px; height: 28px;
+            pointer-events: none; transition: all 0.4s ease;
+        }
+        .bingkai-emas::before { top: 0; left: 0; border-top: 2px solid #D4AF37; border-left: 2px solid #D4AF37; }
+        .bingkai-emas::after { bottom: 0; right: 0; border-bottom: 2px solid #D4AF37; border-right: 2px solid #D4AF37; }
+        .bingkai-emas:hover::before { top: -4px; left: -4px; border-color: #D4AF37; }
+        .bingkai-emas:hover::after { bottom: -4px; right: -4px; border-color: #D4AF37; }
+
+        /* Scroll Area Lancar Anti-Trapped */
+        .smooth-scrollable {
+            overscroll-behavior: contain;
+            scrollbar-width: thin;
+            scrollbar-color: #D4AF37 #FBF8F1;
+        }
+    </style>
+</head>
+<body class="bg-krem-lontar bg-batik-kawung text-coklat-keraton font-serif-teks min-h-screen flex flex-col justify-between selection:bg-emas-prada selection:text-coklat-keraton">
+
+    <!-- ========================================== -->
+    <!-- NAVBAR PANEL ADMIN (TANPA FITUR BACK)      -->
+    <!-- ========================================== -->
+    <nav class="sticky top-0 left-0 w-full z-50 h-[84px] md:h-[88px] bg-[#140E0A]/95 backdrop-blur-xl border-b border-emas-prada/20 flex items-center shadow-lg">
+        <div class="w-full max-w-7xl mx-auto px-6 sm:px-10 flex justify-between items-center">
+            
+            <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 rounded-full border border-emas-prada/50 flex items-center justify-center bg-gradient-to-b from-[#2A1A10] to-[#120D09] shadow-inner shrink-0">
+                    <span class="text-emas-prada font-aksara text-2xl">ꦕ</span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-royal font-bold text-base md:text-lg tracking-[0.2em] text-white">Pustaka Lontar</span>
+                        <span class="text-[10px] font-serif-judul uppercase px-2 py-0.5 rounded bg-merah-marun/80 text-emas-terang border border-emas-prada/30">Panel Admin</span>
+                    </div>
+                    <span class="text-[9px] uppercase tracking-[0.25em] text-emas-prada/80 font-serif-judul block mt-0.5">Sistem Manajemen Konten Cariyos</span>
+                </div>
+            </div>
+            
+            <div class="hidden sm:flex items-center gap-2 text-white/70 text-xs font-serif-judul tracking-wider border-l border-emas-prada/20 pl-6">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Basis Data Supabase Terkoneksi</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- KONTEN FORM ADMIN & DUAL LIVE PREVIEW     -->
+    <!-- ========================================== -->
+    <main class="max-w-7xl mx-auto px-6 sm:px-10 py-10 w-full flex-1">
+        
+        <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="text-emas-prada font-aksara text-3xl block mb-1">ꦥꦔꦿꦶꦥ꧀ꦠꦕꦫꦶꦪꦺꦴꦱ꧀</span>
+            <h1 class="text-3xl sm:text-4xl font-serif-judul font-bold text-coklat-keraton mb-2">
+                Tambah Cerita Rakyat Anyar
+            </h1>
+            <p class="text-coklat-keraton/70 text-xs sm:text-sm">
+                Isi formulir di bawah ini untuk menambahkan cerita rakyat baru ke database dan langsung tampil di halaman utama.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            
+            <!-- FORMULIR INPUT ADMIN (7 KOLOM) -->
+            <div class="lg:col-span-7 bg-[#FBF8F1] bingkai-emas rounded-2xl p-6 sm:p-9 border border-emas-prada/30 shadow-xl">
+                
+                <h2 class="font-serif-judul text-lg font-bold text-coklat-keraton pb-3 mb-6 border-b border-emas-prada/20 flex items-center justify-between">
+                    <span>✍️ Formulir Cerita Baru</span>
+                    <span class="text-[11px] font-normal text-coklat-keraton/60">Formulir Bersih (Siap Diisi)</span>
+                </h2>
+
+                <form id="form-admin" class="space-y-6 text-xs sm:text-sm">
+                    
+                    <!-- 1. JUDUL CERITA & AKSARA JAWA OTOMATIS -->
+                    <div>
+                        <label class="block font-serif-judul uppercase text-[11px] tracking-wider text-coklat-keraton font-bold mb-1.5">
+                            Judul Cerita (Latin) *
+                        </label>
+                        <input type="text" id="input-judul" required placeholder="Contoh: Danau Toba, Biwar Sang Penakluk Naga, Lutung Kasarung" 
+                            class="w-full px-4 py-3 rounded-xl bg-white border border-emas-prada/30 text-coklat-keraton font-serif-teks text-sm focus:outline-none focus:border-emas-prada shadow-sm">
+                        
+                        <!-- AKSARA JAWA TERBENTUK OTOMATIS -->
+                        <div class="mt-2.5 p-3 rounded-xl bg-krem-lontar/80 border border-emas-prada/30 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-serif-judul uppercase tracking-wider text-coklat-keraton/60 font-bold">Wujud Aksara Jawa:</span>
+                                <span id="label-aksara-live" class="font-aksara text-merah-marun text-xl font-bold tracking-wider">ꦕꦫꦶꦪꦺꦴꦱ꧀</span>
+                            </div>
+                            <span class="text-[9px] uppercase px-2 py-0.5 rounded bg-emas-prada/20 text-coklat-keraton font-serif-judul font-bold border border-emas-prada/30">
+                                Otomatis Presisi
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- 2. ASAL WILAYAH (BISA DIKETIK BEBAS) -->
+                    <div>
+                        <label class="block font-serif-judul uppercase text-[11px] tracking-wider text-coklat-keraton font-bold mb-1.5">
+                            Asal Wilayah / Daerah *
+                        </label>
+                        <input type="text" id="input-daerah" required placeholder="Ketik daerah bebas (Contoh: Papua, Sumatera Barat, Bali, Jawa Timur, Kalimantan Barat)" 
+                            class="w-full px-4 py-2.5 rounded-xl bg-white border border-emas-prada/30 text-coklat-keraton focus:outline-none focus:border-emas-prada shadow-sm font-serif-teks">
+                    </div>
+
+                    <!-- 3. GAMBAR SAMPUL CERITA -->
+                    <div class="space-y-2.5">
+                        <label class="block font-serif-judul uppercase text-[11px] tracking-wider text-coklat-keraton font-bold">
+                            Gambar Sampul Cerita *
+                        </label>
+
+                        <!-- Box Upload File Komputer / HP -->
+                        <div class="p-4 bg-white rounded-xl border-2 border-dashed border-emas-prada/40 hover:border-emas-prada transition flex flex-col sm:flex-row items-center justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <span class="text-3xl">🖼️</span>
+                                <div>
+                                    <span class="text-xs font-bold text-coklat-keraton block">Pilih Gambar dari Komputer / HP</span>
+                                    <span id="file-status" class="text-[10px] text-coklat-keraton/60">Format JPG, PNG, WebP (Maksimal 5MB)</span>
+                                </div>
+                            </div>
+                            <label class="cursor-pointer px-4 py-2 rounded-lg bg-coklat-keraton hover:bg-coklat-sogan text-emas-terang text-xs font-serif-judul uppercase tracking-wider transition border border-emas-prada/40 shrink-0">
+                                Unggah File
+                                <input type="file" id="file-upload" accept="image/*" class="hidden" onchange="prosesUploadGambar(event)">
+                            </label>
+                        </div>
+
+                        <!-- Opsi Input URL Gambar -->
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-coklat-keraton/60 block mb-1">Atau Masukkan Link URL Gambar Online:</span>
+                            <input type="url" id="input-gambar" placeholder="https://images.unsplash.com/... atau link gambar online" 
+                                class="w-full px-4 py-2.5 rounded-xl bg-white border border-emas-prada/30 text-coklat-keraton focus:outline-none focus:border-emas-prada shadow-sm font-serif-teks text-xs">
+                        </div>
+                    </div>
+
+                    <!-- 4. RINGKASAN KISAH -->
+                    <div>
+                        <label class="block font-serif-judul uppercase text-[11px] tracking-wider text-coklat-keraton font-bold mb-1.5">
+                            Ringkasan Kisah (Sinopsis Kartu Beranda) *
+                        </label>
+                        <textarea id="input-ringkasan" rows="3" required placeholder="Tuliskan 2-3 kalimat ringkasan cerita yang akan tampil pada kartu di halaman utama..." 
+                            class="w-full p-4 rounded-xl bg-white border border-emas-prada/30 text-coklat-keraton focus:outline-none focus:border-emas-prada shadow-sm font-serif-teks leading-relaxed"></textarea>
+                    </div>
+
+                    <!-- 5. FALSAFAH LUHUR & NILAI MORAL (LENGKAP SESUAI BERANDA) -->
+                    <div class="space-y-4 p-4 rounded-xl bg-krem-lontar/60 border border-emas-prada/30">
+                        <div class="border-b border-emas-prada/20 pb-2">
+                            <span class="text-xs font-serif-judul font-bold text-merah-marun uppercase tracking-wider block">
+                                📜 Falsafah Luhur & Pesan Moral
+                            </span>
+                            <span class="text-[10px] text-coklat-keraton/60">Akan tampil pada Section Falsafah Luhur di Beranda</span>
+                        </div>
+
+                        <!-- 5a. Semboyan / Kutipan -->
+                        <div>
+                            <label class="block font-serif-judul uppercase text-[10px] tracking-wider text-coklat-keraton font-bold mb-1">
+                                Semboyan / Kutipan Pitutur Luhur *
+                            </label>
+                            <input type="text" id="input-falsafah-semboyan" required placeholder="Contoh: Sura Dira Jayaningrat, Lebur Dening Pangastuti" 
+                                class="w-full px-4 py-2.5 rounded-xl bg-white border border-emas-prada/30 text-merah-marun font-semibold italic focus:outline-none focus:border-emas-prada shadow-sm font-serif-teks">
+                        </div>
+
+                        <!-- 5b. Uraian Makna Budi Pekerti -->
+                        <div>
+                            <label class="block font-serif-judul uppercase text-[10px] tracking-wider text-coklat-keraton font-bold mb-1">
+                                Uraian Makna & Budi Pekerti *
+                            </label>
+                            <textarea id="input-falsafah-arti" rows="3" required placeholder="Tuliskan penjelasan pesan moral dan makna budi pekerti yang terkandung dalam cerita..." 
+                                class="w-full p-3.5 rounded-xl bg-white border border-emas-prada/30 text-coklat-keraton focus:outline-none focus:border-emas-prada shadow-sm font-serif-teks leading-relaxed"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 6. NASKAH LENGKAP (DENGAN SCROLL LANCAR ANTI-MACET) -->
+                    <div>
+                        <label class="block font-serif-judul uppercase text-[11px] tracking-wider text-coklat-keraton font-bold mb-1.5">
+                            Naskah Cerita Lengkap *
+                        </label>
+                        <!-- data-lenis-prevent memastikan scroll wheel berfungsi lancar tanpa dicegat Lenis -->
+                        <textarea id="input-naskah" rows="8" required data-lenis-prevent placeholder="Tuliskan naskah cerita rakyat lengkap di sini..." 
+                            class="w-full p-4 rounded-xl bg-white border border-emas-prada/30 text-coklat-keraton focus:outline-none focus:border-emas-prada shadow-sm font-serif-teks leading-relaxed smooth-scrollable resize-y"></textarea>
+                    </div>
+
+                    <!-- TOMBOL SUBMIT KE DATABASE -->
+                    <div class="pt-2">
+                        <button type="submit" id="btn-submit" 
+                            class="w-full px-8 py-4 rounded-full bg-gradient-to-r from-emas-prada to-emas-terang text-coklat-keraton font-serif-judul font-bold text-xs uppercase tracking-[0.2em] shadow-lg hover:scale-[1.01] active:scale-[0.99] transition duration-300 flex items-center justify-center gap-2 border border-emas-prada">
+                            <span id="btn-text">Babar Cerita menyang Database Pustaka</span>
+                            <span id="btn-spinner" class="hidden animate-spin">⏳</span>
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- KOLOM LIVE PREVIEW DI ADMIN (5 KOLOM - PERSIS 100% SEPERTI BERANDA) -->
+            <div class="lg:col-span-5 sticky top-28 space-y-6">
+                
+                <!-- PREVIEW 1: KARTU KOLEKSI CERITA (PERSIS SECTION 3 BERANDA) -->
+                <div>
+                    <div class="flex items-center justify-between mb-3 px-1">
+                        <span class="font-serif-judul text-xs uppercase tracking-widest text-coklat-keraton font-bold">
+                            👁️ Pratinjau Kartu Koleksi Beranda
+                        </span>
+                        <span class="text-[10px] text-emerald-800 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                            Section 3 Beranda
+                        </span>
+                    </div>
+
+                    <!-- CARD BERSIH KEMBAR IDENTIK DENGAN BERANDA UTAMA -->
+                    <div class="bingkai-emas bg-white rounded-2xl overflow-hidden shadow-xl border border-emas-prada/25 transition duration-500">
+                        <div class="h-64 sm:h-72 overflow-hidden relative bg-coklat-keraton/10">
+                            <img id="preview-gambar" src="https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&q=80&w=800" 
+                                alt="Pratinjau Cerita" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-coklat-keraton via-coklat-keraton/30 to-transparent opacity-90"></div>
+                            
+                            <!-- Badge Asal Wilayah -->
+                            <span id="preview-daerah" class="absolute top-4 left-4 bg-coklat-keraton/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-serif-judul uppercase text-emas-prada tracking-widest border border-emas-prada/30">
+                                ASAL WILAYAH
+                            </span>
+
+                            <!-- Aksara Jawa & Judul di Bawah Gambar -->
+                            <div class="absolute bottom-5 left-6 right-6">
+                                <span id="preview-aksara" class="font-aksara text-emas-prada/80 text-xl block mb-1">ꦕꦫꦶꦪꦺꦴꦱ꧀</span>
+                                <h3 id="preview-judul" class="font-serif-judul font-bold text-2xl text-white">Judul Cerita</h3>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <p id="preview-ringkasan" class="text-coklat-keraton/70 text-xs sm:text-sm leading-relaxed mb-6 line-clamp-3">
+                                Ringkasan kisah akan tampil di sini sesuai dengan apa yang Anda ketikkan pada kolom ringkasan cerita.
+                            </p>
+                            <div class="flex items-center justify-between pt-4 border-t border-emas-prada/15 text-xs">
+                                <span class="font-serif-judul text-merah-marun font-bold flex items-center gap-1">
+                                    Baca Naskah Lengkap →
+                                </span>
+                                <span class="text-coklat-keraton/40 italic">Dwibahasa Krama</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PREVIEW 2: KARTU FALSAFAH LUHUR (PERSIS SECTION 4 BERANDA) -->
+                <div>
+                    <div class="flex items-center justify-between mb-3 px-1">
+                        <span class="font-serif-judul text-xs uppercase tracking-widest text-coklat-keraton font-bold">
+                            📜 Pratinjau Kartu Falsafah Luhur
+                        </span>
+                        <span class="text-[10px] text-stone-500 italic">Section 4 Beranda</span>
+                    </div>
+
+                    <!-- CARD PERSIS SEPERTI DI SECTION 4 FALSAFAH BERANDA -->
+                    <div class="bg-coklat-sogan/80 border border-emas-prada/30 rounded-2xl p-6 shadow-xl text-white flex flex-col justify-between min-h-[220px]">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span id="preview-falsafah-badge" class="text-[10px] font-serif-judul text-emas-prada uppercase tracking-widest">
+                                    KISAH ANYAR &bull; WILAYAH
+                                </span>
+                            </div>
+                            <h3 id="preview-falsafah-judul" class="font-serif-judul text-xl font-bold text-white mb-2">
+                                Judul Cerita
+                            </h3>
+                            <p id="preview-falsafah-semboyan" class="text-xs text-emas-prada italic mb-3 font-semibold">
+                                "Semboyan Falsafah Luhur"
+                            </p>
+                            <p id="preview-falsafah-arti" class="text-xs text-white/70 leading-relaxed line-clamp-3">
+                                Uraian nilai moral dan budi pekerti luhur akan tampil di sini sesuai dengan yang Anda ketikkan.
+                            </p>
+                        </div>
+                        <div class="pt-4 mt-4 border-t border-emas-prada/20 flex justify-end text-emas-terang text-xs font-semibold">
+                            <span>→</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER PANEL ADMIN -->
+    <footer class="bg-coklat-keraton text-white/60 py-6 border-t border-emas-prada/20 text-center text-xs">
+        &copy; 2026 Pustaka Lontar Nusantara &bull; Khusus Panel Administrator Ujian Praktik RPL
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- LOGIKA TRANSLITERATOR PRESISI & REST API   -->
+    <!-- ========================================== -->
+    <script>
+        // 1. Lenis Smooth Scroll
+        const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
+        function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // 2. ENGINE TRANSLITERATOR AKSARA JAWA SUPER PRESISI
+        const mapKonsonan = {
+            'ng': 'ꦔ', 'ny': 'ꦚ', 'th': 'ꦛ', 'dh': 'ꦝ',
+            'h': 'ꦲ', 'n': 'ꦤ', 'c': 'ꦕ', 'r': 'ꦫ', 'k': 'ꦏ',
+            'd': 'ꦢ', 't': 'ꦠ', 's': 'ꦱ', 'w': 'ꦮ', 'l': 'ꦭ',
+            'p': 'ꦥ', 'j': 'ꦗ', 'y': 'ꦪ', 'm': 'ꦩ', 'g': 'ꦒ', 'b': 'ꦧ'
+        };
+        const mapVokal = {
+            'i': 'ꦶ', 'u': 'ꦸ', 'e': 'ꦺ', 'é': 'ꦺ', 'ê': 'ꦼ', 'o': 'ꦺꦴ', 'a': ''
+        };
+
+        function latinKeAksaraJawa(teks) {
+            if (!teks.trim()) return 'ꦕꦫꦶꦪꦺꦴꦱ꧀';
+            const kataArr = teks.toLowerCase().trim().split(/\s+/);
+            let hasilAkhir = [];
+
+            kataArr.forEach(kata => {
+                let res = '';
+                let i = 0;
+                const n = kata.length;
+
+                while (i < n) {
+                    let c = kata[i];
+                    
+                    // Vokal di awal suku kata
+                    if ('aiueoéê'.includes(c)) {
+                        let ha = 'ꦲ';
+                        if (c === 'a') res += ha;
+                        else if (c === 'i') res += ha + 'ꦶ';
+                        else if (c === 'u') res += ha + 'ꦸ';
+                        else if (c === 'e' || c === 'é') res += ha + 'ꦺ';
+                        else if (c === 'ê') res += ha + 'ꦼ';
+                        else if (c === 'o') res += ha + 'ꦺꦴ';
+                        i++;
+                        continue;
+                    }
+
+                    // Konsonan ganda (ng, ny, th, dh) atau tunggal
+                    let k = '';
+                    if (i + 1 < n && mapKonsonan[kata.substr(i, 2)]) {
+                        k = kata.substr(i, 2);
+                        i += 2;
+                    } else if (mapKonsonan[kata[i]]) {
+                        k = kata[i];
+                        i++;
+                    } else {
+                        res += kata[i];
+                        i++;
+                        continue;
+                    }
+
+                    let aksaraBase = mapKonsonan[k];
+
+                    // Sisipan cakra (r) atau pengkal (y)
+                    let sisipan = '';
+                    if (i < n && kata[i] === 'r' && i + 1 < n && 'aiueoéê'.includes(kata[i+1])) {
+                        sisipan = 'ꦿ';
+                        i++;
+                    } else if (i < n && kata[i] === 'y' && i + 1 < n && 'aiueoéê'.includes(kata[i+1])) {
+                        sisipan = 'ꦾ';
+                        i++;
+                    }
+
+                    // Vokal setelah konsonan
+                    if (i < n && 'aiueoéê'.includes(kata[i])) {
+                        let v = kata[i];
+                        i++;
+                        res += aksaraBase + sisipan + mapVokal[v];
+                    } else {
+                        // Konsonan mati di akhir suku kata
+                        if (k === 'ng') res += 'ꦁ';
+                        else if (k === 'r') res += 'ꦂ';
+                        else if (k === 'h') res += 'ꦃ';
+                        else res += aksaraBase + '꧀';
+                    }
+                }
+                hasilAkhir.push(res);
+            });
+
+            return hasilAkhir.join('');
+        }
+
+        // 3. REALTIME BINDING KE KEDUA KARTU PREVIEW
+        const inJudul = document.getElementById('input-judul');
+        const labelAksara = document.getElementById('label-aksara-live');
+        const prevJudul = document.getElementById('preview-judul');
+        const prevAksara = document.getElementById('preview-aksara');
+        const prevFalsafahJudul = document.getElementById('preview-falsafah-judul');
+
+        inJudul.addEventListener('input', () => {
+            const val = inJudul.value.trim() || "Judul Cerita";
+            prevJudul.innerText = val;
+            prevFalsafahJudul.innerText = val;
+
+            const aksara = inJudul.value.trim() ? latinKeAksaraJawa(inJudul.value.trim()) : 'ꦕꦫꦶꦪꦺꦴꦱ꧀';
+            labelAksara.innerText = aksara;
+            prevAksara.innerText = aksara;
+        });
+
+        // Asal Wilayah
+        const inDaerah = document.getElementById('input-daerah');
+        const prevDaerah = document.getElementById('preview-daerah');
+        const prevFalsafahBadge = document.getElementById('preview-falsafah-badge');
+
+        inDaerah.addEventListener('input', () => {
+            const daerahTxt = inDaerah.value.trim() || "ASAL WILAYAH";
+            prevDaerah.innerText = daerahTxt.toUpperCase();
+            prevFalsafahBadge.innerText = `KISAH ANYAR • ${daerahTxt.toUpperCase()}`;
+        });
+
+        // Ringkasan Kisah
+        const inRingkasan = document.getElementById('input-ringkasan');
+        const prevRingkasan = document.getElementById('preview-ringkasan');
+
+        inRingkasan.addEventListener('input', () => {
+            prevRingkasan.innerText = inRingkasan.value.trim() || "Ringkasan kisah akan tampil di sini sesuai dengan apa yang Anda ketikkan pada kolom ringkasan cerita.";
+        });
+
+        // Falsafah Semboyan & Arti
+        const inFalsafahSemboyan = document.getElementById('input-falsafah-semboyan');
+        const inFalsafahArti = document.getElementById('input-falsafah-arti');
+        const prevFalsafahSemboyan = document.getElementById('preview-falsafah-semboyan');
+        const prevFalsafahArti = document.getElementById('preview-falsafah-arti');
+
+        inFalsafahSemboyan.addEventListener('input', () => {
+            prevFalsafahSemboyan.innerText = inFalsafahSemboyan.value.trim() ? `"${inFalsafahSemboyan.value.trim()}"` : '"Semboyan Falsafah Luhur"';
+        });
+
+        inFalsafahArti.addEventListener('input', () => {
+            prevFalsafahArti.innerText = inFalsafahArti.value.trim() || "Uraian nilai moral dan budi pekerti luhur akan tampil di sini sesuai dengan yang Anda ketikkan.";
+        });
+
+        // 4. UPLOAD GAMBAR KOMPUTER / URL
+        const inGambar = document.getElementById('input-gambar');
+        const prevGambar = document.getElementById('preview-gambar');
+
+        function prosesUploadGambar(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Ukuran Gambar Kebesaran',
+                    text: 'Maksimal ukuran foto adalah 5MB.',
+                    confirmButtonColor: '#721919'
+                });
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const base64 = evt.target.result;
+                inGambar.value = base64;
+                prevGambar.src = base64;
+                document.getElementById('file-status').innerText = `✓ Foto Terpilih: ${file.name}`;
+                document.getElementById('file-status').className = "text-[10px] text-emerald-700 font-bold";
+            };
+            reader.readAsDataURL(file);
+        }
+
+        inGambar.addEventListener('input', () => {
+            if (inGambar.value.trim()) prevGambar.src = inGambar.value.trim();
+        });
+
+        // 5. PUSH KE DATABASE SUPABASE & LOCALSTORAGE
+        const SUPABASE_URL = "https://YOUR_SUPABASE_PROJECT_ID.supabase.co";
+        const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+        let supabaseClient = null;
+        try {
+            if (SUPABASE_URL && !SUPABASE_URL.includes("YOUR_SUPABASE")) {
+                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            }
+        } catch (e) {}
+
+        const formAdmin = document.getElementById('form-admin');
+        const btnSubmit = document.getElementById('btn-submit');
+        const btnText = document.getElementById('btn-text');
+        const btnSpinner = document.getElementById('btn-spinner');
+
+        formAdmin.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            btnSubmit.disabled = true;
+            btnText.innerText = "Saweg Nyimpen menyang Database...";
+            btnSpinner.classList.remove('hidden');
+
+            const payload = {
+                judul: inJudul.value.trim(),
+                aksara_judul: labelAksara.innerText.trim(),
+                daerah: inDaerah.value.trim().toLowerCase().replace(/\s+/g, '-'),
+                daerah_label: inDaerah.value.trim(),
+                gambar_url: inGambar.value.trim() || 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&q=80&w=800',
+                ringkasan: inRingkasan.value.trim(),
+                falsafah: inFalsafahSemboyan.value.trim(),
+                falsafah_arti: inFalsafahArti.value.trim(),
+                naskah: document.getElementById('input-naskah').value.trim(),
+                created_at: new Date().toISOString()
+            };
+
+            let isCloudSuccess = false;
+
+            // A. Simpan ke Supabase Cloud
+            if (supabaseClient) {
+                try {
+                    const { error } = await supabaseClient.from('cerita').insert([payload]);
+                    if (!error) isCloudSuccess = true;
+                } catch (err) {
+                    console.warn("Supabase insert error:", err);
+                }
+            }
+
+            // B. Selalu simpan ke LocalStorage agar langsung muncul di Beranda
+            const list = JSON.parse(localStorage.getItem('pustaka_lontar_stories') || '[]');
+            list.unshift(payload);
+            localStorage.setItem('pustaka_lontar_stories', JSON.stringify(list));
+
+            btnSubmit.disabled = false;
+            btnText.innerText = "Babar Cerita menyang Database Pustaka";
+            btnSpinner.classList.add('hidden');
+
+            Swal.fire({
+                title: 'Rahayu! Cariyos Kasimpen',
+                html: `
+                    <p class="font-aksara text-emas-prada text-2xl mb-2">${payload.aksara_judul}</p>
+                    <p class="text-xs sm:text-sm text-stone-300">
+                        Cariyos <b>${payload.judul}</b> (${payload.daerah_label}) sampun kasil kababar wonten ing Pustaka Lontar.<br>
+                        ${isCloudSuccess ? '<span class="text-emerald-400 font-bold">✓ Sinkron Cloud Database Supabase API</span>' : '<span class="text-emas-terang font-bold">✓ Tersimpan wonten Sistem Pustaka Mandiri</span>'}
+                    </p>
+                `,
+                icon: 'success',
+                background: '#140E0A',
+                color: '#FAF6EE',
+                confirmButtonColor: '#721919',
+                confirmButtonText: 'Tutup & Tambah Cariyos Maneh'
+            }).then(() => {
+                formAdmin.reset();
+                inJudul.dispatchEvent(new Event('input'));
+                inDaerah.dispatchEvent(new Event('input'));
+                inRingkasan.dispatchEvent(new Event('input'));
+                inFalsafahSemboyan.dispatchEvent(new Event('input'));
+                inFalsafahArti.dispatchEvent(new Event('input'));
+                document.getElementById('file-status').innerText = 'Format JPG, PNG, WebP (Maksimal 5MB)';
+                document.getElementById('file-status').className = 'text-[10px] text-coklat-keraton/60';
+            });
+        });
+    </script>
+</body>
+</html>

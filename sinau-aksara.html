@@ -3,1015 +3,1152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sinau Aksara & Basa Jawi | Pustaka Lontar</title>
+    <title>Sinau Aksara & Basa Jawi | Pustaka Lontar Nusantara</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Javanese:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Javanese:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'krem-lontar': '#FAF5EB',
-                        'coklat-keraton': '#140E0A',
-                        'coklat-teks': '#2B1C11',
-                        'emas-prada': '#C5A059',
-                        'emas-terang': '#F3E5AB',
-                        'merah-marun': '#7B1818',
+                        'krem-lontar': '#FAF6EE',
+                        'krem-tua': '#EFE7D8',
+                        'coklat-keraton': '#120D09',
+                        'coklat-sogan': '#2A1A10',
+                        'emas-prada': '#D4AF37',
+                        'emas-muda': '#F3E5AB',
+                        'merah-bata': '#8B2500',
+                        'kuning-janur': '#C29B38'
                     },
                     fontFamily: {
-                        'royal': ['"Cinzel Decorative"', 'serif'],
-                        'serif-judul': ['"Playfair Display"', 'serif'],
-                        'serif-teks': ['"Lora"', 'serif'],
-                        'aksara': ['"Noto Sans Javanese"', 'serif'],
+                        'cinzel': ['"Cinzel Decorative"', 'serif'],
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'lora': ['"Lora"', 'serif'],
+                        'jawa': ['"Noto Sans Javanese"', 'serif']
                     }
                 }
             }
         }
     </script>
+    
     <style>
-        html.lenis, html.lenis body { height: auto; }
-        .lenis.lenis-smooth { scroll-behavior: auto !important; }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #140E0A; }
-        ::-webkit-scrollbar-thumb { background: #C5A059; border-radius: 3px; }
-
-        .naskah-bg {
-            background-color: #FAF5EB;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(197, 160, 89, 0.05) 0%, transparent 40%),
-                url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C5A059' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M26 26c0-9.941-8.059-18-18-18S-10 16.059-10 26s8.059 18 18 18 18-8.059 18-18zm0 0c0 9.941 8.059 18 18 18s18-8.059 18-18-8.059-18-18-18-18 8.059-18 18z'/%3E%3Ccircle cx='26' cy='26' r='2'/%3E%3C/g%3E%3C/svg%3E");
+        .font-jawa-render {
+            font-family: 'Noto Sans Javanese', serif;
+            line-height: 2 !important;
+            letter-spacing: 0.04em;
         }
 
-        .hud-border {
-            border: 1px solid rgba(197, 160, 89, 0.35);
-            box-shadow: 0 0 25px rgba(197, 160, 89, 0.08);
+        .bg-batik-kawung {
+            background-color: #FAF6EE;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23D4AF37' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20S-10 18.954-10 30s8.954 20 20 20 20-8.954 20-20zm0 0c0 11.046 8.954 20 20 20s20-8.954 20-20-8.954-20-20-20-20 8.954-20 20zm0 0c-11.046 0-20 8.954-20 20s8.954 20 20 20 20-8.954 20-20-8.954-20-20-20zm0 0c11.046 0 20-8.954 20-20s-8.954-20-20-20-20 8.954-20 20 8.954 20 20 20z'/%3E%3C/g%3E%3C/svg%3E");
         }
 
-        .aksara-card {
-            transition: all 0.25s ease-out;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
-        .aksara-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 22px rgba(197, 160, 89, 0.22);
-            border-color: #C5A059;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(18, 13, 9, 0.04);
+            border-radius: 8px;
         }
-
-        .tab-btn.active {
-            background: #140E0A;
-            color: #F3E5AB;
-            border-color: #C5A059;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 8px;
         }
     </style>
 </head>
-<body class="naskah-bg text-coklat-teks font-serif-teks antialiased overflow-x-hidden">
+<body class="bg-batik-kawung text-coklat-keraton font-lora antialiased selection:bg-emas-prada selection:text-coklat-keraton min-h-screen flex flex-col">
 
-    <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 w-full z-40 bg-krem-lontar/90 backdrop-blur-md border-b border-emas-prada/20 py-4">
-        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
-            <a href="pustaka-lontar-premium.html" class="flex items-center gap-2 text-coklat-teks hover:text-merah-marun transition group">
-                <span class="w-8 h-8 rounded-full border border-emas-prada/40 flex items-center justify-center group-hover:-translate-x-1 transition duration-300">←</span>
-                <span class="font-royal text-xs tracking-widest uppercase font-bold">Kembali ke Beranda</span>
-            </a>
+    <header class="fixed top-0 left-0 w-full z-50 h-[80px] bg-[#120D09]/95 backdrop-blur-xl border-b border-emas-prada/20 flex items-center transition-all duration-300">
+        <div class="max-w-7xl w-full mx-auto px-5 sm:px-8 lg:px-12 flex items-center justify-between">
+            
+            <!-- Tombol Kembali Pintar -->
+            <button onclick="handleSmartBack()" class="flex items-center gap-2.5 text-emas-muda hover:text-white group px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-emas-prada/30 hover:border-emas-prada transition-all duration-300 cursor-pointer">
+                <svg class="w-4 h-4 text-emas-prada group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                <span class="text-xs sm:text-sm font-semibold tracking-wider uppercase font-playfair"></span>
+            </button>
 
-            <div class="flex items-center gap-2">
-                <span class="text-emas-prada font-aksara text-2xl">ꦕ</span>
-                <span class="font-royal text-sm tracking-widest uppercase font-bold">Sinau Sastra Jawa</span>
+            <!-- Judul Tengah -->
+            <div class="text-center">
+                <span class="font-jawa text-base sm:text-lg text-emas-prada block leading-none">ꦱꦶꦤꦲꦸꦲꦏ꧀ꦱꦫꦗꦮ</span>
+                <span class="font-cinzel text-xs tracking-[0.2em] text-emas-muda font-bold block mt-1">SINAU AKSARA JAWA</span>
             </div>
-        </div>
-    </nav>
 
-    <!-- HEADER MATERI -->
-    <header class="pt-32 pb-12 max-w-5xl mx-auto px-6 text-center">
-        <span class="bg-merah-marun/10 text-merah-marun px-4 py-1.5 rounded-full text-xs font-royal tracking-widest uppercase border border-merah-marun/20 inline-block mb-4">
-            Modul Pembelajaran Budaya & Literasi Sastra
-        </span>
-        <h1 class="text-4xl md:text-6xl font-serif-judul font-bold text-coklat-keraton mb-4">Sinau Aksara & Basa Jawi</h1>
-        <p class="text-coklat-teks/70 max-w-2xl mx-auto text-base">
-            Mengenal 20 Carakan, Pasangan, Sandhangan Swara & Panyigeg, Aksara Murda, Aksara Swara, Angka Jawa, serta konverter cerdas berbasis fonetik.
-        </p>
+            <!-- Tautan Pedoman -->
+            <button onclick="switchTab('pedoman')" class="text-xs text-emas-muda/80 hover:text-emas-prada font-medium border-b border-dashed border-emas-prada/40 pb-0.5 transition-colors cursor-pointer">
+                Pedoman
+            </button>
+        </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-6 pb-28 space-y-16">
+    <div class="h-[80px]"></div>
 
-        <!-- 1. ALAT KONVERSI CERDAS & PRESISI -->
-        <section class="bg-[#FBF8F1] p-8 md:p-12 rounded-3xl border border-emas-prada/40 shadow-2xl hud-border">
-            <div class="max-w-2xl mx-auto text-center mb-8">
-                <span class="text-merah-marun font-royal text-xs uppercase tracking-widest font-bold">Mesin Fonetik Real-Time</span>
-                <h2 class="text-3xl font-serif-judul font-bold text-coklat-keraton mt-1">Konverter Latin ke Aksara Jawa</h2>
-                <p class="text-xs text-coklat-teks/60 mt-2">
-                    Mendukung otomatisasi <strong>konsonan tumpuk (pasangan)</strong>, huruf mati (layar, cecak, wignyan, pangkon), dan angka:
+    <section class="relative pt-10 pb-6 px-4 text-center">
+        <div class="max-w-3xl mx-auto">
+            <span class="inline-block px-3.5 py-1 rounded-full bg-emas-prada/15 border border-emas-prada/30 text-coklat-sogan text-[11px] font-semibold tracking-widest uppercase mb-3">
+                Pawiyatan Sastra Nusantara
+            </span>
+            <h1 class="font-playfair text-2xl sm:text-3xl md:text-4xl font-bold text-coklat-keraton mb-2.5">
+                Ensiklopedia Aksara Jawa & Pasangan
+            </h1>
+            <p class="font-lora text-xs sm:text-sm text-coklat-keraton/70 max-w-xl mx-auto leading-relaxed">
+                Sinau Aksara Carakan, Pasangan, Sandhangan, saha Alih Aksara Jawa kanthi gampil lan trep.
+            </p>
+        </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 w-full mb-12">
+        <div class="bg-white rounded-2xl p-5 sm:p-7 border border-emas-prada/30 shadow-lg shadow-coklat-sogan/5">
+            
+            <!-- Header Card Bersih -->
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-emas-prada/15">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-coklat-keraton to-coklat-sogan border border-emas-prada/40 flex items-center justify-center text-emas-prada font-jawa text-lg shadow-sm">
+                        ꦲ
+                    </div>
+                    <div>
+                        <h2 class="font-playfair text-base sm:text-lg font-bold text-coklat-keraton">
+                            Studio Alih Aksara
+                        </h2>
+                        <p class="text-[11px] text-coklat-keraton/60">Ketik Latin utawa angka — otomatis malih dados Aksara Jawi.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="salinHasil()" class="px-3 py-1.5 rounded-lg bg-emas-prada/15 hover:bg-emas-prada/25 text-coklat-sogan text-xs font-semibold border border-emas-prada/30 flex items-center gap-1.5 transition-all cursor-pointer">
+                        <svg class="w-3.5 h-3.5 text-emas-prada" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                        <span id="btn-copy-label">Salin</span>
+                    </button>
+                    <button onclick="bersihkanTeks()" class="px-3 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-coklat-keraton/70 text-xs font-semibold border border-stone-200 transition-all cursor-pointer">
+                        Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Area Input & Output (Rapi & Bebas Clutter) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <!-- Kolom Input Latin -->
+                <div class="flex flex-col">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label for="input-latin" class="text-xs font-bold uppercase tracking-wider text-coklat-sogan">Seratan Latin</label>
+                        <span class="text-[11px] text-coklat-keraton/45" id="char-count">0 Aksara</span>
+                    </div>
+                    <textarea id="input-latin" rows="4" placeholder="Ketik ukara ing kene... (tuladha: sugeng rawuh)" class="w-full p-3.5 rounded-xl bg-krem-lontar/50 border border-emas-prada/30 focus:border-emas-prada focus:ring-2 focus:ring-emas-prada/15 outline-none text-coklat-keraton font-lora text-sm resize-none transition-all placeholder:text-coklat-keraton/35 leading-relaxed"></textarea>
+                </div>
+
+                <!-- Kolom Output Aksara Jawa -->
+                <div class="flex flex-col">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-xs font-bold uppercase tracking-wider text-emas-prada">Asil Aksara Jawi</span>
+                    </div>
+                    <div class="flex-1 min-h-[110px] p-4 rounded-xl bg-[#120D09] border border-emas-prada/30 shadow-inner flex flex-col justify-center">
+                        <div id="output-aksara" class="font-jawa font-jawa-render text-emas-muda text-2xl sm:text-3xl leading-[2] tracking-wide break-words select-all custom-scrollbar overflow-y-auto max-h-[140px]">
+                            <!-- Saat kosong, tampil teks panduan samar agar tidak ramai -->
+                            <span class="text-emas-muda/35 text-xs sm:text-sm font-lora italic tracking-normal block text-center py-2">
+                                Asil aksara badhe katingal wonten mriki...
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 w-full flex-1 mb-14">
+        
+        <!-- Tab Navigasi Materi (Bersih tanpa embel-embel 19+) -->
+        <div class="flex items-center justify-start sm:justify-center overflow-x-auto gap-2 pb-2 mb-7 border-b border-emas-prada/20 custom-scrollbar">
+            <button onclick="switchTab('carakan')" id="tab-btn-carakan" class="tab-btn px-4 py-2 rounded-xl font-playfair text-xs sm:text-sm font-bold tracking-wide transition-all whitespace-nowrap bg-coklat-keraton text-emas-prada border border-emas-prada shadow-sm">
+                Carakan & Pasangan
+            </button>
+            <button onclick="switchTab('sandhangan')" id="tab-btn-sandhangan" class="tab-btn px-4 py-2 rounded-xl font-playfair text-xs sm:text-sm font-bold tracking-wide transition-all whitespace-nowrap bg-white/70 text-coklat-keraton hover:bg-white border border-emas-prada/20">
+                Sandhangan Lengkap
+            </button>
+            <button onclick="switchTab('ganten')" id="tab-btn-ganten" class="tab-btn px-4 py-2 rounded-xl font-playfair text-xs sm:text-sm font-bold tracking-wide transition-all whitespace-nowrap bg-white/70 text-coklat-keraton hover:bg-white border border-emas-prada/20">
+                Murda & Swara
+            </button>
+            <button onclick="switchTab('angka')" id="tab-btn-angka" class="tab-btn px-4 py-2 rounded-xl font-playfair text-xs sm:text-sm font-bold tracking-wide transition-all whitespace-nowrap bg-white/70 text-coklat-keraton hover:bg-white border border-emas-prada/20">
+                Angka Jawa
+            </button>
+            <button onclick="switchTab('pedoman')" id="tab-btn-pedoman" class="tab-btn px-4 py-2 rounded-xl font-playfair text-xs sm:text-sm font-bold tracking-wide transition-all whitespace-nowrap bg-white/70 text-coklat-keraton hover:bg-white border border-emas-prada/20">
+                Pedoman Panyeratan
+            </button>
+        </div>
+
+        <section id="panel-carakan" class="tab-panel block">
+            <div class="text-center mb-5">
+                <h3 class="font-playfair text-xl sm:text-2xl font-bold text-coklat-keraton mb-1">Aksara Carakan & Pasangan</h3>
+                <p class="text-xs text-coklat-keraton/65 max-w-lg mx-auto">
+                    20 aksara dhasar jangkep kaliyan wujud pasanganipun kanggé mateni wanda.
                 </p>
             </div>
 
-            <div class="max-w-2xl mx-auto space-y-6">
-                <div>
-                    <div class="flex justify-between items-center mb-2">
-                        <label class="text-xs font-royal uppercase tracking-wider text-coklat-teks/70 font-bold">Teks Latin:</label>
-                        <!-- Quick Presets -->
-                        <div class="flex gap-2">
-                            <button onclick="setContoh('Pustaka Lontar')" class="text-[10px] bg-white border border-emas-prada/40 px-2.5 py-1 rounded-full text-coklat-teks hover:bg-emas-prada/10">"Pustaka Lontar"</button>
-                            <button onclick="setContoh('Sugeng Rawuh')" class="text-[10px] bg-white border border-emas-prada/40 px-2.5 py-1 rounded-full text-coklat-teks hover:bg-emas-prada/10">"Sugeng Rawuh"</button>
-                            <button onclick="setContoh('Kraton 2026')" class="text-[10px] bg-white border border-emas-prada/40 px-2.5 py-1 rounded-full text-coklat-teks hover:bg-emas-prada/10">"Kraton 2026"</button>
+            <!-- Grid 20 Aksara -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3">
+                
+                <!-- HA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Ha / A</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-800">Jejer</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦲ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦲ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
                         </div>
                     </div>
-                    <input type="text" id="input-latin" onkeyup="konversiAksaraCerdas()" placeholder="Ketik kata latin di sini (contoh: pustaka, mangan, pasar, kucing, gajah, 2026)..." class="w-full px-5 py-3.5 rounded-2xl bg-white border border-emas-prada/40 text-base focus:outline-none focus:border-emas-prada font-serif-teks shadow-sm">
                 </div>
 
-                <div class="p-8 rounded-2xl bg-coklat-keraton text-white border border-emas-prada/30 text-center relative overflow-hidden">
-                    <span class="text-xs text-emas-terang/50 font-royal uppercase tracking-widest block mb-2">Hasil Wujud Aksara Jawa:</span>
-                    <div id="output-aksara" class="font-aksara text-5xl md:text-6xl text-emas-prada min-h-[75px] flex items-center justify-center select-all tracking-wider py-2">
-                        ꦥꦸꦱ꧀ꦠꦏꦭꦺꦴꦤ꧀ꦠꦂ
+                <!-- NA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Na</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
                     </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦤ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦤ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
 
-                    <div class="mt-4 flex items-center justify-center gap-3">
-                        <button onclick="salinAksara()" class="px-5 py-2 rounded-full bg-emas-prada/20 hover:bg-emas-prada/30 text-emas-terang text-xs font-royal uppercase tracking-widest border border-emas-prada/40 transition flex items-center gap-2">
-                            📋 Salin Aksara
-                        </button>
-                        <span id="toast-salin" class="text-xs text-green-400 opacity-0 transition-opacity duration-300">Tersalin!</span>
+                <!-- CA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Ca</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦕ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦕ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Ra</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦫ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦫ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Ka</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-800">Jejer</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦏ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦏ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Da</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦢ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦢ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Ta</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦠ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦠ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Sa</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-800">Jejer</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦱ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦱ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Wa</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦮ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦮ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">La</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦭ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦭ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Pa</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-800">Jejer</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦥ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦥ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DHA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Dha</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦝ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦝ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Ja</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦗ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦗ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- YA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Ya</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦪ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦪ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NYA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Nya</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦚ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦚ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Ma</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦩ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦩ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Ga</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦒ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦒ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Ba</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦧ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦧ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- THA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Tha</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦛ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦛ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NGA -->
+                <div class="bg-white rounded-xl p-3.5 border border-emas-prada/20 shadow-sm hover:border-emas-prada transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-merah-bata uppercase tracking-wider">Nga</span>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded bg-stone-100 text-stone-700">Ngisor</span>
+                    </div>
+                    <div class="my-2.5 flex items-center justify-around bg-krem-lontar/60 rounded-lg p-2 border border-emas-prada/15">
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-keraton block">ꦔ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Carakan</span>
+                        </div>
+                        <div class="w-px h-6 bg-emas-prada/20"></div>
+                        <div class="text-center">
+                            <span class="font-jawa text-2xl sm:text-3xl text-coklat-sogan block">꧀ꦔ</span>
+                            <span class="text-[9px] text-coklat-keraton/50">Pasangan</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="panel-sandhangan" class="tab-panel hidden">
+            <div class="text-center mb-5">
+                <h3 class="font-playfair text-xl sm:text-2xl font-bold text-coklat-keraton mb-1">Sandhangan Lengkap & Pratandha</h3>
+                <p class="text-xs text-coklat-keraton/65 max-w-lg mx-auto">
+                    Koleksi sandhangan swara, panyigeg wanda, wyanjana, saha pratandha wacana.
+                </p>
+            </div>
+
+            <!-- A. Sandhangan Swara -->
+            <div class="mb-6">
+                <h4 class="font-playfair text-xs sm:text-sm font-bold text-coklat-keraton flex items-center gap-2 mb-2.5">
+                    <span class="w-2 h-2 rounded-full bg-emas-prada"></span>
+                    A. Sandhangan Swara (Vokal)
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏꦶ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Wulu (...i)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦱꦶꦠꦶ (siti)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏꦸ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Suku (...u)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦧꦸꦏꦸ (buku)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏꦺ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Taling (...é)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦱꦠꦺ (saté)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏꦺꦴ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Taling Tarung (...o)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦠꦺꦴꦏꦺꦴ (toko)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏꦼ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Pepet (...e/ê)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦱꦼꦒ (sega)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B. Sandhangan Panyigeg Wanda -->
+            <div class="mb-6">
+                <h4 class="font-playfair text-xs sm:text-sm font-bold text-coklat-keraton flex items-center gap-2 mb-2.5">
+                    <span class="w-2 h-2 rounded-full bg-emas-prada"></span>
+                    B. Sandhangan Panyigeg Wanda (Mati)
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏꦂ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Layar (...r)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦥꦱꦂ (pasar)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏꦃ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Wignyan (...h)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦒꦗꦃ (gajah)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏꦁ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Cecak (...ng)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦮꦪꦁ (wayang)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏ꧀</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Pangkon (Paten)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦧꦥꦏ꧀ (bapak)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- C. Sandhangan Wyanjana & Aksara Ganten -->
+            <div class="mb-6">
+                <h4 class="font-playfair text-xs sm:text-sm font-bold text-coklat-keraton flex items-center gap-2 mb-2.5">
+                    <span class="w-2 h-2 rounded-full bg-emas-prada"></span>
+                    C. Sandhangan Wyanjana & Aksara Ganten
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏꦿ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Cakra ra (...ra)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦏꦿꦠꦺꦴꦤ꧀ (kraton)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏꦽ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Cakra keret (...re)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦏꦽꦠ (krêta)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏꦾ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Pengkal (...ya)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦏꦾꦲꦶ (kyai)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏ꧀ꦭ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Cakra la (...la)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦏ꧀ꦭꦩ꧀ꦧꦶ (klambi)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦏ꧀ꦮ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Cakra wa (...wa)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦏ꧀ꦮꦭꦶ (kwali)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦉ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Pa cerek (rê)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦉꦒ (rêga)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">ꦊ</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Nga lelet (lê)</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tuladha: ꦊꦩꦃ (lêmah)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D. Pratandha (Tanda Baca) -->
+            <div>
+                <h4 class="font-playfair text-xs sm:text-sm font-bold text-coklat-keraton flex items-center gap-2 mb-2.5">
+                    <span class="w-2 h-2 rounded-full bg-emas-prada"></span>
+                    D. Pratandha / Tanda Baca
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">꧈</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Pada Lingsa</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tanda koma (,)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">꧉</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Pada Lungsi</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Tanda titik (.)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">꧇</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Pada Pangkat</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Ngapit angka / (:)</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-emas-prada font-bold block mb-1">꧋</span>
+                        <span class="text-xs font-bold text-coklat-sogan block">Pada Adeg-adeg</span>
+                        <span class="text-[10px] text-coklat-keraton/60">Wiwitan wacana</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="panel-ganten" class="tab-panel hidden">
+            <div class="text-center mb-5">
+                <h3 class="font-playfair text-xl sm:text-2xl font-bold text-coklat-keraton mb-1">Aksara Murda & Swara Mandiri</h3>
+                <p class="text-xs text-coklat-keraton/65 max-w-lg mx-auto">
+                    Kanggé nyerat asma pakurmatan saha vokal mandiri ing wiwitan tembung.
+                </p>
+            </div>
+
+            <!-- Aksara Swara -->
+            <div class="mb-6">
+                <h4 class="font-playfair text-xs sm:text-sm font-bold text-coklat-keraton flex items-center gap-2 mb-2.5">
+                    <span class="w-2 h-2 rounded-full bg-emas-prada"></span>
+                    A. Aksara Swara Mandiri
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦄ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">A</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦆ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">I</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦈ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">U</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦌ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">E</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦎ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">O</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aksara Murda -->
+            <div>
+                <h4 class="font-playfair text-xs sm:text-sm font-bold text-coklat-keraton flex items-center gap-2 mb-2.5">
+                    <span class="w-2 h-2 rounded-full bg-emas-prada"></span>
+                    B. Aksara Murda
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦟ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">Na Murda</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦑ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">Ka Murda</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦡ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">Ta Murda</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦯ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">Sa Murda</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦦ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">Pa Murda</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦘ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">Nya Murda</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦓ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">Ga Murda</span>
+                    </div>
+                    <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                        <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">ꦨ</span>
+                        <span class="text-xs font-bold text-merah-bata uppercase">Ba Murda</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. SISTEM TAB MATERI LENGKAP (GRID PRESISI TIDAK ADA YANG JATUH SENDIRIAN) -->
-        <section class="bg-white p-6 md:p-12 rounded-3xl border border-emas-prada/40 shadow-2xl hud-border">
-            
-            <!-- TAB BUTTONS PRESISI: 5 KOLOM SEJAJAR DI DESKTOP -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 mb-10 pb-6 border-b border-emas-prada/20">
-                <button onclick="bukaTab('carakan')" id="btn-carakan" class="tab-btn active w-full py-3 px-2 rounded-xl border border-emas-prada/30 text-xs font-royal uppercase tracking-wider text-center transition flex items-center justify-center">
-                    1. Carakan & Pasangan
-                </button>
-                <button onclick="bukaTab('sandhangan')" id="btn-sandhangan" class="tab-btn w-full py-3 px-2 rounded-xl border border-emas-prada/30 text-xs font-royal uppercase tracking-wider text-center transition flex items-center justify-center">
-                    2. Sandhangan Lengkap
-                </button>
-                <button onclick="bukaTab('murda-swara')" id="btn-murda-swara" class="tab-btn w-full py-3 px-2 rounded-xl border border-emas-prada/30 text-xs font-royal uppercase tracking-wider text-center transition flex items-center justify-center">
-                    3. Murda & Swara
-                </button>
-                <button onclick="bukaTab('angka')" id="btn-angka" class="tab-btn w-full py-3 px-2 rounded-xl border border-emas-prada/30 text-xs font-royal uppercase tracking-wider text-center transition flex items-center justify-center">
-                    4. Angka Jawa
-                </button>
-                <button onclick="bukaTab('rumus')" id="btn-rumus" class="tab-btn w-full py-3 px-2 rounded-xl border border-emas-prada/30 text-xs font-royal uppercase tracking-wider text-center transition flex items-center justify-center col-span-2 sm:col-span-1">
-                    5. Kaidah & Rumus
-                </button>
+        <section id="panel-angka" class="tab-panel hidden">
+            <div class="text-center mb-5">
+                <h3 class="font-playfair text-xl sm:text-2xl font-bold text-coklat-keraton mb-1">Wilangan Angka Jawa (꧐–꧙)</h3>
+                <p class="text-xs text-coklat-keraton/65 max-w-lg mx-auto">
+                    Kaidah baku: Angka Jawa kedah dipun-apit Pada Pangkat: <strong>꧇...꧇</strong>
+                </p>
             </div>
 
-            <!-- TAB CONTENT 1: CARAKAN & PASANGAN -->
-            <div id="tab-carakan" class="tab-content space-y-8">
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <div>
-                        <h3 class="text-2xl font-serif-judul font-bold text-coklat-keraton">20 Aksara Carakan (Nglegena) & Pasangan</h3>
-                        <p class="text-xs text-coklat-teks/60 mt-1">Aksara dasar berpola vokal terbuka "A" beserta wujud pasangannya:</p>
-                    </div>
-                    <button onclick="togglePasanganView()" id="btn-toggle-pasangan" class="px-4 py-2 rounded-xl bg-krem-lontar border border-emas-prada/40 text-xs font-royal uppercase tracking-wider text-merah-marun font-bold hover:bg-emas-prada/20 transition shrink-0">
-                        🔄 Intip Wujud Pasangan
-                    </button>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                    <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">꧐</span>
+                    <span class="text-xs font-mono font-bold text-merah-bata">0 (Nol)</span>
                 </div>
-
-                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4 text-center">
-                    <!-- Ha - Nga dengan zona ketinggian khusus anti-nabrak -->
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦲ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦲ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Ha</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Urip / Nafas</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦤ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦤ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Na</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Wujud / Jumeneng</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦕ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦕ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Ca</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Cipta / Rasa</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦫ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦫ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Ra</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Rasa / Roh</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦏ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦏ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Ka</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Karsa / Kuwasa</span>
-                        </div>
-                    </div>
-
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦢ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦢ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Da</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Dzat / Hakiki</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦠ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦠ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Ta</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Tetep / Mantep</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦱ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦱ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Sa</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Sipat / Sangkan</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦮ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦮ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Wa</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Wujud / Nyata</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦭ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦭ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">La</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Laku / Tindak</span>
-                        </div>
-                    </div>
-
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦥ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦥ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Pa</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Papan / Pasrah</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦝ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦝ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Dha</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Dhadha / Luhur</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦗ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦗ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Ja</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Jantung / Batin</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦪ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦪ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Ya</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Yakin / Iman</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦚ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦚ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Nya</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Nyata / Suci</span>
-                        </div>
-                    </div>
-
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦩ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦩ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Ma</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Madhep / Sukma</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦒ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦒ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Ga</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Gusti / Pangeran</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦧ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦧ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Ba</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Bayu / Jiwa</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦛ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦛ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Tha</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Thukul / Tuwuh</span>
-                        </div>
-                    </div>
-                    <div class="aksara-card bg-krem-lontar/60 border border-emas-prada/25 p-5 rounded-2xl flex flex-col justify-between min-h-[140px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="aksara-main font-aksara text-4xl text-merah-marun">ꦔ</span>
-                            <span class="aksara-sub hidden font-aksara text-3xl text-emas-prada">꧀ꦔ</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">Nga</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Ngelmu / Sampurna</span>
-                        </div>
-                    </div>
+                <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                    <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">꧑</span>
+                    <span class="text-xs font-mono font-bold text-merah-bata">1 (Siji)</span>
+                </div>
+                <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                    <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">꧒</span>
+                    <span class="text-xs font-mono font-bold text-merah-bata">2 (Loro)</span>
+                </div>
+                <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                    <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">꧓</span>
+                    <span class="text-xs font-mono font-bold text-merah-bata">3 (Telu)</span>
+                </div>
+                <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                    <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">꧔</span>
+                    <span class="text-xs font-mono font-bold text-merah-bata">4 (Papat)</span>
+                </div>
+                <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                    <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">꧕</span>
+                    <span class="text-xs font-mono font-bold text-merah-bata">5 (Lima)</span>
+                </div>
+                <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                    <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">꧖</span>
+                    <span class="text-xs font-mono font-bold text-merah-bata">6 (Enem)</span>
+                </div>
+                <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                    <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">꧗</span>
+                    <span class="text-xs font-mono font-bold text-merah-bata">7 (Pitu)</span>
+                </div>
+                <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                    <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">꧘</span>
+                    <span class="text-xs font-mono font-bold text-merah-bata">8 (Wolu)</span>
+                </div>
+                <div class="bg-white rounded-xl p-3 border border-emas-prada/20 text-center shadow-sm">
+                    <span class="font-jawa text-3xl text-coklat-keraton font-bold block mb-1">꧙</span>
+                    <span class="text-xs font-mono font-bold text-merah-bata">9 (Sanga)</span>
                 </div>
             </div>
-
-            <!-- TAB CONTENT 2: SANDHANGAN LENGKAP (BERSIH DARI KODE BOCOR) -->
-            <div id="tab-sandhangan" class="tab-content hidden space-y-10">
-                <!-- A. Sandhangan Swara -->
-                <div>
-                    <h4 class="font-royal text-xs uppercase tracking-widest text-merah-marun font-bold mb-3">A. Sandhangan Swara (Pengubah Bunyi Vokal)</h4>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl text-center flex flex-col justify-between min-h-[160px]">
-                            <div class="h-12 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦏꦶ</span>
-                            </div>
-                            <div>
-                                <span class="font-bold text-sm text-coklat-keraton block">Wulu</span>
-                                <span class="text-xs text-merah-marun font-semibold block">Vokal [ i ]</span>
-                                <span class="text-[11px] text-coklat-teks/60 mt-1 block">Ka → Ki (ꦏꦶ)</span>
-                            </div>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl text-center flex flex-col justify-between min-h-[160px]">
-                            <div class="h-12 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦏꦸ</span>
-                            </div>
-                            <div>
-                                <span class="font-bold text-sm text-coklat-keraton block">Suku</span>
-                                <span class="text-xs text-merah-marun font-semibold block">Vokal [ u ]</span>
-                                <span class="text-[11px] text-coklat-teks/60 mt-1 block">Ka → Ku (ꦏꦸ)</span>
-                            </div>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl text-center flex flex-col justify-between min-h-[160px]">
-                            <div class="h-12 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦏꦺ</span>
-                            </div>
-                            <div>
-                                <span class="font-bold text-sm text-coklat-keraton block">Taling</span>
-                                <span class="text-xs text-merah-marun font-semibold block">Vokal [ é ]</span>
-                                <span class="text-[11px] text-coklat-teks/60 mt-1 block">Ka → Ké (ꦏꦺ)</span>
-                            </div>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl text-center flex flex-col justify-between min-h-[160px]">
-                            <div class="h-12 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦏꦼ</span>
-                            </div>
-                            <div>
-                                <span class="font-bold text-sm text-coklat-keraton block">Pepet</span>
-                                <span class="text-xs text-merah-marun font-semibold block">Vokal [ ê ]</span>
-                                <span class="text-[11px] text-coklat-teks/60 mt-1 block">Ka → Kê (ꦏꦼ)</span>
-                            </div>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl text-center flex flex-col justify-between min-h-[160px]">
-                            <div class="h-12 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦏꦺꦴ</span>
-                            </div>
-                            <div>
-                                <span class="font-bold text-sm text-coklat-keraton block">Taling Tarung</span>
-                                <span class="text-xs text-merah-marun font-semibold block">Vokal [ o ]</span>
-                                <span class="text-[11px] text-coklat-teks/60 mt-1 block">Ka → Ko (ꦏꦺꦴ)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- B. Sandhangan Panyigeg Wanda -->
-                <div>
-                    <h4 class="font-royal text-xs uppercase tracking-widest text-merah-marun font-bold mb-3">B. Sandhangan Panyigeg Wanda (Konsonan Mati)</h4>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl text-center flex flex-col justify-between min-h-[160px]">
-                            <div class="h-12 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦏꦂ</span>
-                            </div>
-                            <div>
-                                <span class="font-bold text-sm text-coklat-keraton block">Layar</span>
-                                <span class="text-xs text-merah-marun font-semibold block">Mati [ -r ]</span>
-                                <span class="text-[11px] text-coklat-teks/60 mt-1 block">Pasar → ꦥꦱꦂ</span>
-                            </div>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl text-center flex flex-col justify-between min-h-[160px]">
-                            <div class="h-12 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦏꦁ</span>
-                            </div>
-                            <div>
-                                <span class="font-bold text-sm text-coklat-keraton block">Cecak</span>
-                                <span class="text-xs text-merah-marun font-semibold block">Mati [ -ng ]</span>
-                                <span class="text-[11px] text-coklat-teks/60 mt-1 block">Wayang → ꦮꦪꦁ</span>
-                            </div>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl text-center flex flex-col justify-between min-h-[160px]">
-                            <div class="h-12 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦏꦃ</span>
-                            </div>
-                            <div>
-                                <span class="font-bold text-sm text-coklat-keraton block">Wignyan</span>
-                                <span class="text-xs text-merah-marun font-semibold block">Mati [ -h ]</span>
-                                <span class="text-[11px] text-coklat-teks/60 mt-1 block">Gajah → ꦒꦗꦃ</span>
-                            </div>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl text-center flex flex-col justify-between min-h-[160px]">
-                            <div class="h-12 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦏ꧀</span>
-                            </div>
-                            <div>
-                                <span class="font-bold text-sm text-coklat-keraton block">Pangkon</span>
-                                <span class="text-xs text-merah-marun font-semibold block">Paten Akhir</span>
-                                <span class="text-[11px] text-coklat-teks/60 mt-1 block">Mangan → ꦩꦔꦤ꧀</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- C. Sandhangan Wyanjana -->
-                <div>
-                    <h4 class="font-royal text-xs uppercase tracking-widest text-merah-marun font-bold mb-3">C. Sandhangan Wyanjana (Sisipan Tengah)</h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl text-center flex flex-col justify-between min-h-[160px]">
-                            <div class="h-12 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦏꦿ</span>
-                            </div>
-                            <div>
-                                <span class="font-bold text-sm text-coklat-keraton block">Cakra</span>
-                                <span class="text-xs text-merah-marun font-semibold block">Sisipan [ -ra- ]</span>
-                                <span class="text-[11px] text-coklat-teks/60 mt-1 block">Kraton → ꦏꦿꦠꦺꦴꦤ꧀</span>
-                            </div>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl text-center flex flex-col justify-between min-h-[160px]">
-                            <div class="h-12 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦏꦽ</span>
-                            </div>
-                            <div>
-                                <span class="font-bold text-sm text-coklat-keraton block">Cakra Keret</span>
-                                <span class="text-xs text-merah-marun font-semibold block">Sisipan [ -rê- ]</span>
-                                <span class="text-[11px] text-coklat-teks/60 mt-1 block">Kêrêp → ꦏꦽꦥ꧀</span>
-                            </div>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl text-center flex flex-col justify-between min-h-[160px]">
-                            <div class="h-12 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦏꦾ</span>
-                            </div>
-                            <div>
-                                <span class="font-bold text-sm text-coklat-keraton block">Pengkal</span>
-                                <span class="text-xs text-merah-marun font-semibold block">Sisipan [ -ya- ]</span>
-                                <span class="text-[11px] text-coklat-teks/60 mt-1 block">Kyai → ꦏꦾꦲꦶ</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        </section>
+        <section id="panel-pedoman" class="tab-panel hidden">
+            <div class="text-center mb-5">
+                <h3 class="font-playfair text-xl sm:text-2xl font-bold text-coklat-keraton mb-1">Pedoman Panyeratan</h3>
+                <p class="text-xs text-coklat-keraton/65 max-w-lg mx-auto">
+                    Kaidah dhasar supados seratan aksara Jawa trep lan leres.
+                </p>
             </div>
 
-            <!-- TAB CONTENT 3: MURDA & SWARA (SEDERHANA, BERSIH & TIDAK NABRAK) -->
-            <div id="tab-murda-swara" class="tab-content hidden space-y-10">
-                <!-- Aksara Swara -->
-                <div>
-                    <h4 class="font-royal text-xs uppercase tracking-widest text-merah-marun font-bold mb-1">Aksara Swara (Vokal Mandiri)</h4>
-                    <p class="text-xs text-coklat-teks/60 mb-4">Digunakan untuk vokal mandiri yang berdiri sendiri di awal kata:</p>
-                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 text-center">
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦄ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">A</span>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦇ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">I</span>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦈ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">U</span>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦌ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">E</span>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦎ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">O</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Aksara Murda: HANYA NAMA HURUFNYA SAJA (SIMPEL & TIDAK NABRAK) -->
-                <div>
-                    <h4 class="font-royal text-xs uppercase tracking-widest text-merah-marun font-bold mb-1">Aksara Murda (Huruf Kapital / Kehormatan)</h4>
-                    <p class="text-xs text-coklat-teks/60 mb-4">Huruf kapital khusus untuk penulisan nama raja, tokoh terhormat, atau kota agung:</p>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦟ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">Na</span>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦑ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">Ka</span>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦡ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">Ta</span>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦯ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">Sa</span>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦦ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">Pa</span>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦘ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">Nya</span>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦓ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">Ga</span>
-                        </div>
-                        <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                            <div class="h-14 flex items-center justify-center">
-                                <span class="font-aksara text-4xl text-merah-marun">ꦨ</span>
-                            </div>
-                            <span class="font-bold text-base text-coklat-keraton">Ba</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB CONTENT 4: ANGKA JAWA (SIMETRIS 5X2 DENGAN ANGKA 0 ASLI) -->
-            <div id="tab-angka" class="tab-content hidden space-y-8">
-                <div>
-                    <h3 class="text-2xl font-serif-judul font-bold text-coklat-keraton">Angka Jawa ( ꧑ – ꧐ )</h3>
-                    <p class="text-xs text-coklat-teks/60 mt-1">
-                        Angka Jawa dituliskan dengan diapit tanda baca <strong>Pada Pangkat ( ꧇...꧇ )</strong> agar tidak tertukar dengan aksara Carakan:
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                <div class="bg-white rounded-xl p-4 border border-emas-prada/20 shadow-sm">
+                    <h4 class="font-playfair font-bold text-xs sm:text-sm text-merah-bata mb-1">
+                        1. Konsonan Sigeg (R, H, NG)
+                    </h4>
+                    <p class="text-xs text-coklat-keraton/75 leading-relaxed">
+                        Aksara mati <strong>-r</strong> ngangge <em>Layar</em> (ꦂ), <strong>-h</strong> ngangge <em>Wignyan</em> (ꦃ), lan <strong>-ng</strong> ngangge <em>Cecak</em> (ꦁ). Mboten pareng dipun-pangkon.
                     </p>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 text-center">
-                    <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="font-aksara text-4xl text-merah-marun">꧑</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">1</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Siji</span>
-                        </div>
-                    </div>
-                    <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="font-aksara text-4xl text-merah-marun">꧒</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">2</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Loro</span>
-                        </div>
-                    </div>
-                    <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="font-aksara text-4xl text-merah-marun">꧓</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">3</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Telu</span>
-                        </div>
-                    </div>
-                    <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="font-aksara text-4xl text-merah-marun">꧔</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">4</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Papat</span>
-                        </div>
-                    </div>
-                    <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="font-aksara text-4xl text-merah-marun">꧕</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">5</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Lima</span>
-                        </div>
-                    </div>
-                    <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="font-aksara text-4xl text-merah-marun">꧖</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">6</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Enem</span>
-                        </div>
-                    </div>
-                    <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="font-aksara text-4xl text-merah-marun">꧗</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">7</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Pitu</span>
-                        </div>
-                    </div>
-                    <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="font-aksara text-4xl text-merah-marun">꧘</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">8</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Wolu</span>
-                        </div>
-                    </div>
-                    <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="font-aksara text-4xl text-merah-marun">꧙</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">9</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Sanga</span>
-                        </div>
-                    </div>
-                    <!-- Angka 0 Asli Aksara Jawa ꧐ (Bukan Huruf O) -->
-                    <div class="bg-krem-lontar/60 border border-emas-prada/30 p-5 rounded-2xl flex flex-col justify-between min-h-[130px]">
-                        <div class="h-14 flex items-center justify-center">
-                            <span class="font-aksara text-4xl text-merah-marun">꧐</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-base text-coklat-keraton block">0</span>
-                            <span class="text-[11px] text-coklat-teks/50 block">Nol</span>
-                        </div>
-                    </div>
+                <div class="bg-white rounded-xl p-4 border border-emas-prada/20 shadow-sm">
+                    <h4 class="font-playfair font-bold text-xs sm:text-sm text-merah-bata mb-1">
+                        2. Aksara Ganten (Pa Cerek & Nga Lelet)
+                    </h4>
+                    <p class="text-xs text-coklat-keraton/75 leading-relaxed">
+                        Wanda <strong>rê</strong> dipunserat mawi <em>Pa Cerek</em> (ꦉ), dene wanda <strong>lê</strong> mawi <em>Nga Lelet</em> (ꦊ).
+                    </p>
                 </div>
 
-                <div class="p-6 rounded-2xl bg-krem-lontar/60 border border-emas-prada/40 text-center">
-                    <span class="text-xs uppercase tracking-widest font-royal text-merah-marun font-bold block mb-1">Contoh Penulisan Tahun Masehi:</span>
-                    <div class="font-aksara text-4xl text-coklat-keraton tracking-wider my-2">꧇꧒꧐꧒꧖꧇</div>
-                    <p class="text-xs text-coklat-teks/60">Dibaca: <strong>Tahun 2026</strong> (Wajib diapit sepasang Pada Pangkat ꧇ )</p>
-                </div>
-            </div>
-
-            <!-- TAB CONTENT 5: KAIDAH & RUMUS (BERSIH DARI TEKS BOCOR) -->
-            <div id="tab-rumus" class="tab-content hidden space-y-6">
-                <div>
-                    <h3 class="text-2xl font-serif-judul font-bold text-coklat-keraton">Rangkuman Kaidah Penulisan Aksara Jawa</h3>
-                    <p class="text-xs text-coklat-teks/60 mt-1">Panduan praktis menyusun kata dan kalimat menurut paramasastra baku:</p>
+                <div class="bg-white rounded-xl p-4 border border-emas-prada/20 shadow-sm">
+                    <h4 class="font-playfair font-bold text-xs sm:text-sm text-merah-bata mb-1">
+                        3. Posisi Pasangan
+                    </h4>
+                    <p class="text-xs text-coklat-keraton/75 leading-relaxed">
+                        Pasangan <strong>Ha (꧀ꦲ), Ka (꧀ꦏ), Sa (꧀ꦱ), lan Pa (꧀ꦥ)</strong> mapan ing sisih tengen (jejer). Pasangan sanesipun mapan ing ngisor (ngandhap).
+                    </p>
                 </div>
 
-                <div class="space-y-4 text-sm text-coklat-teks/80 leading-relaxed">
-                    <div class="p-6 rounded-2xl bg-krem-lontar/60 border border-emas-prada/30">
-                        <h4 class="font-bold text-coklat-keraton mb-1">1. Kaidah Huruf Mati di Tengah Kata (Pasangan):</h4>
-                        <p class="text-xs text-coklat-teks/70">
-                            Jika ada huruf konsonan mati yang langsung bertemu dengan konsonan berikutnya di tengah kata, huruf kedua dituliskan dalam bentuk <strong>Pasangan</strong> di bawah atau di samping huruf pertama.
-                        </p>
-                        <div class="mt-3 text-xs font-semibold text-merah-marun bg-white p-3 rounded-xl border border-emas-prada/20">
-                            Contoh: Pustaka → ꦥꦸ + ꦱ꧀ꦠ (Sa mati dipasangi Ta) + ꦏ = <span class="font-aksara text-lg text-coklat-keraton">ꦥꦸꦱ꧀ꦠꦏ</span>
-                        </div>
-                    </div>
-
-                    <div class="p-6 rounded-2xl bg-krem-lontar/60 border border-emas-prada/30">
-                        <h4 class="font-bold text-coklat-keraton mb-1">2. Panyigeg Khusus (R, NG, H):</h4>
-                        <p class="text-xs text-coklat-teks/70">
-                            Huruf mati <strong>R</strong>, <strong>NG</strong>, dan <strong>H</strong> tidak boleh dimatikan dengan Pangkon, melainkan wajib diganti dengan sandhangan khusus:
-                            <em>Layar (ꦂ)</em>, <em>Cecak (ꦁ)</em>, dan <em>Wignyan (ꦃ)</em>.
-                        </p>
-                        <div class="mt-3 text-xs font-semibold text-merah-marun bg-white p-3 rounded-xl border border-emas-prada/20 flex flex-wrap gap-4">
-                            <span>Pasar → <span class="font-aksara text-lg text-coklat-keraton">ꦥꦱꦂ</span></span>
-                            <span>Kucing → <span class="font-aksara text-lg text-coklat-keraton">ꦏꦸꦕꦶꦁ</span></span>
-                            <span>Gajah → <span class="font-aksara text-lg text-coklat-keraton">ꦒꦗꦃ</span></span>
-                        </div>
-                    </div>
-
-                    <div class="p-6 rounded-2xl bg-krem-lontar/60 border border-emas-prada/30">
-                        <h4 class="font-bold text-coklat-keraton mb-1">3. Tanda Baca Utama (Pada):</h4>
-                        <p class="text-xs text-coklat-teks/70">
-                            Awal alinea dibuka dengan <em>Pada Adeg-adeg</em> ( ꧋ ), tanda koma menggunakan <em>Pada Lingsa</em> ( ꧈ ), dan tanda titik menggunakan <em>Pada Lungsi</em> ( ꧉ ).
-                        </p>
-                    </div>
+                <div class="bg-white rounded-xl p-4 border border-emas-prada/20 shadow-sm">
+                    <h4 class="font-playfair font-bold text-xs sm:text-sm text-merah-bata mb-1">
+                        4. Pangkon
+                    </h4>
+                    <p class="text-xs text-coklat-keraton/75 leading-relaxed">
+                        <em>Pangkon</em> (꧀) mligi kanggé pungkasan ukara. Ing satengahing ukara, kedah ngginakaken Pasangan.
+                    </p>
                 </div>
-            </div>
-
-        </section>
-
-        <!-- 3. GLOSARIUM PENCARIAN KRAMA INGGIL -->
-        <section class="bg-white p-8 md:p-12 rounded-3xl border border-emas-prada/40 shadow-xl hud-border">
-            <div class="text-center mb-8">
-                <span class="text-merah-marun font-royal text-xs uppercase tracking-widest font-bold">Pusat Kosakata Sastra</span>
-                <h2 class="text-3xl font-serif-judul font-bold text-coklat-keraton mt-1">Glosarium Krama Inggil Sastra</h2>
-                <p class="text-xs text-coklat-teks/60 mt-1">Pencarian kosakata dari bahasa Indonesia ke Jawa Ngoko & Krama Inggil:</p>
-            </div>
-
-            <div class="max-w-xl mx-auto mb-8">
-                <input type="text" id="cari-glosarium" onkeyup="filterGlosarium()" placeholder="Cari kata (cth: makan, tidur, rumah, cantik, raja, putri)..." class="w-full px-5 py-3 rounded-2xl bg-krem-lontar/60 border border-emas-prada/30 text-sm focus:outline-none focus:border-emas-prada">
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-sm">
-                    <thead>
-                        <tr class="border-b border-emas-prada/30 text-merah-marun font-royal text-xs uppercase tracking-wider">
-                            <th class="py-3 px-4">Bahasa Indonesia</th>
-                            <th class="py-3 px-4">Jawa Ngoko</th>
-                            <th class="py-3 px-4">Krama Inggil</th>
-                            <th class="py-3 px-4 text-center">Aksara Jawa</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabel-kamus" class="divide-y divide-emas-prada/15">
-                        <!-- Dimuat otomatis via JS -->
-                    </tbody>
-                </table>
             </div>
         </section>
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-coklat-keraton text-white/60 text-center py-8 border-t border-emas-prada/20 text-xs">
-        &copy; 2026 Pustaka Lontar Nusantara &bull; Modul Literasi Aksara & Sastra Jawa
+    <footer class="bg-[#120D09] border-t border-emas-prada/20 text-emas-muda/70 py-6 px-4 text-center mt-auto">
+        <div class="max-w-3xl mx-auto flex flex-col items-center gap-2">
+            <span class="font-jawa text-lg text-emas-prada">ꦥꦸꦱ꧀ꦠꦏꦭꦺꦴꦤ꧀ꦠꦂ</span>
+            <p class="text-xs tracking-wider font-cinzel text-emas-prada">Pustaka Lontar Nusantara &copy; 2026</p>
+            <p class="text-[11px] text-emas-muda/50">
+                Pawiyatan Sastra & Budaya Jawa Tradisional.
+            </p>
+        </div>
     </footer>
 
-    <!-- JAVASCRIPT: LOGIKA ENGINE TRANSLITERATOR & INTERAKTIF -->
     <script>
-        const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
-        function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-        // 1. SISTEM TAB MATERI
-        function bukaTab(tabId) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-
-            document.getElementById('btn-' + tabId).classList.add('active');
-            document.getElementById('tab-' + tabId).classList.remove('hidden');
+        // --- SMART BACK NAVIGATION ---
+        function handleSmartBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'pustaka-lontar-premium.html#sinau';
+            }
         }
 
-        let isPasanganMode = false;
-        function togglePasanganView() {
-            isPasanganMode = !isPasanganMode;
-            document.querySelectorAll('.aksara-main').forEach(el => el.classList.toggle('hidden'));
-            document.querySelectorAll('.aksara-sub').forEach(el => el.classList.toggle('hidden'));
-            document.getElementById('btn-toggle-pasangan').innerText = isPasanganMode ? "🔄 Kembali ke Carakan" : "🔄 Intip Wujud Pasangan";
-        }
-
-        // 2. KAMUS GLOSARIUM DATA
-        const kamusData = [
-            { id: "Meninggal dunia", ngoko: "Mati", krama: "Seda", aksara: "ꦱꦺꦢ" },
-            { id: "Cantik jelita", ngoko: "Ayu", krama: "Sulistya ing warna", aksara: "ꦱꦸꦭꦶꦱ꧀ꦠꦾ" },
-            { id: "Dahulu kala", ngoko: "Biyen", krama: "Rumiyin", aksara: "ꦫꦸꦩꦶꦪꦶꦤ꧀" },
-            { id: "Istri / Permaisuri", ngoko: "Bojo", krama: "Garwa Prameswari", aksara: "ꦒꦂꦮ" },
-            { id: "Makan", ngoko: "Mangan", krama: "Dhahar", aksara: "ꦝꦲꦂ" },
-            { id: "Tidur", ngoko: "Turu", krama: "Sare", aksara: "ꦱꦫꦺ" },
-            { id: "Rumah / Keraton", ngoko: "Omah", krama: "Dalem / Kedhaton", aksara: "ꦢꦊꦩ꧀" },
-            { id: "Pergi", ngoko: "Lunga", krama: "Tindak", aksara: "ꦠꦶꦤ꧀ꦢꦏ꧀" },
-            { id: "Bicara / Sabda", ngoko: "Ngomong", krama: "Ngendika", aksara: "ꦔꦼꦤ꧀ꦢꦶꦏ" },
-            { id: "Mustahil", ngoko: "Ora mungkin", krama: "Mokal", aksara: "ꦩꦺꦴꦏꦭ꧀" },
-            { id: "Raja / Baginda", ngoko: "Ratu", krama: "Narendra / Sri Aji", aksara: "ꦤꦫꦺꦤ꧀ꦢꦿ" },
-            { id: "Air Minum", ngoko: "Banyu", krama: "Toya / Tirta", aksara: "ꦠꦺꦴꦪ" },
-            { id: "Pikiran / Akal", ngoko: "Pikir", krama: "Panggalih", aksara: "ꦥꦁꦒꦭꦶꦃ" }
-        ];
-
-        function renderTabel(data) {
-            const tbody = document.getElementById('tabel-kamus');
-            tbody.innerHTML = '';
-            data.forEach(item => {
-                tbody.innerHTML += `
-                    <tr class="hover:bg-emas-prada/5 transition">
-                        <td class="py-3 px-4 font-semibold text-coklat-keraton">${item.id}</td>
-                        <td class="py-3 px-4 text-coklat-teks/70">${item.ngoko}</td>
-                        <td class="py-3 px-4 font-semibold text-merah-marun">${item.krama}</td>
-                        <td class="py-3 px-4 text-center font-aksara text-2xl text-emas-prada">${item.aksara}</td>
-                    </tr>
-                `;
+        // --- TAB SWITCHER ---
+        function switchTab(tabId) {
+            const tabs = ['carakan', 'sandhangan', 'ganten', 'angka', 'pedoman'];
+            tabs.forEach(id => {
+                const panel = document.getElementById('panel-' + id);
+                const btn = document.getElementById('tab-btn-' + id);
+                if (id === tabId) {
+                    panel.classList.remove('hidden');
+                    panel.classList.add('block');
+                    btn.classList.add('bg-coklat-keraton', 'text-emas-prada', 'border-emas-prada', 'shadow-sm');
+                    btn.classList.remove('bg-white/70', 'text-coklat-keraton');
+                } else {
+                    panel.classList.add('hidden');
+                    panel.classList.remove('block');
+                    btn.classList.remove('bg-coklat-keraton', 'text-emas-prada', 'border-emas-prada', 'shadow-sm');
+                    btn.classList.add('bg-white/70', 'text-coklat-keraton');
+                }
             });
         }
-        renderTabel(kamusData);
 
-        function filterGlosarium() {
-            const q = document.getElementById('cari-glosarium').value.toLowerCase();
-            const filtered = kamusData.filter(i => 
-                i.id.toLowerCase().includes(q) || i.ngoko.toLowerCase().includes(q) || i.krama.toLowerCase().includes(q)
-            );
-            renderTabel(filtered);
+        // --- COPY & RESET ---
+        function salinHasil() {
+            const outputEl = document.getElementById('output-aksara');
+            const inputVal = document.getElementById('input-latin').value.trim();
+            if (!inputVal) return;
+
+            navigator.clipboard.writeText(outputEl.innerText).then(() => {
+                const label = document.getElementById('btn-copy-label');
+                const orig = label.innerText;
+                label.innerText = 'Disalin!';
+                setTimeout(() => { label.innerText = orig; }, 1800);
+            });
         }
 
-        // 3. ENGINE TRANSLITERASI CERDAS & TERKOREKSI
-        const mapKonsonan = {
-            'ng': 'ꦔ', 'ny': 'ꦚ', 'th': 'ꦛ', 'dh': 'ꦝ',
+        function bersihkanTeks() {
+            const input = document.getElementById('input-latin');
+            input.value = '';
+            document.getElementById('output-aksara').innerHTML = '<span class="text-emas-muda/35 text-xs sm:text-sm font-lora italic tracking-normal block text-center py-2">Asil aksara badhe katingal wonten mriki...</span>';
+            document.getElementById('char-count').innerText = '0 Aksara';
+            input.focus();
+        }
+
+        // --- ENGINE TRANSLITERATOR ---
+        const CARAKAN_MAP = {
             'h': 'ꦲ', 'n': 'ꦤ', 'c': 'ꦕ', 'r': 'ꦫ', 'k': 'ꦏ',
             'd': 'ꦢ', 't': 'ꦠ', 's': 'ꦱ', 'w': 'ꦮ', 'l': 'ꦭ',
-            'p': 'ꦥ', 'j': 'ꦗ', 'y': 'ꦪ', 'm': 'ꦩ', 'g': 'ꦒ', 'b': 'ꦧ',
-            'f': 'ꦥ꦳', 'v': 'ꦮ꦳', 'z': 'ꦗ꦳'
+            'p': 'ꦥ', 'dh': 'ꦝ', 'j': 'ꦗ', 'y': 'ꦪ', 'ny': 'ꦚ',
+            'm': 'ꦩ', 'g': 'ꦒ', 'b': 'ꦧ', 'th': 'ꦛ', 'ng': 'ꦔ'
         };
 
-        const mapVokal = {
-            'i': 'ꦶ',
-            'u': 'ꦸ',
-            'e': 'ꦺ',
-            'é': 'ꦺ',
-            'ê': 'ꦼ',
-            'o': 'ꦺꦴ',
-            'a': '' // Inherent 'a'
-        };
-
-        const mapAngka = {
+        const ANGKA_MAP = {
             '0': '꧐', '1': '꧑', '2': '꧒', '3': '꧓', '4': '꧔',
             '5': '꧕', '6': '꧖', '7': '꧗', '8': '꧘', '9': '꧙'
         };
 
-        function parseKata(kata) {
+        function transliterateKata(kata) {
+            if (!kata) return '';
+            
+            if (/^\d+$/.test(kata)) {
+                let resAngka = '';
+                for (let ch of kata) {
+                    resAngka += (ANGKA_MAP[ch] || ch);
+                }
+                return '꧇' + resAngka + '꧇';
+            }
+
             let res = '';
             let i = 0;
             const n = kata.length;
 
             while (i < n) {
-                // Angka
-                if (kata[i] >= '0' && kata[i] <= '9') {
+                let char = kata[i];
+
+                if (/\d/.test(char)) {
                     let numStr = '';
-                    while (i < n && kata[i] >= '0' && kata[i] <= '9') {
-                        numStr += mapAngka[kata[i]];
+                    while (i < n && /\d/.test(kata[i])) {
+                        numStr += ANGKA_MAP[kata[i]] || kata[i];
                         i++;
                     }
                     res += '꧇' + numStr + '꧇';
                     continue;
                 }
 
-                // Cek Vokal Mandiri (Di awal kata atau setelah spasi)
-                let c = kata[i];
-                if (c === 'a' || c === 'i' || c === 'u' || c === 'e' || c === 'o' || c === 'é' || c === 'ê') {
-                    if (c === 'a') res += 'ꦲ';
-                    else if (c === 'i') res += 'ꦲꦶ';
-                    else if (c === 'u') res += 'ꦲꦸ';
-                    else if (c === 'e' || c === 'é') res += 'ꦲꦺ';
-                    else if (c === 'ê') res += 'ꦲꦼ';
-                    else if (c === 'o') res += 'ꦲꦺꦴ';
+                if (char === '.') { res += '꧉'; i++; continue; }
+                if (char === ',') { res += '꧈'; i++; continue; }
+                if (char === ':') { res += '꧇'; i++; continue; }
+
+                // Vokal di awal kata
+                if (i === 0 && 'aiueoéèê'.includes(char)) {
+                    let vokalChar = char;
                     i++;
+                    if (vokalChar === 'a') res += 'ꦲ';
+                    else if (vokalChar === 'i') res += 'ꦲꦶ';
+                    else if (vokalChar === 'u') res += 'ꦲꦸ';
+                    else if (vokalChar === 'e' || vokalChar === 'ê') res += 'ꦲꦼ';
+                    else if (vokalChar === 'é' || vokalChar === 'è') res += 'ꦲꦺ';
+                    else if (vokalChar === 'o') res += 'ꦲꦺꦴ';
                     continue;
                 }
 
-                // Cek Konsonan (Digraph 2 huruf dulu: ng, ny, th, dh)
-                let k = '';
-                if (i + 1 < n && mapKonsonan[kata.substr(i, 2)]) {
-                    k = kata.substr(i, 2);
+                // Pa Cerek & Nga Lelet
+                if (i === 0 && kata.startsWith('re') && n >= 3 && !'aiueoéèê'.includes(kata[2])) {
+                    res += 'ꦉ';
                     i += 2;
-                } else if (mapKonsonan[kata[i]]) {
-                    k = kata[i];
-                    i++;
-                } else {
-                    res += kata[i];
-                    i++;
                     continue;
                 }
-
-                let aksaraBase = mapKonsonan[k];
-
-                // Cek Sisipan Cakra (-ra-) atau Pengkal (-ya-)
-                let sisipan = '';
-                if (i < n && kata[i] === 'r' && i + 1 < n && 'aiueoéê'.includes(kata[i+1])) {
-                    sisipan = 'ꦿ'; // Cakra
-                    i++;
-                } else if (i < n && kata[i] === 'y' && i + 1 < n && 'aiueoéê'.includes(kata[i+1])) {
-                    sisipan = 'ꦾ'; // Pengkal
-                    i++;
-                }
-
-                // Cek Vokal Pengikut
-                if (i < n && 'aiueoéê'.includes(kata[i])) {
-                    let v = kata[i];
-                    i++;
-                    res += aksaraBase + sisipan + mapVokal[v];
-                } else {
-                    // Konsonan Mati (Sigeg)
-                    if (k === 'ng') {
-                        res += 'ꦁ'; // Cecak
-                    } else if (k === 'r') {
-                        res += 'ꦂ'; // Layar
-                    } else if (k === 'h') {
-                        res += 'ꦃ'; // Wignyan
-                    } else {
-                        // Konsonan biasa: Pangkon (꧀). Jika bertemu konsonan selanjutnya, otomatis jadi Pasangan!
-                        res += aksaraBase + '꧀';
+                if (i === 0 && kata.startsWith('le') && n >= 3 && !'aiueoéèê'.includes(kata[2])) {
+                    if (kata.startsWith('lemah') || kata.startsWith('lemu') || kata.startsWith('lebu')) {
+                        res += 'ꦊ';
+                        i += 2;
+                        continue;
                     }
                 }
+
+                // Ambil konsonan
+                let c = '';
+                if (i + 1 < n && CARAKAN_MAP[kata.substring(i, i + 2)]) {
+                    c = kata.substring(i, i + 2);
+                    i += 2;
+                } else if (CARAKAN_MAP[char]) {
+                    c = char;
+                    i++;
+                }
+
+                if (c) {
+                    let baseAksara = CARAKAN_MAP[c];
+                    let vokal = '';
+                    let sisipan = '';
+
+                    // Cakra, Cakra Keret, Pengkal
+                    if (i < n && (kata[i] === 'r' || kata[i] === 'y')) {
+                        if (kata[i] === 'r') {
+                            if (i + 1 < n && (kata[i+1] === 'e' || kata[i+1] === 'ê')) {
+                                sisipan = 'ꦽ';
+                                i += 2;
+                            } else {
+                                sisipan = 'ꦿ';
+                                i++;
+                            }
+                        } else if (kata[i] === 'y') {
+                            sisipan = 'ꦾ';
+                            i++;
+                        }
+                    }
+
+                    if (i < n && 'aiueoéèê'.includes(kata[i])) {
+                        vokal = kata[i];
+                        i++;
+                    }
+
+                    let sandhanganSwara = '';
+                    if (sisipan === 'ꦽ') {
+                        sandhanganSwara = '';
+                    } else if (vokal === 'i') {
+                        sandhanganSwara = 'ꦶ';
+                    } else if (vokal === 'u') {
+                        sandhanganSwara = 'ꦸ';
+                    } else if (vokal === 'e' || vokal === 'ê') {
+                        sandhanganSwara = 'ꦼ';
+                    } else if (vokal === 'é' || vokal === 'è') {
+                        sandhanganSwara = 'ꦺ';
+                    } else if (vokal === 'o') {
+                        sandhanganSwara = 'ꦺ_ꦴ';
+                    }
+
+                    if (sandhanganSwara === 'ꦺ_ꦴ') {
+                        res += 'ꦺ' + baseAksara + (sisipan ? sisipan : '') + 'ꦴ';
+                    } else if (sandhanganSwara === 'ꦺ') {
+                        res += 'ꦺ' + baseAksara + (sisipan ? sisipan : '');
+                    } else {
+                        res += baseAksara + (sisipan ? sisipan : '') + sandhanganSwara;
+                    }
+
+                    if (!vokal && sisipan !== 'ꦽ') {
+                        if (c === 'r') {
+                            res = res.slice(0, -baseAksara.length) + 'ꦂ';
+                        } else if (c === 'h') {
+                            res = res.slice(0, -baseAksara.length) + 'ꦃ';
+                        } else if (c === 'ng') {
+                            res = res.slice(0, -baseAksara.length) + 'ꦁ';
+                        } else {
+                            res += '꧀';
+                        }
+                    }
+                    continue;
+                }
+
+                res += char;
+                i++;
             }
+
+            res = res.replace(/ꦫ꧀/g, 'ꦂ')
+                     .replace(/ꦃ꧀/g, 'ꦃ')
+                     .replace(/ꦔ꧀/g, 'ꦁ');
+
             return res;
         }
 
-        function konversiAksaraCerdas() {
-            const raw = document.getElementById('input-latin').value;
-            if (!raw.trim()) {
-                document.getElementById('output-aksara').innerText = 'ꦲꦤꦕꦫꦏ';
+        function konversiAksara() {
+            const input = document.getElementById('input-latin').value;
+            document.getElementById('char-count').innerText = input.length + ' Aksara';
+            
+            const outputEl = document.getElementById('output-aksara');
+            if (!input.trim()) {
+                outputEl.innerHTML = '<span class="text-emas-muda/35 text-xs sm:text-sm font-lora italic tracking-normal block text-center py-2">Asil aksara badhe katingal wonten mriki...</span>';
                 return;
             }
 
-            const tokens = raw.toLowerCase().split(/(\s+|[.,!?:;])/);
-            let hasil = '';
-            tokens.forEach(tok => {
-                if (tok === ' ') hasil += ' ';
-                else if (tok === '.') hasil += '꧉ ';
-                else if (tok === ',') hasil += '꧈ ';
-                else hasil += parseKata(tok);
-            });
+            const tokens = input.toLowerCase().split(/(\s+)/);
+            let hasilAkhir = '';
 
-            document.getElementById('output-aksara').innerText = hasil;
+            for (let token of tokens) {
+                if (/^\s+$/.test(token)) {
+                    hasilAkhir += ' ';
+                } else {
+                    hasilAkhir += transliterateKata(token);
+                }
+            }
+
+            outputEl.innerText = hasilAkhir;
         }
 
-        function setContoh(teks) {
-            document.getElementById('input-latin').value = teks;
-            konversiAksaraCerdas();
-        }
-
-        function salinAksara() {
-            const txt = document.getElementById('output-aksara').innerText;
-            navigator.clipboard.writeText(txt).then(() => {
-                const toast = document.getElementById('toast-salin');
-                toast.classList.remove('opacity-0');
-                setTimeout(() => toast.classList.add('opacity-0'), 2000);
-            });
-        }
-        konversiAksaraCerdas();
+        document.getElementById('input-latin').addEventListener('input', konversiAksara);
     </script>
 </body>
 </html>
